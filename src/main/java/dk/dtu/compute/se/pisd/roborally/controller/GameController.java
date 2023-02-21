@@ -33,6 +33,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
+    int moves = 0;
 
     public GameController(@NotNull Board board) {
         this.board = board;
@@ -58,6 +59,10 @@ public class GameController {
        // System.out.println("Current player before move: " + board.getCurrentPlayer().getName() + "Number is: " + board.getPlayerNumber(board.getCurrentPlayer()));
         if(space.getPlayer() == null) {
             space.setPlayer(currentPlayer);
+
+            // Count the number of moves made by players
+            board.setCounter(moves++);
+            System.out.println("The number of moves by players is:" + board.getCounter());
 
         }
 
