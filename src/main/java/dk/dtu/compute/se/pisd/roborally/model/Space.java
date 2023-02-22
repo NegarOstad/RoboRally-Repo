@@ -38,6 +38,13 @@ public class Space extends Subject {
 
     private Player player;
 
+    /**
+     * Constructs a Space object which keeps track of the player's location. By default, there is no
+     * player on the space
+     * @param board board on which the Player's robot moves
+     * @param x lateral position of Player's robot
+     * @param y vertical position of Player's robot
+     */
     public Space(Board board, int x, int y) {
         this.board = board;
         this.x = x;
@@ -45,10 +52,19 @@ public class Space extends Subject {
         player = null;
     }
 
+    /**
+     * This method is used to access the Player currently on this space
+     * @return Player on space
+     */
     public Player getPlayer() {
         return player;
     }
 
+    /**
+     * This method is used to set the player that is located on this Space, when the player is not
+     * currently located on it
+     * @param player which should be moved to this space
+     */
     public void setPlayer(Player player) {
         Player oldPlayer = this.player;
         if (player != oldPlayer &&
