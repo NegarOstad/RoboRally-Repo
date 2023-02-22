@@ -47,6 +47,11 @@ import java.util.Optional;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
+
+/**
+ * The AppController is a controller in RoboRally to deal with the user interactions with
+ * the game and the game state.
+ */
 public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
