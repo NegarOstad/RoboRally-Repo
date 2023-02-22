@@ -33,6 +33,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
+    private int moves = 1;
 
     public GameController(@NotNull Board board) {
         this.board = board;
@@ -53,6 +54,25 @@ public class GameController {
         //   - the counter of moves in the game should be increased by one
         //     if the player is moved
 
+        Player currentPlayer = board.getCurrentPlayer();
+
+       // System.out.println("Current player before move: " + board.getCurrentPlayer().getName() + "Number is: " + board.getPlayerNumber(board.getCurrentPlayer()));
+        if(space.getPlayer() == null) {
+            space.setPlayer(currentPlayer);
+
+            // Count the number of moves made by players
+            board.setCounter(moves++);
+            System.out.println("The number of moves by players is:" + board.getCounter());
+
+        }
+
+        int nextPlayerIndex;
+
+        if(board.getPlayerNumber(currentPlayer) == board.getPlayersNumber()-1){
+            nextPlayerIndex = 0;}
+        else { nextPlayerIndex = board.getPlayerNumber(currentPlayer)+1;}
+
+        board.setCurrentPlayer(board.getPlayer(nextPlayerIndex));
     }
 
     /**

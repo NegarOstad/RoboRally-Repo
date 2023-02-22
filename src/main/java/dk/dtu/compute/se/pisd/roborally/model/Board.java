@@ -57,6 +57,16 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    public int getCounter() {
+        return counter;
+    }
+
+    public void setCounter(int counter) {
+        this.counter = counter;
+    }
+
+    private int counter = 0;
+
     /**   what is space and spaces???????????
      * The Board constructor with three parameters.
      * It initializes 'Board' with creating a 2D array 'space',
