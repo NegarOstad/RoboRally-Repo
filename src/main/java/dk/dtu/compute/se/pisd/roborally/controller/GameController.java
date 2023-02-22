@@ -33,7 +33,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
-    int moves = 0;
+    private int moves = 1;
 
     public GameController(@NotNull Board board) {
         this.board = board;
