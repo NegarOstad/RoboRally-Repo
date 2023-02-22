@@ -37,16 +37,32 @@ public class CommandCardField extends Subject {
 
     private boolean visible;
 
+    /**
+     * this is the constructor for the CommandCardField class,
+     * which uses a player as a parameter, and initializes a card,
+     * which is set to null and is visible to all players.
+     * @param player
+     */
     public CommandCardField(Player player) {
         this.player = player;
         this. card = null;
         this.visible = true;
     }
 
+    /**
+     * This object is using a getter method,
+     * to retrieve the values of the private Card field, which it returns
+     * @return
+     */
     public CommandCard getCard() {
         return card;
     }
 
+    /**
+     * The card field uses a setter method,
+     * to check and notify if a card has been changed from the current value of the card.
+     * @param card
+     */
     public void setCard(CommandCard card) {
         if (card != this.card) {
             this.card = card;
@@ -54,10 +70,21 @@ public class CommandCardField extends Subject {
         }
     }
 
+    /**
+     * this is a getter method which lets other methods access it indirectly,
+     * using a boolean method to indicate if the field visible is true or false.
+     * it returns the value of the visible field
+     * @return
+     */
     public boolean isVisible() {
         return visible;
     }
 
+    /**
+     * this object uses a setter method, where it uses an if statement, to check if the value of the visibility is
+     * different from the current value, and updates it if yes. It checks by using the protected method notifyChange()
+     * @param visible
+     */
     public void setVisible(boolean visible) {
         if (visible != this.visible) {
             this.visible = visible;
