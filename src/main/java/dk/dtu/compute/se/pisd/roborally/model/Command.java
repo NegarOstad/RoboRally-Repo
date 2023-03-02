@@ -31,13 +31,6 @@ import java.util.List;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-
-/**
- * This is an enumeration type called 'Command'.
- * it has four values:
- * FORWARD, RIGHT, LEFT, and FAST_FORWARD.
- * Each Command value is constructed with a displayName string.
- */
 public enum Command {
 
     // This is a very simplistic way of realizing different commands.

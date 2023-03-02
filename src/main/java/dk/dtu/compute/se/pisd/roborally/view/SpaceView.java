@@ -41,15 +41,12 @@ import org.jetbrains.annotations.NotNull;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 75; // 60; // 75;
-    final public static int SPACE_WIDTH = 75;  // 60; // 75;
+    final public static int SPACE_HEIGHT = 60; // 60; // 75;
+    final public static int SPACE_WIDTH = 60;  // 60; // 75;
 
     public final Space space;
 
-    /**
-     * This class is to visualise the space on the board.
-     * @param space
-     */
+
     public SpaceView(@NotNull Space space) {
         this.space = space;
 
@@ -75,12 +72,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         update(space);
     }
 
-    /**
-     * This method finds out if there is a player on the space, and if so,
-     * it will create a polygon with the specified color for the player, which will be
-     * displayed on the screen.
-     * and if the player has no valid color, it will automatically set it to medium purple
-     */
     private void updatePlayer() {
         this.getChildren().clear();
 
@@ -99,12 +90,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.getChildren().add(arrow);
         }
     }
-    /**
-     * here the updateView is an implementation of the interface ViewObserver.
-     * It is responsible for updating the view whenever the state of the Subject(space)
-     * is observing changes so it updates the view and the player.
-     * @param subject is space
-     */
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {

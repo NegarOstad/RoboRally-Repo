@@ -53,11 +53,6 @@ public class BoardView extends VBox implements ViewObserver {
 
     private SpaceEventHandler spaceEventHandler;
 
-    /**
-     * Constructs a BoardView with the same Board as GameController. It sets up the PlayerView and
-     * the SpaceView
-     * @param gameController The GameController which carries the board
-     */
     public BoardView(@NotNull GameController gameController) {
         board = gameController.board;
 
@@ -87,10 +82,6 @@ public class BoardView extends VBox implements ViewObserver {
         update(board);
     }
 
-    /**
-     * Updates the status of the game
-     * @param subject ...
-     */
     @Override
     public void updateView(Subject subject) {
         if (subject == board) {

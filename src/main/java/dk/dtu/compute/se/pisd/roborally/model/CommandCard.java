@@ -34,21 +34,10 @@ public class CommandCard extends Subject {
 
     final public Command command;
 
-
-    /**
-     * The constructor for class CommandCard.
-     * It takes a not null parameter of type 'Command'
-     * It will throw NullPointerException if a null value is passed in.
-     * @param command
-     */
     public CommandCard(@NotNull Command command) {
         this.command = command;
     }
 
-    /**
-     * This methode returns a string by calling the methode displayName().
-     * @return
-     */
     public String getName() {
         return command.displayName;
     }

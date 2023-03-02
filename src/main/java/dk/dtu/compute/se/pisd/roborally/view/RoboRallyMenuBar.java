@@ -48,14 +48,6 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem exitApp;
 
-    /**
-     * This class represnts the menubar "file" which contains the menu items.
-     * In other words, this is the menu bar that contains the actions that can be taken
-     * by the player, such as, new game , save game , load game , stop game  and exit.
-     * the update method is to ensure the visibility of the actions w.r.t the state of the app.
-     * @param appController
-     * the appController is one of the main controllers for the application
-     */
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
 
@@ -86,10 +78,7 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu.setOnShown(e -> this.updateBounds());
         update();
     }
-    /**
-     * This is the update method, to specify the visibilty of the menu items
-     * according to if the game is running or not.
-     */
+
     public void update() {
         if (appController.isGameRunning()) {
             newGame.setVisible(false);
