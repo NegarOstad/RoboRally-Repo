@@ -197,6 +197,28 @@ public class GameController {
 
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
+        Heading currentHeading = player.getHeading();
+        int x = 0;
+        int y = 0;
+
+        switch (currentHeading){
+            case SOUTH:
+                y = player.getSpace().y  + 1 ;
+                break;
+            case NORTH:
+                y = player.getSpace().y  - 1 ;
+                break;
+            case WEST:
+                x = player.getSpace().x  - 1 ;
+                break;
+            case EAST:
+                x = player.getSpace().x  + 1 ;
+                break;
+            default:
+                //DO NOTHING
+        }
+
+        player.setSpace(board.getSpace(x,y));
 
     }
 
