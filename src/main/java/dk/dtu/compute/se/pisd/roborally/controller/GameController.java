@@ -33,6 +33,8 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
 
     final public Board board;
+    int x = 0;
+    int y = 0;
 
     public GameController(@NotNull Board board) {
         this.board = board;
@@ -198,8 +200,7 @@ public class GameController {
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
-        int x = 0;
-        int y = 0;
+
 
         switch (currentHeading){
             case SOUTH:
@@ -224,16 +225,43 @@ public class GameController {
 
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
+        Heading currentHeading = player.getHeading();
+
+        switch (currentHeading){
+            case SOUTH:
+                y = player.getSpace().y  + 2 ;
+                break;
+            case NORTH:
+                y = player.getSpace().y  - 2 ;
+                break;
+            case WEST:
+                x = player.getSpace().x  - 2 ;
+                break;
+            case EAST:
+                x = player.getSpace().x  + 2 ;
+                break;
+            default:
+                //DO NOTHING
+        }
+
+        player.setSpace(board.getSpace(x,y));
 
     }
 
     // TODO Assignment V2
     public void turnRight(@NotNull Player player) {
+        Heading currentHeading = player.getHeading();
+        player.setHeading(currentHeading.next());
+
+
+
 
     }
 
     // TODO Assignment V2
     public void turnLeft(@NotNull Player player) {
+        Heading currentHeading = player.getHeading();
+        player.setHeading(currentHeading.prev());
 
     }
 
