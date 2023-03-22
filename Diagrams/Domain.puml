@@ -1,9 +1,20 @@
 @startuml
 title Domain model
-class RoboRallyBoard {
+class RoboRallyGame {
 
 }
 
+class Upgradephase{
+
+}
+
+class Activationphase {
+
+}
+
+class Programmingphase {
+
+}
 
 class Player {
 
@@ -18,27 +29,24 @@ energy reserve
 }
 
 
-class Cards {
-damage cards 74
-programming cards "6x60"
-upgrade cards 40
-special programming cards 6
-}
-
-
-RoboRallyBoard "2..6"--"6" Player
-RoboRallyBoard "1"--"1" Checkpoint
+RoboRallyGame "2..6"--"6" Player
+Activationphase "1"--"1..6" Checkpoint
+Player "1"--"*" Upgradephase
+Upgradephase "1"--"40" UpgradeCards
+Player "1" -- "*" Activationphase
+Player "1" -- "*" Programmingphase
+Programmingphase "1" -- "60" Programmingcards
 Checkpoint"1"--"36" CheckpointTokens
 Player "1"-left-"1" Robot
 Player "1"--"1" PlayerMat
-RoboRallyBoard "1"--"1" PriorityAntenna
-RoboRallyBoard "1"--"6" RebootTokens
-RoboRallyBoard "1"--"140" Cards
-RoboRallyBoard "1"--"1" EnergyBank
+Activationphase "1"--"1" PriorityAntenna
+Upgradephase "1"--"1" PriorityAntenna
+Activationphase "1"--"6" RebootTokens
+Upgradephase "1"--"1" EnergyBank
 EnergyBank "1" -- "48" EnergyCubes
-RoboRallyBoard "1" -- "1" Timer
-
-
+RoboRallyGame "1" -- "1" Timer
+Programmingphase "1"--"0..74" DamageCards
+RoboRallyGame "1"--"6" SpecialProgrammingcards
 
 
 
