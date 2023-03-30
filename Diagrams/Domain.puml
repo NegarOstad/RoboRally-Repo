@@ -4,49 +4,57 @@ class RoboRallyGame {
 
 }
 
-class Upgradephase{
 
+class GameState {
+Setup
+Upgrade Phase
+Programming Phase
+Activation Phase
+GameFinished
 }
 
-class Activationphase {
-
-}
-
-class Programmingphase {
-
-}
-
-class Player {
-
-}
 
 class Robot {
 
 }
 
-class PlayerMat {
-energy reserve
-}
 
+class GameComponents {
+ }
 
-RoboRallyGame "2..6"--"6" Player
-Activationphase "1"--"1..6" Checkpoint
-Player "1"--"*" Upgradephase
-Upgradephase "1"--"40" UpgradeCards
-Player "1" -- "*" Activationphase
-Player "1" -- "*" Programmingphase
-Programmingphase "1" -- "60" Programmingcards
-Checkpoint"1"--"36" CheckpointTokens
-Player "1"-left-"1" Robot
-Player "1"--"1" PlayerMat
-Activationphase "1"--"1" PriorityAntenna
-Upgradephase "1"--"1" PriorityAntenna
-Activationphase "1"--"6" RebootTokens
-Upgradephase "1"--"1" EnergyBank
-EnergyBank "1" -- "48" EnergyCubes
-RoboRallyGame "1" -- "1" Timer
-Programmingphase "1"--"0..74" DamageCards
-RoboRallyGame "1"--"6" SpecialProgrammingcards
+ class Card {
+
+ }
+
+ class BoardPieces {
+ EnergyCubes x
+ RebootTokens
+ PriorityAntenna
+ CheckpointTokens x 36
+ }
+
+ class BoardElements {
+ Checkpoint
+ Obstacles
+ Lasers
+ Conveyor Belts
+ Push Panels
+ Gears
+ }
+
+GameComponents "1" -right- ".." BoardElements
+GameComponents "1" -up- ".." BoardPieces
+GameComponents "1" -left- ".." Card
+Card "1" -down-|> "74" DamageCards
+Card "1" -up-|> "6 " SpecialProgrammingcards
+Card "1" -up-|> "360 "Programmingcards
+Card "1" -down-|> "40" UpgradeCards
+RoboRallyGame "1" -right- ".." GameState
+RoboRallyGame "1" -up- ".." GameComponents
+RoboRallyGame "1"-down-"1" Robot
+
+RoboRallyGame "1"--"2..6" ProgrammingRegisters
+
 
 
 
