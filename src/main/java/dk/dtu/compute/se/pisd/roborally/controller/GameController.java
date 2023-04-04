@@ -253,9 +253,6 @@ public class GameController {
         Heading currentHeading = player.getHeading();
         player.setHeading(currentHeading.next());
 
-
-
-
     }
 
     // TODO Assignment V2
