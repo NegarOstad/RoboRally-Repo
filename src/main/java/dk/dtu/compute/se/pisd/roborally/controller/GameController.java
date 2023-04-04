@@ -150,8 +150,11 @@ public class GameController {
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
-
+                    if(step == Player.NO_REGISTERS && currentPlayer.getSpace().hasACheckpoint())
+                        currentPlayer.addToken();
                 }
+
+
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
                 if (nextPlayerNumber < board.getPlayersNumber()) { // DOES THIS IF THERE IS A NEXT PLAYER
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
@@ -163,7 +166,8 @@ public class GameController {
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
 
-                    } else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
+                    }
+                    else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
                         startProgrammingPhase();
                     }
                 }
