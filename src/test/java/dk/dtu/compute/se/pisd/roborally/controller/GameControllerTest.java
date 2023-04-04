@@ -15,17 +15,24 @@ class GameControllerTest {
 
     private GameController gameController;
 
+    Checkpoint[] checkpoints = new Checkpoint[2];
+
+
     @BeforeEach
     void setUp() {
         Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
         gameController = new GameController(board);
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 1; i++) {
             Player player = new Player(board, null,"Player " + i);
             board.addPlayer(player);
             player.setSpace(board.getSpace(i, i));
             player.setHeading(Heading.values()[i % Heading.values().length]);
         }
         board.setCurrentPlayer(board.getPlayer(0));
+        checkpoints[0] = new Checkpoint(board.getSpace(0,3));
+        checkpoints[0].setIndex(0);
+        checkpoints[1] = new Checkpoint(board.getSpace(5, 0));
+        checkpoints[1].setIndex(1);
     }
 
     @AfterEach
@@ -104,20 +111,56 @@ class GameControllerTest {
     }
 
     @Test
-    void currentPlayerLandsOnCheckpointTokenAtRegisterEndsGets1Token() {
+    void currentPlayerLandsOnFirstCheckpointAtRegistersEndAndGets1Token() {
         Board board = gameController.board;
         Player current = board.getCurrentPlayer();
-        Space spaceWithCheckpoint = new Space(board, 0, 1);
 
         current.setTestRegister(1);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
        Assertions.assertEquals(3, current.getSpace().y, "Player at location y = 3.");
-
+       Assertions.assertEquals(1, current.getTokenCount(),"Player should have 1 token");
     }
 
-    /*  Space space = new Space(board, 0, 1);
-        Checkpoint checkpoint = new Checkpoint(space);*/
+    @Test
+    void currentPlayerLandsOnSecondCheckpointBeforeFirstAndGetsNoTokens() {
+        Board board = gameController.board;
+        Player player1 = board.getCurrentPlayer();
+
+        player1.setTestRegister(2);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+
+        player1.setTestRegister(1);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+
+        Assertions.assertEquals(5, player1.getSpace().x, "Player at location x = 5.");
+        Assertions.assertEquals(0, player1.getSpace().y, "Player at location y = 0.");
+        Assertions.assertEquals(0, player1.getTokenCount(),"Player should have no tokens");
+    }
+
+    @Test
+    void currentPlayerLandsOnBothCheckpointsInOrderAndGetsTwoTokens() {
+        Board board = gameController.board;
+        Player player1 = board.getCurrentPlayer();
+
+        player1.setTestRegister(1);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+
+        player1.setTestRegister(2);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+
+        player1.setTestRegister(3);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+
+        Assertions.assertEquals(5, player1.getSpace().x, "Player at location x = 5.");
+        Assertions.assertEquals(0, player1.getSpace().y, "Player at location y = 0.");
+        Assertions.assertEquals(2, player1.getTokenCount(),"Player should have 2 tokens");
+    }
 
 }
