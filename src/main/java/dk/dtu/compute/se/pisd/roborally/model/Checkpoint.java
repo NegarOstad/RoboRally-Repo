@@ -16,4 +16,8 @@ public class Checkpoint extends BoardElement {
         index = i;
     }
 
+    public int getIndex() {
+        return index;
+    }
+
 }

@@ -152,7 +152,10 @@ public class GameController {
                     executeCommand(currentPlayer, command);
                 }
 
-                if(step == Player.NO_REGISTERS - 1 && currentPlayer.getSpace().hasACheckpoint()) {
+                boolean validateAddToken = step == Player.NO_REGISTERS - 1
+                                            && currentPlayer.getSpace().hasACheckpoint()
+                                            && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex();
+                if(validateAddToken) {
                     currentPlayer.addToken();
                     System.out.println("Adding a token, so token count is " + currentPlayer.getTokenCount());
                 }
@@ -182,6 +185,7 @@ public class GameController {
             assert false;
         }
     }
+
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {

@@ -135,7 +135,7 @@ class GameControllerTest {
         player1.setTestRegister(1);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
-
+        Assertions.assertEquals(true, player1.getSpace().hasACheckpoint());
         Assertions.assertEquals(5, player1.getSpace().x, "Player at location x = 5.");
         Assertions.assertEquals(0, player1.getSpace().y, "Player at location y = 0.");
         Assertions.assertEquals(0, player1.getTokenCount(),"Player should have no tokens");
