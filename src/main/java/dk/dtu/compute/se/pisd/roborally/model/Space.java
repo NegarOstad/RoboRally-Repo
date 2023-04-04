@@ -36,8 +36,8 @@ public class Space extends Subject {
     public final int x;
     public final int y;
     private Player player;
-
     private BoardElement boardElement;
+
 
     public Space(Board board, int x, int y) {
         this.board = board;
@@ -77,4 +77,7 @@ public class Space extends Subject {
         notifyChange();
     }
 
+    public boolean hasACheckpoint() {
+        return boardElement.getType().equals("Checkpoint");
+    }
 }
