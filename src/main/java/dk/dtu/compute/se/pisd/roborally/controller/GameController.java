@@ -150,16 +150,17 @@ public class GameController {
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
-                    if(step == Player.NO_REGISTERS && currentPlayer.getSpace().hasACheckpoint())
-                        currentPlayer.addToken();
                 }
-
+               // System.out.println("This space is not null: " + currentPlayer.getSpace());
+               // System.out.println(currentPlayer.getName()+ "'s current space : (" + currentPlayer.getSpace().x + ", " + currentPlayer.getSpace().y + ")");
+                if(step == Player.NO_REGISTERS - 1 && currentPlayer.getSpace().hasACheckpoint())
+                    currentPlayer.addToken();
 
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
                 if (nextPlayerNumber < board.getPlayersNumber()) { // DOES THIS IF THERE IS A NEXT PLAYER
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
 
-                } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGSITER CORRESPONDING TO GIVEN STEP
+                } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
                     step++;
                     if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
                         makeProgramFieldsVisible(step);
@@ -171,7 +172,7 @@ public class GameController {
                         startProgrammingPhase();
                     }
                 }
-            } else {
+            }  else {
                 // this should not happen
                 assert false;
             }
@@ -229,7 +230,11 @@ public class GameController {
                 //DO NOTHING
         }
 
-        player.setSpace(board.getSpace(x,y));
+        if(y < 0 || x < 0) {
+            System.out.println("Position out of bounds! The command will be skipped >__<");
+        } else {
+            player.setSpace(board.getSpace(x, y));
+        }
 
     }
 
@@ -253,8 +258,11 @@ public class GameController {
             default:
                 //DO NOTHING
         }
-
-        player.setSpace(board.getSpace(x,y));
+        if(y < 0 || x < 0) {
+            System.out.println("Position out of bounds! The command will be skipped >__<");
+        } else {
+            player.setSpace(board.getSpace(x, y));
+        }
 
     }
 
