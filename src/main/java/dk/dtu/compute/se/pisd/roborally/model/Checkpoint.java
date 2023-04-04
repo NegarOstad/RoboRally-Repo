@@ -1,8 +1,11 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 public class Checkpoint extends BoardElement {
+
+    int index;
     public Checkpoint(Space spaceLocation) {
         super(spaceLocation);
+        spaceLocation.setBoardElement(this);
 
     }
 
@@ -10,5 +13,8 @@ public class Checkpoint extends BoardElement {
         return "Checkpoint";
     }
 
+    public void setIndex(int i) {
+        index = i;
+    }
 
 }
