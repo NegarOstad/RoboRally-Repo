@@ -143,22 +143,27 @@ public class GameController {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
+
             if (step >= 0 && step < Player.NO_REGISTERS) { //DOES THIS IF END OF REGISTERS NOT REACHED
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
+
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
+
                 }
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
                 if (nextPlayerNumber < board.getPlayersNumber()) { // DOES THIS IF THERE IS A NEXT PLAYER
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+
                 } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGSITER CORRESPONDING TO GIVEN STEP
                     step++;
-                    if (step < Player.NO_REGISTERS) {
+                    if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
-                    } else {
+
+                    } else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
                         startProgrammingPhase();
                     }
                 }
