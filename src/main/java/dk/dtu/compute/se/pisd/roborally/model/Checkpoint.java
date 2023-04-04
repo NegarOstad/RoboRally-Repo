@@ -1,10 +1,13 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 public class Checkpoint extends BoardElement {
-    private Space locationSpace;
+    public Checkpoint(Space spaceLocation) {
+        super(spaceLocation);
 
-    public Checkpoint(Space locationSpace) {
-        this.locationSpace = locationSpace;
+    }
+
+    public String getType() {
+        return "Checkpoint";
     }
 
 
