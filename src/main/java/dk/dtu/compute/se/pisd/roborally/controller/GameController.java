@@ -151,10 +151,11 @@ public class GameController {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
                 }
-               // System.out.println("This space is not null: " + currentPlayer.getSpace());
-               // System.out.println(currentPlayer.getName()+ "'s current space : (" + currentPlayer.getSpace().x + ", " + currentPlayer.getSpace().y + ")");
-                if(step == Player.NO_REGISTERS - 1 && currentPlayer.getSpace().hasACheckpoint())
+
+                if(step == Player.NO_REGISTERS - 1 && currentPlayer.getSpace().hasACheckpoint()) {
                     currentPlayer.addToken();
+                    System.out.println("Adding a token, so token count is " + currentPlayer.getTokenCount());
+                }
 
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
                 if (nextPlayerNumber < board.getPlayersNumber()) { // DOES THIS IF THERE IS A NEXT PLAYER
@@ -233,6 +234,7 @@ public class GameController {
         if(y < 0 || x < 0) {
             System.out.println("Position out of bounds! The command will be skipped >__<");
         } else {
+           // System.out.println(player.getName() + " will be moved to space (" + x + ", " + y + ")");
             player.setSpace(board.getSpace(x, y));
         }
 
@@ -261,6 +263,7 @@ public class GameController {
         if(y < 0 || x < 0) {
             System.out.println("Position out of bounds! The command will be skipped >__<");
         } else {
+           // System.out.println(player.getName() + " will be moved to space (" + x + ", " + y + ")");
             player.setSpace(board.getSpace(x, y));
         }
 
