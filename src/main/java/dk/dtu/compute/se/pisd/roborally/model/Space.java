@@ -47,8 +47,8 @@ public class Space extends Subject {
         boardElement = null;
     }
 
-    void setBoardElement() {
-
+    void setBoardElement(BoardElement boardElement) {
+        this.boardElement = boardElement;
     }
     public Player getPlayer() {
         return player;
@@ -78,6 +78,8 @@ public class Space extends Subject {
     }
 
     public boolean hasACheckpoint() {
+        if(boardElement == null)
+            return false;
         return boardElement.getType().equals("Checkpoint");
     }
 }
