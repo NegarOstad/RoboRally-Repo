@@ -1,13 +1,12 @@
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.net.Socket;
 
 class GameControllerTest {
 
@@ -94,15 +93,31 @@ class GameControllerTest {
     }
 
     @Test
-    void reached1stCheckpointGetsCheckpointToken() {
+    void currentPlayerGets1CheckpointToken() {
         Board board = gameController.board;
-        Space spaceWithCheckpoint = new Space(board, 0, 1);
         Player current = board.getCurrentPlayer();
-        gameController.moveForward(current);
 
-        current.addCheckpointToken();
+        current.addToken();
 
-        Assertions.assertEquals(Heading.EAST, current.getHeading(), "Player " + current.getName() + " should be oriented Eastward");
+        Assertions.assertEquals(1, current.getTokenCount(), "Token count should be 1.");
 
     }
+
+    @Test
+    void currentPlayerLandsOnCheckpointTokenAtRegisterEndsGets1Token() {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
+        Space spaceWithCheckpoint = new Space(board, 0, 1);
+
+        current.setTestRegister(1);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+
+       Assertions.assertEquals(3, current.getSpace().y, "Player at location y = 3.");
+
+    }
+
+    /*  Space space = new Space(board, 0, 1);
+        Checkpoint checkpoint = new Checkpoint(space);*/
+
 }
