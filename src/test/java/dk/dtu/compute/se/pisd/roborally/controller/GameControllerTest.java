@@ -92,4 +92,17 @@ class GameControllerTest {
         Assertions.assertEquals(Heading.EAST, current.getHeading(), "Player " + current.getName() + " should be oriented Eastward");
 
     }
+
+    @Test
+    void reached1stCheckpointGetsCheckpointToken() {
+        Board board = gameController.board;
+        Space spaceWithCheckpoint = new Space(board, 0, 1);
+        Player current = board.getCurrentPlayer();
+        gameController.moveForward(current);
+
+        current.addCheckpointToken();
+
+        Assertions.assertEquals(Heading.EAST, current.getHeading(), "Player " + current.getName() + " should be oriented Eastward");
+
+    }
 }
