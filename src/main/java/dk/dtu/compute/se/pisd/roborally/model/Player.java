@@ -148,9 +148,20 @@ public class Player extends Subject {
             program[0].setCard(new CommandCard(Command.FORWARD));
             program[1].setCard(new CommandCard(Command.FAST_FORWARD));
 
+        } else if (ver == 2){
+            program[0].setCard(new CommandCard(Command.LEFT));
+            program[1].setCard(new CommandCard(Command.FAST_FORWARD));
+
         } else {
-            // FILL IN IF ANOTHER PROGRAMMING IS NEEDED
+            program[0].setCard(new CommandCard(Command.FAST_FORWARD));
+            program[1].setCard(new CommandCard(Command.FORWARD));
+            program[2].setCard(new CommandCard(Command.LEFT));
+            program[3].setCard(new CommandCard(Command.FAST_FORWARD));
+            program[4].setCard(new CommandCard(Command.FORWARD));
+
         }
+        board.setPhase(Phase.ACTIVATION);
+
     }
 
 }
