@@ -48,7 +48,7 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    private int checkpointTokenCount = 0;
+    private int tokenCount = 0;
 
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
@@ -135,7 +135,22 @@ public class Player extends Subject {
         return cards[i];
     }
 
-    public void addCheckpointToken() {
-        checkpointTokenCount++;
+    public void addToken() {
+        tokenCount++;
     }
+
+    public int getTokenCount() {
+        return tokenCount;
+    }
+
+    public void setTestRegister(int ver) {
+        if (ver == 1) {
+            program[0].setCard(new CommandCard(Command.FORWARD));
+            program[1].setCard(new CommandCard(Command.FAST_FORWARD));
+
+        } else {
+            // FILL IN IF ANOTHER PROGRAMMING IS NEEDED
+        }
+    }
+
 }
