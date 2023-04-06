@@ -50,13 +50,13 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     public final Space space;
 
-    // private List<ImageView> imageViewList = new ArrayList<>();
+    private List<ImageView> imageViews;
 
-    private ImageHolder imageHolder = new ImageHolder();
+    //private ImageHolder imageHolder = new ImageHolder();
 
     public SpaceView(@NotNull Space space) {
         this.space = space;
-        this.imageHolder = new ImageHolder();
+        this.imageViews = new ArrayList<>();
 
         // XXX the following styling should better be done with styles
         this.setPrefWidth(SPACE_WIDTH);
@@ -99,28 +99,21 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
-   /* public void addImageToSpace(String imagePath, int x, int y) {
-        Image image = new Image(imagePath);
-        imageHolder.addImage(image,x,y);
-
-
-
+    public void addImage(String imagePath, int x, int y) {
         Image image = new Image(imagePath);
         ImageView imageView = new ImageView(image);
         imageView.setX(x);
         imageView.setY(y);
+        this.imageViews.add(imageView);
         this.getChildren().add(imageView);
-        this.imageViewList.add(imageView);
-
-
-
     }
-
-    */
+    /*
    private void addImageToSpace(String imagePath, int x, int y, double rotation, double width, double height) {
        imageHolder.addImage(imagePath, x, y, rotation, width, height);
    }
 
+
+     */
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {

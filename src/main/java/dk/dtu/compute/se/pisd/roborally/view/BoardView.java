@@ -89,11 +89,9 @@ public class BoardView extends VBox implements ViewObserver {
                 mainBoardPane.add(spaceView, x, y);
                 spaceView.setOnMouseClicked(spaceEventHandler);
 
-               /*if (x == 0 && y == 5) {
-                    spaceView.addImageToSpace("C:\\Users\\aljwa\\Desktop\\Laser.png", 0, 0);
+               if (x == 5 && y == 5) {
+                    spaceView.addImage("C:\\Users\\aljwa\\Desktop\\Laser.png", 0, 0);
                 }
-
-                */
 
 
             }
