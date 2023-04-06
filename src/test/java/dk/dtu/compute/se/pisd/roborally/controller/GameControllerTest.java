@@ -104,4 +104,17 @@ class GameControllerTest {
         Assertions.assertEquals(endSpace,current.getSpace());
 
     }
+    @Test
+    void TestGear(){
+        Board board = gameController.board;
+        Space space = gameController.board.getSpace(0,0);
+        Player current =board.getCurrentPlayer();
+        Heading EndDirection = Heading.NORTH;
+
+        Gear TestGear= new Gear(board,EndDirection,space);
+        TestGear.turnPlayer(current);
+        Assertions.assertEquals(Heading.NORTH,current.getHeading());
+
+
+    }
 }
