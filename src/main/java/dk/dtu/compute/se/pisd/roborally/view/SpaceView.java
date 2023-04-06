@@ -27,6 +27,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
@@ -34,6 +35,7 @@ import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.*;
 
 /**
  * ...
@@ -48,8 +50,13 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     public final Space space;
 
+    // private List<ImageView> imageViewList = new ArrayList<>();
+
+    private ImageHolder imageHolder = new ImageHolder();
+
     public SpaceView(@NotNull Space space) {
         this.space = space;
+        this.imageHolder = new ImageHolder();
 
         // XXX the following styling should better be done with styles
         this.setPrefWidth(SPACE_WIDTH);
@@ -92,15 +99,27 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
-    public void addImageToSpace(String imagePath, int x, int y) {
+   /* public void addImageToSpace(String imagePath, int x, int y) {
+        Image image = new Image(imagePath);
+        imageHolder.addImage(image,x,y);
+
+
+
         Image image = new Image(imagePath);
         ImageView imageView = new ImageView(image);
         imageView.setX(x);
         imageView.setY(y);
         this.getChildren().add(imageView);
+        this.imageViewList.add(imageView);
+
 
 
     }
+
+    */
+   private void addImageToSpace(String imagePath, int x, int y, double rotation, double width, double height) {
+       imageHolder.addImage(imagePath, x, y, rotation, width, height);
+   }
 
     @Override
     public void updateView(Subject subject) {
