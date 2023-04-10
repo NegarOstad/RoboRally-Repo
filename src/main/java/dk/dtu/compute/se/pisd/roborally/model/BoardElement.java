@@ -9,6 +9,7 @@ public abstract class BoardElement {
     public int closestPlayer(List<Player> players) {
 
         // Will loop through each player in the list
+        int closestPlayerID;
         for (Player player : players) {
             // Get the coordinates of the player
             int[] playerCoordinates = player.getCoordinates();

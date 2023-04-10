@@ -38,7 +38,9 @@ public class Player extends Subject {
     final public static int NO_CARDS = 8;
 
     final public Board board;
+    private int ID;
 
+    private Location location;
     private String name;
     private String color;
 
@@ -48,12 +50,13 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    public Player(@NotNull Board board, String color, @NotNull String name) {
+    public Player(@NotNull Board board, String color, @NotNull String name, int ID) {
         this.board = board;
         this.name = name;
         this.color = color;
-
+        this.ID = ID;
         this.space = null;
+        this.location = null;
 
         program = new CommandCardField[NO_REGISTERS];
         for (int i = 0; i < program.length; i++) {
@@ -64,6 +67,18 @@ public class Player extends Subject {
         for (int i = 0; i < cards.length; i++) {
             cards[i] = new CommandCardField(this);
         }
+
+    }
+    // Getter for player ID
+
+
+    // Getter and setter for player location
+    public Location getLocation() {
+        return location;
+    }
+
+    public void setLocation(Location location) {
+        this.location = location;
     }
 
     public String getName() {
@@ -133,4 +148,7 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    public int getID() {
+        return ID;
+    }
 }
