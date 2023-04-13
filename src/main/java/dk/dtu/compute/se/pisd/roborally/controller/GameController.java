@@ -151,13 +151,13 @@ public class GameController {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
                 }
-
-                boolean validateAddToken = step == Player.NO_REGISTERS - 1
-                                            && currentPlayer.getSpace().hasACheckpoint()
-                                            && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex();
-                if(validateAddToken) {
-                    currentPlayer.addToken();
-                    System.out.println("Adding a token, so token count is " + currentPlayer.getTokenCount());
+                if(currentPlayer.getSpace().getType() == ElementType.Checkpoint ) {
+                    boolean validateAddToken = step == Player.NO_REGISTERS - 1
+                            && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex();
+                    if (validateAddToken) {
+                        currentPlayer.addToken();
+                        System.out.println("Adding a token, so token count is " + currentPlayer.getTokenCount());
+                    }
                 }
 
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;

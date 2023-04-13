@@ -32,7 +32,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 public class Space extends Subject {
 
     public final Board board;
-
+    ElementType type;
     public final int x;
     public final int y;
     private Player player;
@@ -45,6 +45,29 @@ public class Space extends Subject {
         this.y = y;
         player = null;
         boardElement = null;
+        type = ElementType.Normal;
+    }
+
+    public void setTypeCheckpoint(int index) {
+        type = ElementType.Checkpoint;
+        boardElement = new Checkpoint(index);
+
+    }
+
+    public void setTypeConveyor(Space start, Space slut) {
+        type = ElementType.ConveyorBelt;
+
+        boardElement = new ConveyorBelt(slut);
+    }
+
+    public void setTypeGear(Heading heading){
+        type = ElementType.Gear;
+
+        boardElement = new Gear(heading);
+    }
+
+    public ElementType getType() {
+        return type;
     }
 
     public void setBoardElement(BoardElement boardElement) {
@@ -82,9 +105,11 @@ public class Space extends Subject {
         notifyChange();
     }
 
+    /*
     public boolean hasACheckpoint() {
         if(boardElement == null)
             return false;
         return boardElement.getType().equals("Checkpoint");
     }
+    */
 }

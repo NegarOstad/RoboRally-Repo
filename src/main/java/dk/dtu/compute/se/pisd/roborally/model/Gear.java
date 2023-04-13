@@ -2,16 +2,11 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 public class Gear extends BoardElement {
     private Heading EndDirection;
-    public Gear(Board board, Heading EndDirection, Space space) {
-        super(board, space);
+    public Gear(Heading EndDirection) {
         this.EndDirection= EndDirection;
     }
     public void turnPlayer(Player currentPlayer){
         currentPlayer.setHeading(EndDirection);
     }
 
-    @Override
-    public String getType() {
-        return "Gear";
-    }
 }

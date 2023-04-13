@@ -100,6 +100,10 @@ public class Board extends Subject {
         }
     }
 
+    /*public void setSpaceType(int x, int y, ElementType inputType){
+        spaces[x][y].setType(inputType);
+    }*/
+
     public int getPlayersNumber() {
         return players.size();
     }
