@@ -70,15 +70,17 @@ public class Player extends Subject {
 
     }
     // Getter for player ID
-
-
-    // Getter and setter for player location
-    public Location getLocation() {
-        return location;
+    public int getID() {
+        return ID;
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
+    // Getter and setter for player location
+    public Space getspace() {
+        return space;
+    }
+
+    public void setspace(Space space) {
+        this.space = space;
     }
 
     public String getName() {
@@ -148,7 +150,5 @@ public class Player extends Subject {
         return cards[i];
     }
 
-    public int getID() {
-        return ID;
-    }
+
 }
