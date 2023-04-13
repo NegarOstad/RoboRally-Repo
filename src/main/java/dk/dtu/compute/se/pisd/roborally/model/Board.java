@@ -219,7 +219,7 @@ public class Board extends Subject {
     }
 
 
-    public void setSpaceType(int x, int y, ElementType inputType) {
+   /* public void setSpaceType(int x, int y, ElementType inputType) {
         switch (inputType){
             case Gear:
                 setSpaceType(x, y, ElementType.Gear);
@@ -237,5 +237,5 @@ public class Board extends Subject {
 
 
         }
-    }
+    }*/
 }

@@ -54,7 +54,7 @@ public class Space extends Subject {
 
     }
 
-    public void setTypeConveyor(Space start, Space slut) {
+    public void setTypeConveyor(Space slut) {
         type = ElementType.ConveyorBelt;
 
         boardElement = new ConveyorBelt(slut);
