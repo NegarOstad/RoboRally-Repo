@@ -32,6 +32,7 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 public class GameController {
+    private BoardElement priorityAntenna;
 
     final public Board board;
     int x = 0;
@@ -39,6 +40,7 @@ public class GameController {
 
     public GameController(@NotNull Board board) {
         this.board = board;
+        this.priorityAntenna = null;
     }
 
     /**
@@ -57,7 +59,15 @@ public class GameController {
         //     if the player is moved
 
     }
+
+    public void setPriorityAntenna(BoardElement priorityAntenna) {
+        this.priorityAntenna = priorityAntenna;
+    }
+
     public void beforeProgrammingPlayerRobots(List<Player> players) {
+        if (priorityAntenna == null) {
+            // handle error or throw exception
+        }
         // Get the closest player to the priority antenna
         Player closestPlayer;
         int closestPlayerID = closestPlayer(players);
@@ -68,7 +78,6 @@ public class GameController {
                 break;
             }
         }
-
         // Set the current player to the closest player
         board.setCurrentPlayer(closestPlayer);
         startProgrammingPhase();

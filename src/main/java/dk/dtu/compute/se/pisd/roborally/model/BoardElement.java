@@ -13,6 +13,9 @@ public abstract class BoardElement {
 
     // Creates a list called closestPlayer where the players are listed in ascending order which player has shortest distance to the priority antenna
     public int closestPlayer(List<Player> players) {
+        if (players.isEmpty()) {
+            return -1;
+        }
         int closestPlayerID = 0;
         double minDistance = Double.MAX_VALUE;
 
