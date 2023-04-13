@@ -9,4 +9,9 @@ public class Gear extends BoardElement {
     public void turnPlayer(Player currentPlayer){
         currentPlayer.setHeading(EndDirection);
     }
+
+    @Override
+    public String getType() {
+        return "Gear";
+    }
 }

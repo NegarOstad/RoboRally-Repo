@@ -12,8 +12,11 @@ package dk.dtu.compute.se.pisd.roborally.model;
             currentPlayer.setSpace(endSpace);
     }
 
-
-  /*  private int moves;
+        @Override
+        public String getType() {
+            return "Conveyor";
+        }
+    /*  private int moves;
     private Player player;
     private Space space;
     private Heading direction;
