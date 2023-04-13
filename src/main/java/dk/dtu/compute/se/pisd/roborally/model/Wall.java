@@ -8,8 +8,8 @@ public class Wall extends BoardElement{
         this.currentSpace = currentSpace;
     }
 
-
     public void stopPlayerOneTurn(Player currentPlayer) {
+
         currentPlayer.setSpace(currentSpace);
     }
 }

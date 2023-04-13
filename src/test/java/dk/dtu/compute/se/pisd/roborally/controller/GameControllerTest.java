@@ -123,7 +123,7 @@ class GameControllerTest {
     @Test
     void stopPlayerOneTurn() {
         Board board = gameController.board ;
-        Space space = gameController.board.getSpace(1,1);
+        Space space = gameController.board.getSpace(10,10);
         Player currentPlayer = board.getCurrentPlayer();
         Wall TestWall = new Wall(space);
         TestWall.stopPlayerOneTurn(currentPlayer);
