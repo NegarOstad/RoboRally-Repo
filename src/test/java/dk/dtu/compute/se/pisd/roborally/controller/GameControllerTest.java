@@ -120,6 +120,17 @@ class GameControllerTest {
 
 
     }
+    @Test
+    void stopPlayerOneTurn() {
+        Board board = gameController.board ;
+        Space space = gameController.board.getSpace(1,1);
+        Player currentPlayer = board.getCurrentPlayer();
+        Wall TestWall = new Wall(space);
+        TestWall.stopPlayerOneTurn(currentPlayer);
+        Assertions.assertEquals(space , currentPlayer.getSpace());
+
+
+    }
 
     @Test
     void currentPlayerGets1CheckpointToken() {
