@@ -50,6 +50,7 @@ public class Space extends Subject {
     void setBoardElement(PriorityAntenna priorityAntenna) {
 
     }
+
     public Player getPlayer() {
         return player;
     }
@@ -77,4 +78,10 @@ public class Space extends Subject {
         notifyChange();
     }
 
+    public boolean hasACheckpoint() {
+        if (boardElement == null)
+            return false;
+        return boardElement.getType().equals("Checkpoint");
+
+    }
 }

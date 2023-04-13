@@ -20,6 +20,7 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
+import java.util.List;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
@@ -55,6 +56,21 @@ public class GameController {
         //   - the counter of moves in the game should be increased by one
         //     if the player is moved
 
+    }
+    public void beforeProgrammingPlayerRobots(List<Player> players) {
+        // Get the closest player to the priority antenna
+        int closestPlayerID = closestPlayer(players);
+        Player closestPlayer = null;
+        for (Player player : players) {
+            if (player.getID() == closestPlayerID) {
+                closestPlayer = player;
+                break;
+            }
+        }
+
+        // Set the current player to the closest player
+        board.setCurrentPlayer(closestPlayer);
+        startProgrammingPhase();
     }
 
     // XXX: V2
