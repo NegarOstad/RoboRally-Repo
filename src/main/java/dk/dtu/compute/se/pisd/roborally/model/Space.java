@@ -36,8 +36,9 @@ public class Space extends Subject {
     public final int x;
     public final int y;
     private Player player;
-
     private BoardElement boardElement;
+
+
 
     public Space(Board board, int x, int y) {
         this.board = board;
@@ -47,9 +48,12 @@ public class Space extends Subject {
         boardElement = null;
     }
 
-    void setBoardElement(PriorityAntenna priorityAntenna) {
-        this.boardElement = priorityAntenna;
-        notifyChange();
+    public void setBoardElement(BoardElement boardElement) {
+        this.boardElement = boardElement;
+    }
+
+    public BoardElement getBoardElement() {
+        return boardElement;
     }
 
     public Player getPlayer() {
@@ -77,12 +81,6 @@ public class Space extends Subject {
         // also need to update when some player attributes change, the player can
         // notify the space of these changes by calling this method.
         notifyChange();
-    }
-
-    public boolean isCloseToPriorityAntenna() {
-        if (boardElement == null)
-            return false;
-        return boardElement.getType().equals("Priority Antenna");
 
     }
 }

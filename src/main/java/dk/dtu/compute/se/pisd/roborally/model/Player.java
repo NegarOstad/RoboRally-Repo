@@ -38,7 +38,6 @@ public class Player extends Subject {
     final public static int NO_CARDS = 8;
 
     final public Board board;
-    private int ID;
 
     private Space spacelocation;
     private String name;
@@ -50,11 +49,10 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    public Player(@NotNull Board board, String color, @NotNull String name, int ID) {
+    public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
         this.color = color;
-        this.ID = ID;
         this.space = null;
         this.spacelocation = null;
 
@@ -69,19 +67,7 @@ public class Player extends Subject {
         }
 
     }
-    // Getter for player ID
-    public int getID() {
-        return ID;
-    }
 
-    // Getter and setter for player location
-    public int[] getspace() {
-        return spacelocation;
-    }
-
-    public void setspace(Space space) {
-        this.spacelocation = space;
-    }
 
     public String getName() {
         return name;

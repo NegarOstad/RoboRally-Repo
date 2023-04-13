@@ -57,10 +57,15 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    public int NextPlayerNumber;
+
+    private PriorityAntenna priorityAntenna;
+
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;
         this.height = height;
+        //this.priorityAntenna = priorityAntenna;
         spaces = new Space[width][height];
         for (int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
@@ -117,6 +122,7 @@ public class Board extends Subject {
         }
     }
 
+
     public Player getCurrentPlayer() {
         return current;
     }
@@ -127,6 +133,13 @@ public class Board extends Subject {
             notifyChange();
         }
     }
+
+
+    //public int getNextPlayerNumber (){
+      //NextPlayerNumber = priorityAntenna.();
+
+        //return NextPlayerNumber;
+    //}
 
     public Phase getPhase() {
         return phase;
@@ -169,6 +182,8 @@ public class Board extends Subject {
         }
     }
 
+
+
     /**
      * Returns the neighbour of the given space of the board in the given heading.
      * The neighbour is returned only, if it can be reached from the given space
@@ -199,6 +214,7 @@ public class Board extends Subject {
 
         return getSpace(x, y);
     }
+
 
     public String getStatusMessage() {
         // this is actually a view aspect, but for making assignment V1 easy for

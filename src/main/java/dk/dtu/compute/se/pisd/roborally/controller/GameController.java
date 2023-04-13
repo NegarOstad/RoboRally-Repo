@@ -20,7 +20,10 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
@@ -32,7 +35,9 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 public class GameController {
-    private BoardElement priorityAntenna;
+    public BoardElement priorityAntenna;
+
+    public int closestPlayer;
 
     final public Board board;
     int x = 0;
@@ -58,32 +63,6 @@ public class GameController {
         //   - the counter of moves in the game should be increased by one
         //     if the player is moved
 
-    }
-
-    public void setPriorityAntenna(BoardElement priorityAntenna) {
-        this.priorityAntenna = priorityAntenna;
-    }
-
-    public void beforeProgrammingPlayerRobots(List<Player> players) {
-        if (priorityAntenna == null) {
-            // handle error or throw exception
-        }
-        // Get the closest player to the priority antenna
-        Player closestPlayer;
-        int closestPlayerID = closestPlayer(players);
-        closestPlayer = null;
-        for (Player player : players) {
-            if (player.getID() == closestPlayerID) {
-                closestPlayer = player;
-                break;
-            }
-        }
-        // Set the current player to the closest player
-        board.setCurrentPlayer(closestPlayer);
-        startProgrammingPhase();
-    }
-
-    private int closestPlayer(List<Player> players) { return closestPlayer(players);
     }
 
     // XXX: V2
@@ -117,6 +96,7 @@ public class GameController {
     }
 
     // XXX: V2
+
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -158,6 +138,9 @@ public class GameController {
         board.setStepMode(true);
         continuePrograms();
     }
+
+
+
 
     // XXX: V2
     private void continuePrograms() {
