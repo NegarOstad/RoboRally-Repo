@@ -91,6 +91,7 @@ public class Board extends Subject {
         }
     }
 
+
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
                 y >= 0 && y < height) {
@@ -218,4 +219,23 @@ public class Board extends Subject {
     }
 
 
+    public void setSpaceType(int x, int y, ElementType inputType) {
+        switch (inputType){
+            case Gear:
+                setSpaceType(x, y, ElementType.Gear);
+                break;
+
+            case Checkpoint:
+                setSpaceType(x, y, ElementType.Checkpoint);
+                break;
+
+            case ConveyorBelt:
+                setSpaceType(x, y, ElementType.ConveyorBelt);
+                break;
+
+            default: setSpaceType(x, y, ElementType.Normal);
+
+
+        }
+    }
 }
