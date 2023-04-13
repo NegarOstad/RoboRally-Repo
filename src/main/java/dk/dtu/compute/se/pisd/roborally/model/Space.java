@@ -47,7 +47,7 @@ public class Space extends Subject {
         boardElement = null;
     }
 
-    void setBoardElement() {
+    void setBoardElement(PriorityAntenna priorityAntenna) {
 
     }
     public Player getPlayer() {

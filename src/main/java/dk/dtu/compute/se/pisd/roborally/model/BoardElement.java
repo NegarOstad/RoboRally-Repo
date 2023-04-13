@@ -2,6 +2,11 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import java.util.List;
 
 public abstract class BoardElement {
+    Space space;
+    public BoardElement(Space space) {
+        this.space = space;
+    }
+    public abstract String getType();
 
     private int[] priorityAntennaCoordinates;
 
