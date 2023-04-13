@@ -59,8 +59,9 @@ public class GameController {
     }
     public void beforeProgrammingPlayerRobots(List<Player> players) {
         // Get the closest player to the priority antenna
+        Player closestPlayer;
         int closestPlayerID = closestPlayer(players);
-        Player closestPlayer = null;
+        closestPlayer = null;
         for (Player player : players) {
             if (player.getID() == closestPlayerID) {
                 closestPlayer = player;
@@ -71,6 +72,9 @@ public class GameController {
         // Set the current player to the closest player
         board.setCurrentPlayer(closestPlayer);
         startProgrammingPhase();
+    }
+
+    private int closestPlayer(List<Player> players) { return closestPlayer(players);
     }
 
     // XXX: V2
