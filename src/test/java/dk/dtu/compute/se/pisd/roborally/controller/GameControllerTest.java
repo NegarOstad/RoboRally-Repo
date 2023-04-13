@@ -5,6 +5,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.testng.Converter;
 
 import java.net.Socket;
 
@@ -96,6 +97,33 @@ class GameControllerTest {
         gameController.turnLeft(current);
 
         Assertions.assertEquals(Heading.EAST, current.getHeading(), "Player " + current.getName() + " should be oriented Eastward");
+
+    }
+    @Test
+    void TestConveyorBelt(){
+        Board board = gameController.board;
+        Space space = gameController.board.getSpace(0,0);
+        Player current =board.getCurrentPlayer();
+        Space endSpace = gameController.board.getSpace(0,5);
+
+        ConveyorBelt TestConveyorBelt= new ConveyorBelt(board,space,endSpace);
+
+        TestConveyorBelt.movePlayer(current);
+
+        Assertions.assertEquals(endSpace,current.getSpace());
+
+    }
+    @Test
+    void TestGear(){
+        Board board = gameController.board;
+        Space space = gameController.board.getSpace(0,0);
+        Player current =board.getCurrentPlayer();
+        Heading EndDirection = Heading.NORTH;
+
+        Gear TestGear= new Gear(board,EndDirection,space);
+        TestGear.turnPlayer(current);
+        Assertions.assertEquals(Heading.NORTH,current.getHeading());
+
 
     }
 
