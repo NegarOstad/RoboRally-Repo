@@ -121,6 +121,12 @@ class GameControllerTest {
 
     }
     @Test
+    void spaceHasAWall() {
+        Board board = gameController.board ;
+        board.getSpace(0,1).setTypeWall();
+        Assertions.assertEquals(ElementType.Wall, board.getSpace(0,1).getType());
+    }
+    @Test
     void stopPlayerOneTurn() {
         Board board = gameController.board ;
         board.getSpace(0,1).setTypeWall();
