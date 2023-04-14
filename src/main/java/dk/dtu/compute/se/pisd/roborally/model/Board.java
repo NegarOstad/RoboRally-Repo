@@ -59,7 +59,7 @@ public class Board extends Subject {
 
     public int NextPlayerNumber;
 
-    private PriorityAntenna priorityAntenna;
+    public int closestPlayer;
 
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -135,12 +135,11 @@ public class Board extends Subject {
     }
 
 
-    //public int getNextPlayerNumber (){
-      //NextPlayerNumber = priorityAntenna.();
-
-        //return NextPlayerNumber;
-    //}
-
+    public int getNextPlayerNumber (PriorityAntenna priorityAntenna){
+        Player closestPlayer = priorityAntenna.closestPlayer(players);
+        int index = players.indexOf(closestPlayer);
+        return (index + 1) % getPlayersNumber();
+    }
     public Phase getPhase() {
         return phase;
     }
