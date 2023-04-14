@@ -26,6 +26,7 @@ import java.util.List;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.view.PlayersView;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -150,36 +151,10 @@ public class GameController {
 
     // XXX: V2
     private void executeNextStep() {
-        Player currentPlayer = board.getNextPlayerNumber();
-        if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
-            int step = board.getStep();
-            if (step >= 0 && step < Player.NO_REGISTERS) {
-                CommandCard card = currentPlayer.getProgramField(step).getCard();
-                if (card != null) {
-                    Command command = card.command;
-                    executeCommand(currentPlayer, command);
-                }
-                int nextPlayerNumber = getNextPlayersNumber(board.getPriorityAntenna());
-                Player nextPlayer = board.getPlayers().get(nextPlayerNumber);
-                board.setCurrentPlayer(nextPlayer);
-                step++;
-                if (step < Player.NO_REGISTERS) {
-                    makeProgramFieldsVisible(step);
-                    board.setStep(step);
-                } else {
-                    startProgrammingPhase();
-                }
-            } else {
-                // this should not happen
-                assert false;
-            }
-        } else {
-            // this should not happen
-            assert false;
-        }
+        Player closestPlayer = board.getCurrentPlayer();
+        int nextPlayerIndex = board.getNextPlayersNumber(closestPlayer);
+        Player currentPlayer = board.getPlayer(nextPlayerIndex);
 
-    }
-        /*Player currentPlayer = board.getNextPlayerNumber();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
             if (step >= 0 && step < Player.NO_REGISTERS) {
@@ -210,7 +185,9 @@ public class GameController {
             assert false;
         }
     }
-*/
+
+
+
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {

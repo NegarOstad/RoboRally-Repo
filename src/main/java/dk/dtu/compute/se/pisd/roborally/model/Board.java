@@ -57,9 +57,8 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
-    public int NextPlayerNumber;
+    private PriorityAntenna priorityAntenna;
 
-    public int closestPlayer;
 
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -133,8 +132,7 @@ public class Board extends Subject {
         }
     }
 
-    public int getNextPlayersNumber (PriorityAntenna priorityAntenna){
-        Player closestPlayer = priorityAntenna.closestPlayer(players);
+    public int getNextPlayersNumber(Player closestPlayer){
         int index = players.indexOf(closestPlayer);
         return (index + 1) % players.size();
     }
@@ -178,9 +176,14 @@ public class Board extends Subject {
             return -1;
         }
     }
-
-
-
+   /* public int getNextPlayerNumber(@NotNull Player closestPlayers) {
+        if (closestPlayers.board == this) {
+            return players.indexOf(closestPlayers);
+        } else {
+            return -1;
+        }
+    }
+   */
     /**
      * Returns the neighbour of the given space of the board in the given heading.
      * The neighbour is returned only, if it can be reached from the given space
