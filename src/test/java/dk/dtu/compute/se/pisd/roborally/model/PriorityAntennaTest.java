@@ -42,9 +42,8 @@ class PriorityAntennaTest {
         PriorityAntenna priorityAntenna = new PriorityAntenna(board.getSpace(2,5));
         assertEquals(board.getSpace(2,5),priorityAntenna.spacelocation);
     }
-
     @Test
-    void testclosestPlayer() {
+    void closestPlayer() {
         Board board = gameController.board;
         Player player1 = board.getPlayer(0);
         Player player2 = board.getPlayer(1);
@@ -56,5 +55,7 @@ class PriorityAntennaTest {
         Player closestPlayer = priorityAntenna.closestPlayer(players);
         assertEquals(player1, closestPlayer );
 
+            }
+
+
     }
-}

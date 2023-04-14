@@ -122,7 +122,6 @@ public class Board extends Subject {
         }
     }
 
-
     public Player getCurrentPlayer() {
         return current;
     }
@@ -134,11 +133,10 @@ public class Board extends Subject {
         }
     }
 
-
-    public int getNextPlayerNumber (PriorityAntenna priorityAntenna){
+    public int getNextPlayersNumber (PriorityAntenna priorityAntenna){
         Player closestPlayer = priorityAntenna.closestPlayer(players);
         int index = players.indexOf(closestPlayer);
-        return (index + 1) % getPlayersNumber();
+        return (index + 1) % players.size();
     }
     public Phase getPhase() {
         return phase;

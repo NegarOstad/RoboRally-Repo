@@ -37,7 +37,7 @@ import org.jetbrains.annotations.NotNull;
 public class GameController {
     public BoardElement priorityAntenna;
 
-    public int closestPlayer;
+    public int getNextPlayerNumber;
 
     final public Board board;
     int x = 0;
@@ -45,7 +45,6 @@ public class GameController {
 
     public GameController(@NotNull Board board) {
         this.board = board;
-        this.priorityAntenna = null;
     }
 
     /**
