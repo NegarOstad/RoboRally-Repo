@@ -36,12 +36,10 @@ public class PriorityAntenna extends BoardElement {
             return closestPlayer;
 
     }
-   /* public int getNextPlayer() {
 
-    }*/
     // Besma needs to use
     public String getType() {
-        return "PriorityAntenna";
+        return "PrioriyAntenna";
     }
 
 
