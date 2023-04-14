@@ -220,16 +220,25 @@ public class GameController {
 
         switch (currentHeading){
             case SOUTH:
-                y = player.getSpace().y  + 1 ;
+                if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall))){
+                    y = player.getSpace().y + 1 ;
+                }
                 break;
             case NORTH:
-                y = player.getSpace().y  - 1 ;
+                if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall))){
+                    y = player.getSpace().y - 1 ;
+                }
                 break;
             case WEST:
-                x = player.getSpace().x  - 1 ;
+                if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall))){
+                    x = player.getSpace().x  - 1 ;
+                }
                 break;
             case EAST:
-                x = player.getSpace().x  + 1 ;
+                if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall))){
+                    x = player.getSpace().x  + 1 ;
+                }
+
                 break;
             default:
                 //DO NOTHING
@@ -248,7 +257,9 @@ public class GameController {
     public void fastForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
 
-        for (int i = 0; i <2 ; i++) {
+        for (int i = 0; i < 2 ; i++) {
+
+
             switch (currentHeading){
                 case SOUTH:
                     y = player.getSpace().y  + 1 ;
@@ -266,7 +277,6 @@ public class GameController {
                     //DO NOTHING
             }
 
-           // if(player.getSpace().getType().equals(El))
         }
 
 

@@ -123,16 +123,21 @@ class GameControllerTest {
     @Test
     void stopPlayerOneTurn() {
         Board board = gameController.board ;
-        Space space = gameController.board.getSpace(0,1);
-        space.setTypeWall();
+        board.getSpace(0,1).setTypeWall();
+       // Space space = gameController.board.getSpace(0,1);
+      //  space.setTypeWall();
         Player currentPlayer = board.getCurrentPlayer();
+        System.out.println("Player x is " + currentPlayer.getSpace().x +" player y is "+ currentPlayer.getSpace().y+" player heading is "+ currentPlayer.getHeading());
         currentPlayer.setTestRegister(1);
         board.setPhase(Phase.ACTIVATION);
 
         gameController.executePrograms();
-       // Wall TestWall = new Wall(space);
+        System.out.println("Player x is " + currentPlayer.getSpace().x +" player y is "+ currentPlayer.getSpace().y+" player heading is "+ currentPlayer.getHeading());
+
+        // Wall TestWall = new Wall(space);
        // TestWall.stopPlayerOneTurn(currentPlayer);
-        Assertions.assertEquals(space , currentPlayer.getSpace());
+        Assertions.assertEquals(0 , currentPlayer.getSpace().x);
+        Assertions.assertEquals(0 , currentPlayer.getSpace().y);
 
 
     }
