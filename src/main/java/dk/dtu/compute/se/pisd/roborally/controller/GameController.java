@@ -248,22 +248,28 @@ public class GameController {
     public void fastForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
 
-        switch (currentHeading){
-            case SOUTH:
-                y = player.getSpace().y  + 2 ;
-                break;
-            case NORTH:
-                y = player.getSpace().y  - 2 ;
-                break;
-            case WEST:
-                x = player.getSpace().x  - 2 ;
-                break;
-            case EAST:
-                x = player.getSpace().x  + 2 ;
-                break;
-            default:
-                //DO NOTHING
+        for (int i = 0; i <2 ; i++) {
+            switch (currentHeading){
+                case SOUTH:
+                    y = player.getSpace().y  + 1 ;
+                    break;
+                case NORTH:
+                    y = player.getSpace().y  - 1 ;
+                    break;
+                case WEST:
+                    x = player.getSpace().x  - 1 ;
+                    break;
+                case EAST:
+                    x = player.getSpace().x  + 1 ;
+                    break;
+                default:
+                    //DO NOTHING
+            }
+
+           // if(player.getSpace().getType().equals(El))
         }
+
+
         if(y < 0 || x < 0) {
             System.out.println("Position out of bounds! The command will be skipped >__<");
         } else {
