@@ -123,10 +123,15 @@ class GameControllerTest {
     @Test
     void stopPlayerOneTurn() {
         Board board = gameController.board ;
-        Space space = gameController.board.getSpace(1,1);
+        Space space = gameController.board.getSpace(0,1);
+        space.setTypeWall();
         Player currentPlayer = board.getCurrentPlayer();
-        Wall TestWall = new Wall(space);
-        TestWall.stopPlayerOneTurn(currentPlayer);
+        currentPlayer.setTestRegister(1);
+        board.setPhase(Phase.ACTIVATION);
+
+        gameController.executePrograms();
+       // Wall TestWall = new Wall(space);
+       // TestWall.stopPlayerOneTurn(currentPlayer);
         Assertions.assertEquals(space , currentPlayer.getSpace());
 
 
