@@ -4,11 +4,9 @@ public class Wall extends BoardElement{
 
     private Space currentSpace;
 
-    public Wall(Space currentSpace) {
-        this.currentSpace = currentSpace;
-    }
 
-    public void stopPlayerOneTurn(Player currentPlayer) {
+
+    public void stopPlayerOneTurn(Player currentPlayer, Space currentSpace) {
 
         currentPlayer.setSpace(currentSpace);
     }
