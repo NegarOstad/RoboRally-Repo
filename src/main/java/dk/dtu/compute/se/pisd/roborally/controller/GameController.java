@@ -258,29 +258,30 @@ public class GameController {
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
+        int newY = player.getSpace().y;
+        int newX = player.getSpace().x;
 
         for (int i = 0; i < 2 ; i++) {
-
 
             switch (currentHeading){
                 case SOUTH:
                     if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall))) {
-                        y = player.getSpace().y + 1;
+                        newY++;
                     }
                     break;
                 case NORTH:
                     if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall))) {
-                        y = player.getSpace().y - 1;
+                        newY--;
                     }
                     break;
                 case WEST:
                     if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall))) {
-                        x = player.getSpace().x - 1;
+                        newX--;
                     }
                     break;
                 case EAST:
                     if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall))) {
-                        x = player.getSpace().x + 1;
+                        newX++;
                     }
                     break;
                 default:
@@ -294,7 +295,7 @@ public class GameController {
             System.out.println("Position out of bounds! The command will be skipped >__<");
         } else {
            // System.out.println(player.getName() + " will be moved to space (" + x + ", " + y + ")");
-            player.setSpace(board.getSpace(x, y));
+            player.setSpace(board.getSpace(newX, newY));
         }
 
     }

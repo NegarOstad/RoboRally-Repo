@@ -125,6 +125,7 @@ class GameControllerTest {
         Board board = gameController.board ;
         board.getSpace(0,1).setTypeWall();
         Assertions.assertEquals(ElementType.Wall, board.getSpace(0,1).getType());
+
     }
     @Test
     void stopPlayerOneTurn() {
@@ -144,7 +145,6 @@ class GameControllerTest {
        // TestWall.stopPlayerOneTurn(currentPlayer);
         Assertions.assertEquals(0 , currentPlayer.getSpace().x);
         Assertions.assertEquals(0 , currentPlayer.getSpace().y);
-
 
     }
 
