@@ -222,7 +222,9 @@ public class GameController {
             case SOUTH:
                 if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall))){
                     y = player.getSpace().y + 1 ;
+
                 }
+
                 break;
             case NORTH:
                 if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall))){
@@ -240,7 +242,7 @@ public class GameController {
                 }
 
                 break;
-            default:
+            //default:
                 //DO NOTHING
         }
 
@@ -262,16 +264,24 @@ public class GameController {
 
             switch (currentHeading){
                 case SOUTH:
-                    y = player.getSpace().y  + 1 ;
+                    if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall))) {
+                        y = player.getSpace().y + 1;
+                    }
                     break;
                 case NORTH:
-                    y = player.getSpace().y  - 1 ;
+                    if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall))) {
+                        y = player.getSpace().y - 1;
+                    }
                     break;
                 case WEST:
-                    x = player.getSpace().x  - 1 ;
+                    if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall))) {
+                        x = player.getSpace().x - 1;
+                    }
                     break;
                 case EAST:
-                    x = player.getSpace().x  + 1 ;
+                    if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall))) {
+                        x = player.getSpace().x + 1;
+                    }
                     break;
                 default:
                     //DO NOTHING
