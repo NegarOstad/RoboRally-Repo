@@ -150,6 +150,8 @@ public class GameController {
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
+                    if(currentPlayer.getSpace().getBoardElement() != null)
+                        currentPlayer.getSpace().getBoardElement().doAction(currentPlayer);
                 }
 
                 if(currentPlayer.getSpace().getType() == ElementType.Checkpoint ) {

@@ -9,4 +9,8 @@ public class Gear extends BoardElement {
         currentPlayer.setHeading(EndDirection);
     }
 
+    @Override
+    public void doAction(Player currentPlayer) {
+        currentPlayer.setHeading(EndDirection);
+    }
 }

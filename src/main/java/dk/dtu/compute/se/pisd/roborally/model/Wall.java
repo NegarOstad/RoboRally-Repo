@@ -10,4 +10,9 @@ public class Wall extends BoardElement{
 
         currentPlayer.setSpace(currentSpace);
     }
+
+    @Override
+    public void doAction(Player currentPlayer) {
+
+    }
 }

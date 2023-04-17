@@ -9,6 +9,8 @@ public class Checkpoint extends BoardElement {
         index = inputIndex;
         this.isLastCheckpoint = isLastCheckpoint;
     }
+
+
     public int getIndex() {
         return index;
     }
@@ -17,4 +19,9 @@ public class Checkpoint extends BoardElement {
         return isLastCheckpoint;
     }
 
+    @Override
+    public void doAction(Player currentPlayer) {
+
+
+    }
 }
