@@ -151,6 +151,7 @@ public class GameController {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
                 }
+
                 if(currentPlayer.getSpace().getType() == ElementType.Checkpoint ) {
                     boolean validateAddToken = step == Player.NO_REGISTERS - 1
                             && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex();
@@ -291,7 +292,7 @@ public class GameController {
         }
 
 
-        if(y < 0 || x < 0) {
+        if(newY < 0 || newX < 0) {
             System.out.println("Position out of bounds! The command will be skipped >__<");
         } else {
            // System.out.println(player.getName() + " will be moved to space (" + x + ", " + y + ")");
