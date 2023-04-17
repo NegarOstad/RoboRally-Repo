@@ -53,9 +53,9 @@ public class Space extends Subject {
         boardElement  = new Wall();
     }
 
-    public void setTypeCheckpoint(int index) {
+    public void setTypeCheckpoint(int index, boolean isLastCheckpoint) {
         type = ElementType.Checkpoint;
-        boardElement = new Checkpoint(index);
+        boardElement = new Checkpoint(index, isLastCheckpoint);
 
     }
 

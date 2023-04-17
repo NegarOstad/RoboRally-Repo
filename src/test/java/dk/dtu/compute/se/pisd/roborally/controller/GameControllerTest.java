@@ -30,12 +30,8 @@ class GameControllerTest {
             player.setHeading(Heading.values()[i % Heading.values().length]);
         }
         board.setCurrentPlayer(board.getPlayer(0));
-        for (int i = 0; i < 2; i++) {
-            BoardElement boardElement = new Checkpoint(i);
-        }
-
-        board.getSpace(0,3).setTypeCheckpoint(0);
-        board.getSpace(5,0).setTypeCheckpoint(1);
+        board.getSpace(0,3).setTypeCheckpoint(0, false);
+        board.getSpace(5,0).setTypeCheckpoint(1, true);
         /*checkpoints[0] = new Checkpoint(board.getSpace(0,3));
         checkpoints[0].setIndex(0);
         checkpoints[1] = new Checkpoint(board.getSpace(5, 0));
@@ -210,6 +206,28 @@ class GameControllerTest {
         Assertions.assertEquals(5, player1.getSpace().x, "Player at location x = 5.");
         Assertions.assertEquals(0, player1.getSpace().y, "Player at location y = 0.");
         Assertions.assertEquals(2, player1.getTokenCount(),"Player should have 2 tokens");
+
+
+    }
+
+    @Test
+    void winnerIsFound() {
+        Board board = gameController.board;
+        Player player1 = board.getCurrentPlayer();
+
+        player1.setTestRegister(1);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+
+        player1.setTestRegister(2);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+
+        player1.setTestRegister(3);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+        Assertions.assertEquals(true, ((Checkpoint
+                )player1.getSpace().getBoardElement()).isLastCheckpoint());
     }
 
 }

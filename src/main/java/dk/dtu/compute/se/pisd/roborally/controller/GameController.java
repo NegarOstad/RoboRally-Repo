@@ -158,6 +158,11 @@ public class GameController {
                     if (validateAddToken) {
                         currentPlayer.addToken();
                         System.out.println("Adding a token, so token count is " + currentPlayer.getTokenCount());
+                        boolean isWinner = ((Checkpoint)currentPlayer.getSpace().getBoardElement()).isLastCheckpoint()
+                                            && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex()-1;
+                        if(isWinner) {
+                            System.out.println(currentPlayer.getName() + " is a winner!");
+                        }
                     }
                 }
 
