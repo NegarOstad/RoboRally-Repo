@@ -50,6 +50,8 @@ public class Player extends Subject {
 
     private int tokenCount = 0;
 
+    private boolean registerIsEmpty = false;
+
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
@@ -162,6 +164,14 @@ public class Player extends Subject {
         }
         board.setPhase(Phase.ACTIVATION);
 
+    }
+
+    public void setEndOfRegister(boolean registerIsEmpty){
+        this.registerIsEmpty = registerIsEmpty;
+    }
+
+    public boolean getRegisterStatus() {
+        return registerIsEmpty;
     }
 
 }

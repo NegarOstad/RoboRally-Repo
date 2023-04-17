@@ -146,27 +146,16 @@ public class GameController {
 
             if (step >= 0 && step < Player.NO_REGISTERS) { //DOES THIS IF END OF REGISTERS NOT REACHED
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
+                if(step != Player.NO_REGISTERS-1)
+                    if(currentPlayer.getProgramField(step+1).getCard() == null)
+                        currentPlayer.setEndOfRegister(true);
 
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
                     if(currentPlayer.getSpace().getBoardElement() != null)
                         currentPlayer.getSpace().getBoardElement().doAction(currentPlayer);
-                }
-
-                if(currentPlayer.getSpace().getType() == ElementType.Checkpoint ) {
-                    boolean validateAddToken = step == Player.NO_REGISTERS - 1
-                            && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex();
-                    if (validateAddToken) {
-                        currentPlayer.addToken();
-                        System.out.println("Adding a token on checkpoint #" +((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex() +" , so token count is " + currentPlayer.getTokenCount());
-                        boolean isWinner = ((Checkpoint)currentPlayer.getSpace().getBoardElement()).isLastCheckpoint()
-                                            && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex()+1;
-                        if(isWinner) {
-                            System.out.println(currentPlayer.getName() + " is a winner!");
-                            board.setWinnerStatus(true);
-                        }
-                    }
+                    currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
 
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;

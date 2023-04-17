@@ -30,8 +30,8 @@ class GameControllerTest {
             player.setHeading(Heading.values()[i % Heading.values().length]);
         }
         board.setCurrentPlayer(board.getPlayer(0));
-        board.getSpace(0,3).setTypeCheckpoint(0, false);
-        board.getSpace(5,0).setTypeCheckpoint(1, true);
+        board.getSpace(0,3).setTypeCheckpoint(0, board, false);
+        board.getSpace(5,0).setTypeCheckpoint(1, board,true);
         /*checkpoints[0] = new Checkpoint(board.getSpace(0,3));
         checkpoints[0].setIndex(0);
         checkpoints[1] = new Checkpoint(board.getSpace(5, 0));

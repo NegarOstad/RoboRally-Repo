@@ -90,8 +90,8 @@ public class AppController implements Observer {
             board.getSpace(1,3).setTypeGear(Heading.NORTH);
             board.getSpace(4,4).setTypeGear(Heading.EAST);
             board.getSpace(1,3).setTypeGear(Heading.SOUTH);
-            board.getSpace(4,0).setTypeCheckpoint(0, false);
-            board.getSpace(5,0).setTypeCheckpoint(1, true);
+            board.getSpace(4,0).setTypeCheckpoint(0, board, false);
+            board.getSpace(5,0).setTypeCheckpoint(1, board,true);
             //board.getSpace(6,3).setTypeCheckpoint(1);
             //board.getSpace(1,5).setTypeCheckpoint(2);
             board.getSpace(1,1).setTypeConveyor(board.getSpace(6,1));
