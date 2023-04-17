@@ -157,9 +157,9 @@ public class GameController {
                             && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex();
                     if (validateAddToken) {
                         currentPlayer.addToken();
-                        System.out.println("Adding a token, so token count is " + currentPlayer.getTokenCount());
+                        System.out.println("Adding a token on checkpoint #" +((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex() +" , so token count is " + currentPlayer.getTokenCount());
                         boolean isWinner = ((Checkpoint)currentPlayer.getSpace().getBoardElement()).isLastCheckpoint()
-                                            && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex()-1;
+                                            && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex()+1;
                         if(isWinner) {
                             System.out.println(currentPlayer.getName() + " is a winner!");
                         }
