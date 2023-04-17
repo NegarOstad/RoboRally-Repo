@@ -162,6 +162,7 @@ public class GameController {
                                             && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex()+1;
                         if(isWinner) {
                             System.out.println(currentPlayer.getName() + " is a winner!");
+                            board.setWinnerStatus(true);
                         }
                     }
                 }

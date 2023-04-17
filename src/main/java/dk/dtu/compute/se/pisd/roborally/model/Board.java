@@ -57,8 +57,7 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
-    private Checkpoint[] checkpoints;
-
+ boolean winnerIsFound = false;
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;
@@ -208,15 +207,18 @@ public class Board extends Subject {
     }
 
     public String getStatusMessage() {
-        // this is actually a view aspect, but for making assignment V1 easy for
-        // the students, this method gives a string representation of the current
-        // status of the game
+        if(winnerIsFound) {
+            return current.getName() + " is the winner!";
+        } else {
+            return "Phase: " + getPhase().name() +
+                    ", Player = " + getCurrentPlayer().getName() +
+                    ", Step: " + getStep() +
+                    "Token count: " + getCurrentPlayer().getTokenCount();
+        }
+    }
 
-        // XXX: V2 changed the status so that it shows the phase, the player and the step
-        return "Phase: " + getPhase().name() +
-                ", Player = " + getCurrentPlayer().getName() +
-                ", Step: " + getStep() +
-                "Token count: " + getCurrentPlayer().getTokenCount();
+    public void setWinnerStatus(boolean winnerIsFound) {
+        this.winnerIsFound = winnerIsFound;
     }
 
 
