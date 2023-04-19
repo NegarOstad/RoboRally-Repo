@@ -214,42 +214,50 @@ public class GameController {
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
-
+        int newY;
+        int newX;
 
         switch (currentHeading){
             case SOUTH:
-                if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall))){
-                    y = player.getSpace().y + 1 ;
-
-                }
+                newY = player.getSpace().y + 1;
+                if(newY >= 0 && newY <= board.height)
+                    if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall)))
+                        player.setSpace(board.getSpace(x, newY));
 
                 break;
             case NORTH:
-                if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall))){
-                    y = player.getSpace().y - 1 ;
-                }
+                newY = player.getSpace().y - 1;
+                if(newY >= 0 && newY <= board.height)
+                    if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
+                        player.setSpace(board.getSpace(x, newY));
                 break;
+
             case WEST:
-                if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall))){
-                    x = player.getSpace().x  - 1 ;
-                }
-                break;
-            case EAST:
-                if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall))){
-                    x = player.getSpace().x  + 1 ;
-                }
+                newX = player.getSpace().x  - 1 ;
+                if(newX >= 0 && newX <= board.width)
+                    if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
+                        player.setSpace(board.getSpace(newX, y));
+
 
                 break;
-            //default:
+
+            case EAST:
+                newX = player.getSpace().x  + 1 ;
+                if(newX >= 0 && newX <= board.width)
+                    if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall)))
+                        player.setSpace(board.getSpace(newX, y));
+
+                break;
+            default:
                 //DO NOTHING
         }
 
-        if(y < 0 || x < 0) {
+      /*  if(y < 0 || x < 0) {
             System.out.println("Position out of bounds! The command will be skipped >__<");
         } else {
            // System.out.println(player.getName() + " will be moved to space (" + x + ", " + y + ")");
             player.setSpace(board.getSpace(x, y));
-        }
+        }*/
 
     }
 
