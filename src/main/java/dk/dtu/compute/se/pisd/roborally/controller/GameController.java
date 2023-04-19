@@ -135,6 +135,7 @@ public class GameController {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
+
     }
 
     // XXX: V2
@@ -142,26 +143,38 @@ public class GameController {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
-            if (step >= 0 && step < Player.NO_REGISTERS) {
+
+            if (step >= 0 && step < Player.NO_REGISTERS) { //DOES THIS IF END OF REGISTERS NOT REACHED
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
+                if(step != Player.NO_REGISTERS-1)
+                    if(currentPlayer.getProgramField(step+1).getCard() == null)
+                        currentPlayer.setEndOfRegister(true);
+
                 if (card != null) {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
+                    if(currentPlayer.getSpace().getBoardElement() != null)
+                        currentPlayer.getSpace().getBoardElement().doAction(currentPlayer);
+                    currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
+
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-                if (nextPlayerNumber < board.getPlayersNumber()) {
+                if (nextPlayerNumber < board.getPlayersNumber()) { // DOES THIS IF THERE IS A NEXT PLAYER
                     board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
-                } else {
+
+                } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
                     step++;
-                    if (step < Player.NO_REGISTERS) {
+                    if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
-                    } else {
+
+                    }
+                    else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
                         startProgrammingPhase();
                     }
                 }
-            } else {
+            }  else {
                 // this should not happen
                 assert false;
             }
@@ -170,6 +183,7 @@ public class GameController {
             assert false;
         }
     }
+
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
@@ -204,47 +218,83 @@ public class GameController {
 
         switch (currentHeading){
             case SOUTH:
-                y = player.getSpace().y  + 1 ;
+                if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall))){
+                    y = player.getSpace().y + 1 ;
+
+                }
+
                 break;
             case NORTH:
-                y = player.getSpace().y  - 1 ;
+                if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall))){
+                    y = player.getSpace().y - 1 ;
+                }
                 break;
             case WEST:
-                x = player.getSpace().x  - 1 ;
+                if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall))){
+                    x = player.getSpace().x  - 1 ;
+                }
                 break;
             case EAST:
-                x = player.getSpace().x  + 1 ;
+                if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall))){
+                    x = player.getSpace().x  + 1 ;
+                }
+
                 break;
-            default:
+            //default:
                 //DO NOTHING
         }
 
-        player.setSpace(board.getSpace(x,y));
+        if(y < 0 || x < 0) {
+            System.out.println("Position out of bounds! The command will be skipped >__<");
+        } else {
+           // System.out.println(player.getName() + " will be moved to space (" + x + ", " + y + ")");
+            player.setSpace(board.getSpace(x, y));
+        }
 
     }
 
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
+        int newY = player.getSpace().y;
+        int newX = player.getSpace().x;
 
-        switch (currentHeading){
-            case SOUTH:
-                y = player.getSpace().y  + 2 ;
-                break;
-            case NORTH:
-                y = player.getSpace().y  - 2 ;
-                break;
-            case WEST:
-                x = player.getSpace().x  - 2 ;
-                break;
-            case EAST:
-                x = player.getSpace().x  + 2 ;
-                break;
-            default:
-                //DO NOTHING
+        for (int i = 0; i < 2 ; i++) {
+
+            switch (currentHeading){
+                case SOUTH:
+                    if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall))) {
+                        newY++;
+                    }
+                    break;
+                case NORTH:
+                    if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall))) {
+                        newY--;
+                    }
+                    break;
+                case WEST:
+                    if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall))) {
+                        newX--;
+                    }
+                    break;
+                case EAST:
+                    if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall))) {
+                        newX++;
+                    }
+                    break;
+                default:
+                    //DO NOTHING
+            }
+
         }
 
-        player.setSpace(board.getSpace(x,y));
+
+        if(newY < 0 || newX < 0) {
+            System.out.println("Position out of bounds! The command will be skipped >__<");
+        } else {
+           // System.out.println(player.getName() + " will be moved to space (" + x + ", " + y + ")");
+            player.setSpace(board.getSpace(newX, newY));
+        }
 
     }
 

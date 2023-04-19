@@ -48,6 +48,10 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
+    private int tokenCount = 0;
+
+    private boolean registerIsEmpty = false;
+
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
@@ -131,6 +135,43 @@ public class Player extends Subject {
 
     public CommandCardField getCardField(int i) {
         return cards[i];
+    }
+
+    public void addToken() {
+        tokenCount++;
+    }
+
+    public int getTokenCount() {
+        return tokenCount;
+    }
+
+    public void setTestRegister(int ver) {
+        if (ver == 1) {
+            program[0].setCard(new CommandCard(Command.FORWARD));
+            program[1].setCard(new CommandCard(Command.FAST_FORWARD));
+
+        } else if (ver == 2){
+            program[0].setCard(new CommandCard(Command.LEFT));
+            program[1].setCard(new CommandCard(Command.FAST_FORWARD));
+
+        } else {
+            program[0].setCard(new CommandCard(Command.FAST_FORWARD));
+            program[1].setCard(new CommandCard(Command.FORWARD));
+            program[2].setCard(new CommandCard(Command.LEFT));
+            program[3].setCard(new CommandCard(Command.FAST_FORWARD));
+            program[4].setCard(new CommandCard(Command.FORWARD));
+
+        }
+        board.setPhase(Phase.ACTIVATION);
+
+    }
+
+    public void setEndOfRegister(boolean registerIsEmpty){
+        this.registerIsEmpty = registerIsEmpty;
+    }
+
+    public boolean getRegisterStatus() {
+        return registerIsEmpty;
     }
 
 }
