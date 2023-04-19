@@ -220,21 +220,21 @@ public class GameController {
         switch (currentHeading){
             case SOUTH:
                 newY = player.getSpace().y + 1;
-                if(newY >= 0 && newY <= board.height)
+                if(newY > 0 && newY < board.height)
                     if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(x, newY));
 
                 break;
             case NORTH:
                 newY = player.getSpace().y - 1;
-                if(newY >= 0 && newY <= board.height)
+                if(newY > 0 && newY < board.height)
                     if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(x, newY));
                 break;
 
             case WEST:
                 newX = player.getSpace().x  - 1 ;
-                if(newX >= 0 && newX <= board.width)
+                if(newX > 0 && newX < board.width)
                     if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(newX, y));
 
@@ -243,7 +243,7 @@ public class GameController {
 
             case EAST:
                 newX = player.getSpace().x  + 1 ;
-                if(newX >= 0 && newX <= board.width)
+                if(newX > 0 && newX < board.width)
                     if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(newX, y));
 
@@ -271,25 +271,33 @@ public class GameController {
 
             switch (currentHeading){
                 case SOUTH:
-                    if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall))) {
-                        newY++;
-                    }
+                    newY++;
+                    if(newY > 0 && newY < board.height)
+                        if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall)))
+                            player.setSpace(board.getSpace(newX, newY));
                     break;
+
                 case NORTH:
-                    if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall))) {
-                        newY--;
-                    }
+                    newY--;
+                    if(newY > 0 && newY < board.height)
+                        if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
+                            player.setSpace(board.getSpace(newX, newY));
                     break;
+
                 case WEST:
-                    if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall))) {
-                        newX--;
-                    }
+                    newX--;
+                    if(newX > 0 && newX < board.width)
+                        if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
+                            player.setSpace(board.getSpace(newX, newY));
                     break;
+
                 case EAST:
-                    if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall))) {
-                        newX++;
-                    }
+                    newX++;
+                    if(newX > 0 && newX < board.width)
+                        if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall)))
+                            player.setSpace(board.getSpace(newX, newY));
                     break;
+
                 default:
                     //DO NOTHING
             }
@@ -297,12 +305,12 @@ public class GameController {
         }
 
 
-        if(newY < 0 || newX < 0) {
+        /*if(newY < 0 || newX < 0) {
             System.out.println("Position out of bounds! The command will be skipped >__<");
         } else {
-           // System.out.println(player.getName() + " will be moved to space (" + x + ", " + y + ")");
-            player.setSpace(board.getSpace(newX, newY));
-        }
+           // System.out.println(player.getName() + " will be moved to space (" + x + ", " + y + ")");*
+
+        }*/
 
     }
 
