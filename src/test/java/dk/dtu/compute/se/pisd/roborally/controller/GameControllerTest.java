@@ -94,7 +94,7 @@ class GameControllerTest {
     }
 
     @Test
-    void testExecuteNextStep() {
+    void testClosestPlayerExecutesNextStep() {
         Board board = gameController.board;
         Player currentPlayer = board.getCurrentPlayer();
         Player player1 = board.getPlayer(0);
@@ -117,6 +117,6 @@ class GameControllerTest {
         // Check that the closest player executed their step
         Assertions.assertEquals(closestPlayer, board.getCurrentPlayer(), "The current player should be the closest player");
         Assertions.assertEquals(1, board.getStep(), "The step number should be incremented");
-        Assertions.assertEquals(currentPlayer, board.getPlayer(5), "The next player should be the player after the current player");
+        Assertions.assertEquals(currentPlayer, board.getPlayer(1), "The next player should be the player after the current player");
     }
 }
