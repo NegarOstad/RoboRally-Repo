@@ -5,5 +5,5 @@ import java.util.List;
 public abstract class BoardElement {
     public abstract void doAction(Player currentPlayer);
 
-    }
+
 }

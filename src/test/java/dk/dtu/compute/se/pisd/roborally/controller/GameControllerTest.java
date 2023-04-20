@@ -243,7 +243,7 @@ class GameControllerTest {
         List<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
-        PriorityAntenna priorityAntenna = new PriorityAntenna(board.getSpace(0, 0));
+        PriorityAntenna priorityAntenna = new PriorityAntenna();
         Player closestPlayer = priorityAntenna.closestPlayer(players);
 
 

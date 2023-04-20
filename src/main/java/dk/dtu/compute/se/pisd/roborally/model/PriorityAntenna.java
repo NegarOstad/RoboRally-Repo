@@ -3,10 +3,12 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import java.util.List;
 
 public class PriorityAntenna extends BoardElement {
+    @Override
+    public void doAction(Player currentPlayer) {
 
-    public PriorityAntenna(Space spacelocation) {
-        super(spacelocation);
-        spacelocation.setBoardElement(this);
+    }
+
+    public PriorityAntenna() {
 
     }
     public Player closestPlayer(List<Player> players) {
