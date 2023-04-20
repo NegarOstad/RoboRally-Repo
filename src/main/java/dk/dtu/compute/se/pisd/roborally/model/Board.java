@@ -57,9 +57,7 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
-    int priorityAntennaX;
-
-    int priorityAntennaY;
+    PriorityAntenna priorityAntenna;
 
  boolean winnerIsFound = false;
     public Board(int width, int height, @NotNull String boardName) {
@@ -232,9 +230,7 @@ public class Board extends Subject {
     }
 
     public void setTypePriorityAntenna(int x, int y) {
-        this.getSpace(x, y).setTypePriorityAntenna();
-        priorityAntennaX = x;
-        priorityAntennaY = y;
+        priorityAntenna = (PriorityAntenna)this.getSpace(x, y).setTypePriorityAntenna();
 
     }
 
