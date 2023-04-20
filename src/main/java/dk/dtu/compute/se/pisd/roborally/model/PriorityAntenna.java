@@ -23,7 +23,7 @@ public class PriorityAntenna extends BoardElement {
         for (Player player : players) {
 
             // the distance between the player and the priority antenna is calculated using the Pythagorean theorem
-            double distance = Math.sqrt(Math.pow(player.getSpace().x - spacelocation.x, 2)
+            double distance = Math.sqrt(Math.pow(player.getSpace().x - .x, 2)
                     + Math.pow(player.getSpace().y - spacelocation.y, 2));
 
             // Will update the minimum distance and closest player ID if this player is closer than the previous closest player
