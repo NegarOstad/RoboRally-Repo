@@ -151,7 +151,7 @@ public class GameController {
 
     // XXX: V2
     public void executeNextStep() {
-        Player closestPlayer = board.getCurrentPlayer();
+        board.
         int nextPlayerIndex = board.getNextPlayersNumber(closestPlayer);
         Player currentPlayer = board.getPlayer(nextPlayerIndex);
 

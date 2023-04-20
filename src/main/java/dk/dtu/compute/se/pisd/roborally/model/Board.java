@@ -132,8 +132,9 @@ public class Board extends Subject {
         }
     }
 
-    public int getNextPlayersNumber(Player closestPlayer){
-        int index = players.indexOf(closestPlayer);
+    public int getNextPlayersNumber(List<Player> listOfClosestPlayers){
+    // public int getNextPlayersNumber(Player closestPlayer){
+        int index = players.indexOf(listOfClosestPlayers);
         return (index + 1) % players.size();
     }
     public Phase getPhase() {
