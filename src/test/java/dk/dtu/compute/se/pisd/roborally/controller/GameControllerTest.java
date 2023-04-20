@@ -9,6 +9,9 @@ import org.testng.Converter;
 
 import java.net.Socket;
 
+import java.util.ArrayList;
+import java.util.List;
+
 class GameControllerTest {
 
     private final int TEST_WIDTH = 8;
@@ -230,4 +233,32 @@ class GameControllerTest {
                 )player1.getSpace().getBoardElement()).isLastCheckpoint());
     }
 
+
+    @Test
+    void testClosestPlayerExecutesNextStep() {
+        Board board = gameController.board;
+        Player currentPlayer = board.getCurrentPlayer();
+        Player player1 = board.getPlayer(0);
+        Player player2 = board.getPlayer(1);
+        List<Player> players = new ArrayList<>();
+        players.add(player1);
+        players.add(player2);
+        PriorityAntenna priorityAntenna = new PriorityAntenna(board.getSpace(0, 0));
+        Player closestPlayer = priorityAntenna.closestPlayer(players);
+
+
+        // Set up the board to ensure the next player is the closest one to the priority antenna
+        board.setCurrentPlayer(closestPlayer);
+        board.setPhase(Phase.ACTIVATION);
+        board.setStep(0);
+
+        // Execute the next step
+        gameController.executeNextStep();
+
+        // Check that the closest player executed their step
+        Assertions.assertEquals(closestPlayer, board.getCurrentPlayer(), "The current player should be the closest player");
+        Assertions.assertEquals(1, board.getStep(), "The step number should be incremented");
+        Assertions.assertEquals(currentPlayer, board.getPlayer(1), "The next player should be the player after the current player");
+    }
 }
+

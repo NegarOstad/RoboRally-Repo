@@ -90,7 +90,6 @@ public class Board extends Subject {
         }
     }
 
-
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
                 y >= 0 && y < height) {
@@ -99,10 +98,6 @@ public class Board extends Subject {
             return null;
         }
     }
-
-    /*public void setSpaceType(int x, int y, ElementType inputType){
-        spaces[x][y].setType(inputType);
-    }*/
 
     public int getPlayersNumber() {
         return players.size();
@@ -134,6 +129,11 @@ public class Board extends Subject {
         }
     }
 
+    public int getNextPlayersNumber(List<Player> listOfClosestPlayers){
+    // public int getNextPlayersNumber(Player closestPlayer){
+        int index = players.indexOf(listOfClosestPlayers);
+        return (index + 1) % players.size();
+    }
     public Phase getPhase() {
         return phase;
     }
@@ -205,6 +205,7 @@ public class Board extends Subject {
 
         return getSpace(x, y);
     }
+
 
     public String getStatusMessage() {
         if(winnerIsFound) {

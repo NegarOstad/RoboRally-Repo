@@ -20,8 +20,13 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import dk.dtu.compute.se.pisd.roborally.view.PlayersView;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -31,6 +36,9 @@ import org.jetbrains.annotations.NotNull;
  *
  */
 public class GameController {
+    public BoardElement priorityAntenna;
+
+    public int getNextPlayerNumber;
 
     final public Board board;
     int x = 0;
@@ -88,6 +96,7 @@ public class GameController {
     }
 
     // XXX: V2
+
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -130,6 +139,9 @@ public class GameController {
         continuePrograms();
     }
 
+
+
+
     // XXX: V2
     private void continuePrograms() {
         do {
@@ -139,8 +151,10 @@ public class GameController {
     }
 
     // XXX: V2
-    private void executeNextStep() {
-        Player currentPlayer = board.getCurrentPlayer();
+    public void executeNextStep() {
+        int nextPlayerIndex = board.getNextPlayersNumber(closestPlayer);
+        Player currentPlayer = board.getPlayer(nextPlayerIndex);
+
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
 
@@ -183,6 +197,7 @@ public class GameController {
             assert false;
         }
     }
+
 
 
     // XXX: V2
