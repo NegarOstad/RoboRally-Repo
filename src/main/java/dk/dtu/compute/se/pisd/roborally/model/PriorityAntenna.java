@@ -5,6 +5,8 @@ import java.util.List;
 public class PriorityAntenna extends BoardElement {
     private int x;
     private int y;
+
+    List<Player> sortedPlayers;
     @Override
     public void doAction(Player currentPlayer) {
 
@@ -15,29 +17,40 @@ public class PriorityAntenna extends BoardElement {
         this.y = y;
 
     }
-    public Player closestPlayer(List<Player> players) {
+
+    /*public Player getClosestPlayer(int i) {
+        return sortedPlayers[i];
+    }*/
+    private List<Player> calcClosestPlayers(List<Player> players) {
         /*if (players.isEmpty()) {
             System.out.println("Player list is empty, this will return NULL.");
         }
          */
-        Player closestPlayer = players.get(0);
-        double minDistance = Double.MAX_VALUE;
+        //Player closestPlayer = players.get(0);
 
-        // Will loop through each player in the list
-        for (Player player : players) {
+        int minDistance = (int)Math.sqrt(Math.pow(players.get(0).getSpace().x, 2)
+                + Math.pow(players.get(0).getSpace().y, 2));
+        Player currentClosest = players.get(0);
+        for(int i = 0 ; i < players.size() ; i++) {
+            for (Player player : players) {
+                currentClosest = player;
+                // the distance between the player and the priority antenna is calculated using the Pythagorean theorem
+                int distance = (int) Math.sqrt(Math.pow(player.getSpace().x - x, 2)
+                        + Math.pow(player.getSpace().y - y, 2));
 
-            // the distance between the player and the priority antenna is calculated using the Pythagorean theorem
-            double distance = Math.sqrt(Math.pow(player.getSpace().x - x, 2)
-                    + Math.pow(player.getSpace().y - y, 2));
+                // Will update the minimum distance and closest player ID if this player is closer than the previous closest player
+                if (distance <= minDistance) {
+                    currentClosest = player;
 
-            // Will update the minimum distance and closest player ID if this player is closer than the previous closest player
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestPlayer = player;
+                }
             }
+            sortedPlayers.add(currentClosest);
+            players.remove(currentClosest);
+
         }
+
         //returns the closest player
-            return closestPlayer;
+            return sortedPlayers;
     }
     public String getType() {
         return "PriorityAntenna";
