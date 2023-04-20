@@ -1,59 +1,40 @@
 @startuml
 title Domain model
-class RoboRallyGame {
+class RoboRallyBoard {
 
 }
 
 
-class GameState {
-Setup
-Upgrade Phase
-Programming Phase
-Activation Phase
-GameFinished
-}
+class Player {
 
+}
 
 class Robot {
 
 }
 
+class PlayerMat {
 
-class GameComponents {
- }
+}
 
- class Card {
 
- }
 
- class BoardPieces {
- EnergyCubes x
- RebootTokens
- PriorityAntenna
- CheckpointTokens x 36
- }
+RoboRallyBoard "1" -up- "74" DamageCards
+RoboRallyBoard "1" -up- "40" UpgradeCards
+RoboRallyBoard "1" -up- "6" SpecialProgrammingCards
+RoboRallyBoard "1"-left-"2..6" Player
+Player "1"-down-"60" ProgrammingCards
+RoboRallyBoard "1"--"1" Checkpoint
+Checkpoint"1"--"36" CheckpointTokens
+Player "1"-left-"1" Robot
+Player "1"--"1" PlayerMat
+PlayerMat "1" -- "1" EnergyReserve
+RoboRallyBoard "1"--"1" PriorityAntenna
+RoboRallyBoard "1"--"6" RebootTokens
+RoboRallyBoard "1"--"1" EnergyBank
+EnergyBank "1" -- "48" EnergyCubes
+RoboRallyBoard "1" -right- "1" Timer
 
- class BoardElements {
- Checkpoint
- Obstacles
- Lasers
- Conveyor Belts
- Push Panels
- Gears
- }
-
-GameComponents "1" -right- ".." BoardElements
-GameComponents "1" -up- ".." BoardPieces
-GameComponents "1" -left- ".." Card
-Card "1" -down-|> "74" DamageCards
-Card "1" -up-|> "6 " SpecialProgrammingcards
-Card "1" -up-|> "360 "Programmingcards
-Card "1" -down-|> "40" UpgradeCards
-RoboRallyGame "1" -right- ".." GameState
-RoboRallyGame "1" -up- ".." GameComponents
-RoboRallyGame "1"-down-"1" Robot
-
-RoboRallyGame "1"--"2..6" ProgrammingRegisters
 
 
 
