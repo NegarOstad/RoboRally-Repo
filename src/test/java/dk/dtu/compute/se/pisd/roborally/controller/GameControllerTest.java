@@ -21,7 +21,7 @@ class GameControllerTest {
         Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
         gameController = new GameController(board);
         for (int i = 0; i < 6; i++) {
-            Player player = new Player(board, null,"Player " + i);
+            Player player = new Player(board, null, "Player " + i);
             board.addPlayer(player);
             player.setSpace(board.getSpace(i, i));
             player.setHeading(Heading.values()[i % Heading.values().length]);
@@ -44,7 +44,7 @@ class GameControllerTest {
 
         Assertions.assertEquals(player1, board.getSpace(0, 4).getPlayer(), "Player " + player1.getName() + " should beSpace (0,4)!");
         Assertions.assertNull(board.getSpace(0, 0).getPlayer(), "Space (0,0) should be empty!");
-        Assertions.assertEquals(player2, board.getCurrentPlayer(), "Current player should be " + player2.getName() +"!");
+        Assertions.assertEquals(player2, board.getCurrentPlayer(), "Current player should be " + player2.getName() + "!");
     }
 
     @Test
@@ -102,7 +102,7 @@ class GameControllerTest {
         List<Player> players = new ArrayList<>();
         players.add(player1);
         players.add(player2);
-        PriorityAntenna priorityAntenna = new PriorityAntenna(board.getSpace(0,0));
+        PriorityAntenna priorityAntenna = new PriorityAntenna(board.getSpace(0, 0));
         Player closestPlayer = priorityAntenna.closestPlayer(players);
 
 
@@ -120,3 +120,4 @@ class GameControllerTest {
         Assertions.assertEquals(currentPlayer, board.getPlayer(1), "The next player should be the player after the current player");
     }
 }
+

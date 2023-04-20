@@ -9,13 +9,11 @@ public class PriorityAntenna extends BoardElement {
         spacelocation.setBoardElement(this);
 
     }
-
     public Player closestPlayer(List<Player> players) {
         /*if (players.isEmpty()) {
             System.out.println("Player list is empty, this will return NULL.");
         }
          */
-
         Player closestPlayer = players.get(0);
         double minDistance = Double.MAX_VALUE;
 
@@ -34,14 +32,9 @@ public class PriorityAntenna extends BoardElement {
         }
         //returns the closest player
             return closestPlayer;
-
     }
-
-    // Besma needs to use
     public String getType() {
-        return "PrioriyAntenna";
+        return "PriorityAntenna";
     }
-
-
 
 }
