@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.ElementType;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.event.EventHandler;
@@ -89,8 +90,8 @@ public class BoardView extends VBox implements ViewObserver {
                 mainBoardPane.add(spaceView, x, y);
                 spaceView.setOnMouseClicked(spaceEventHandler);
 
-               if (x == 5 && y == 5) {
-                    spaceView.addImage("C:\\Users\\aljwa\\Desktop\\Laser.png", 0, 0);
+               if (space.getType() == ElementType.ConveyorBelt) {
+                    spaceView.addImage("C:\\Users\\aljwa\\Desktop\\conveyorbelt.png", 0, 0);
                 }
 
 
