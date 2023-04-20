@@ -73,7 +73,6 @@ public class Space extends Subject {
 
     public void setTypePriorityAntenna(){
         type = ElementType.PriorityAntenna;
-
         boardElement = new PriorityAntenna();
     }
 

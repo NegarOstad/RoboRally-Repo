@@ -57,6 +57,10 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    int priorityAntennaX;
+
+    int priorityAntennaY;
+
  boolean winnerIsFound = false;
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -128,6 +132,7 @@ public class Board extends Subject {
             notifyChange();
         }
     }
+
 
     public int getNextPlayersNumber(List<Player> listOfClosestPlayers){
     // public int getNextPlayersNumber(Player closestPlayer){
@@ -221,6 +226,18 @@ public class Board extends Subject {
     public void setWinnerStatus(boolean winnerIsFound) {
         this.winnerIsFound = winnerIsFound;
     }
+
+    public void setTypePriorityAntenna(int x, int y) {
+        this.getSpace(x, y).setTypePriorityAntenna();
+        priorityAntennaX = x;
+        priorityAntennaY = y;
+
+    }
+
+
+
+
+
 
 
    /* public void setSpaceType(int x, int y, ElementType inputType) {
