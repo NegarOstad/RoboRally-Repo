@@ -52,7 +52,7 @@ class PriorityAntennaTest {
         players.add(player2);
 
         PriorityAntenna priorityAntenna = new PriorityAntenna(7,7);
-        Player closestPlayer = priorityAntenna.closestPlayer(players);
+        Player closestPlayer = priorityAntenna.(players);
         assertEquals(player1, closestPlayer );
 
             }

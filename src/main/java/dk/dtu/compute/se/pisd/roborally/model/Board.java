@@ -101,7 +101,7 @@ public class Board extends Subject {
         }
     }
 
-    public int getPlayersNumber() {
+    public int getPlayersCount() {
         return players.size();
     }
 
@@ -118,6 +118,10 @@ public class Board extends Subject {
         } else {
             return null;
         }
+    }
+
+    public List<Player> getPlayerList(){
+        return players;
     }
 
     public Player getCurrentPlayer() {
@@ -232,6 +236,10 @@ public class Board extends Subject {
     public void setTypePriorityAntenna(int x, int y) {
         priorityAntenna = (PriorityAntenna)this.getSpace(x, y).setTypePriorityAntenna();
 
+    }
+
+    public PriorityAntenna getPriorityAntenna() {
+        return priorityAntenna;
     }
 
 

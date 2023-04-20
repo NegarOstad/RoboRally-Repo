@@ -21,7 +21,7 @@ public class PriorityAntenna extends BoardElement {
     /*public Player getClosestPlayer(int i) {
         return sortedPlayers[i];
     }*/
-    private List<Player> calcClosestPlayers(List<Player> players) {
+    public List<Player> calcClosestPlayers(List<Player> players) {
         /*if (players.isEmpty()) {
             System.out.println("Player list is empty, this will return NULL.");
         }

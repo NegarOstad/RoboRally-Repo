@@ -20,13 +20,9 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import dk.dtu.compute.se.pisd.roborally.model.*;
-import dk.dtu.compute.se.pisd.roborally.view.PlayersView;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -71,7 +67,7 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getPlayersCount(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
@@ -108,7 +104,7 @@ public class GameController {
     // XXX: V2
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
-            for (int i = 0; i < board.getPlayersNumber(); i++) {
+            for (int i = 0; i < board.getPlayersCount(); i++) {
                 Player player = board.getPlayer(i);
                 CommandCardField field = player.getProgramField(register);
                 field.setVisible(true);
@@ -118,7 +114,7 @@ public class GameController {
 
     // XXX: V2
     private void makeProgramFieldsInvisible() {
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getPlayersCount(); i++) {
             Player player = board.getPlayer(i);
             for (int j = 0; j < Player.NO_REGISTERS; j++) {
                 CommandCardField field = player.getProgramField(j);
@@ -154,8 +150,8 @@ public class GameController {
     // XXX: V2
     public void executeNextStep() {
         //int nextPlayerIndex;
-        //
-        Player currentPlayer = board.getCurrentPlayer();
+        int counter = 0;
+        Player currentPlayer = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList()).get(0);
 
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -173,17 +169,18 @@ public class GameController {
                         currentPlayer.getSpace().getBoardElement().doAction(currentPlayer);
                     currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
-
-                int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
-                if (nextPlayerNumber < board.getPlayersNumber()) { // DOES THIS IF THERE IS A NEXT PLAYER
-                    board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
+                // = board.getPlayerNumber(currentPlayer) + 1;
+                if (counter < board.getPlayersCount()) { // DOES THIS IF THERE IS A NEXT PLAYER
+                    counter ++;
+                   // board.setCurrentPlayer(board.getPlayer());
+                    board.setCurrentPlayer(board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList()).get(counter));
 
                 } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
                     step++;
                     if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
-                        board.setCurrentPlayer(board.getPlayer(0));
+                        board.setCurrentPlayer(board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList()).get(0));
 
                     }
                     else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
