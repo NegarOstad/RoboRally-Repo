@@ -27,32 +27,13 @@ package dk.dtu.compute.se.pisd.roborally.model;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-
-/**
- * An enumerating class called Heading, which allows for controlling the directions of movement in the game:
- * south, west, north, east
- */
 public enum Heading {
 
     SOUTH, WEST, NORTH, EAST;
 
-    /**
-     * The Heading next returns the next value in the enum class, where it uses the ordinal method to move to the right
-     * of the list of constants (south, west, north, east)
-     * ex. if you are on south, the object adds 1, thus moving you to west.
-     * @return
-     */
-
     public Heading next() {
         return values()[(this.ordinal() + 1) % values().length];
     }
-
-    /**
-     * This object uses the same method as the previous one with the ordinal method, only subtracting 1 from the value,
-     * to move you a step to the left of the list of constants:
-     * ex: if you stand on East, you'll be moved to North.
-     * @return
-     */
 
     public Heading prev() {
         return values()[(this.ordinal() + values().length - 1) % values().length];

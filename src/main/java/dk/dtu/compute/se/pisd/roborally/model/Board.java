@@ -57,26 +57,7 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
-    public int getCounter() {
-        return counter;
-    }
-
-    public void setCounter(int counter) {
-        this.counter = counter;
-    }
-
-    private int counter = 0;
-
-    /**   what is space and spaces???????????
-     * The Board constructor with three parameters.
-     * It initializes 'Board' with creating a 2D array 'space',
-     * with dementions 'width' and 'height'.
-     * 'boardName' could not be null.
-     * 'stepMode' field is set to 'false'.
-     * @param width
-     * @param height
-     * @param boardName
-     */
+ boolean winnerIsFound = false;
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;
@@ -91,36 +72,14 @@ public class Board extends Subject {
         this.stepMode = false;
     }
 
-    /**
-     * The Board constructor with two parameters.
-     * The constructor which intializes 'Board' by a default name.
-     * It calls the first costructor with a defalt 'boardName',
-     * value of 'defaultbard'
-     * @param width
-     * @param height
-     */
     public Board(int width, int height) {
         this(width, height, "defaultboard");
     }
 
-    /**
-     * The methode has a return type of 'Integer'
-     * This methode returns gameId.
-     * The methode allowes to return null, if the gameId field is not set.
-     * If methode wase a type of 'int', it could not return null.
-     * @return
-     */
     public Integer getGameId() {
         return gameId;
     }
 
-    /**
-     * This method sets gameId, if it is already null.
-     * If the 'gameId' field is already set,
-     * it will throw an IllegalStateException with this message:
-     * "A game with a set id may not be assigned a new id!"
-     * @param gameId
-     */
     public void setGameId(int gameId) {
         if (this.gameId == null) {
             this.gameId = gameId;
@@ -131,16 +90,7 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * This method returns a 'Space' object,
-     * which har the coordinate 'x' and 'y',
-     * if 'x' and 'y' are within the bounds of the board,
-     * otherwise, it returns null,
-     * which means it does not exist on the board.
-     * @param x
-     * @param y
-     * @return
-     */
+
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
                 y >= 0 && y < height) {
@@ -150,23 +100,14 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * This methode returns the number of the players currently in the game,
-     * by calling the method size()
-     * @return
-     */
+    /*public void setSpaceType(int x, int y, ElementType inputType){
+        spaces[x][y].setType(inputType);
+    }*/
+
     public int getPlayersNumber() {
         return players.size();
     }
 
-    /**
-     * This method adds player to the borad with calling the method add(player).
-     * The methode check two things before adding the player:
-     * 1. if the 'board' instance variable of the 'player' is equal to the current 'board.
-     * 2. if the 'player' is not already in the 'players'
-     * Finaly calls the methode notifyChange().
-     * @param player
-     */
     public void addPlayer(@NotNull Player player) {
         if (player.board == this && !players.contains(player)) {
             players.add(player);
@@ -174,14 +115,6 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * This methode returns the 'players' with index i.
-     * If i >= 0 and i < the number of the player,
-     * it calls methode get(i) and returns it.
-     * Othervise it will return null, which means this 'players' does not exist.
-     * @param i
-     * @return
-     */
     public Player getPlayer(int i) {
         if (i >= 0 && i < players.size()) {
             return players.get(i);
@@ -190,22 +123,10 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * This methode return the current player.
-     * @return
-     */
     public Player getCurrentPlayer() {
         return current;
     }
 
-    /**
-     * This methode setsthe player as the current player.
-     *It checkes two things befor setting:
-     * 1. If the palyer is nor the current player.
-     * 2. If the player is contained in the 'players'.
-     * Finaly it calls the methode notifyChange(),
-     * @param player
-     */
     public void setCurrentPlayer(Player player) {
         if (player != this.current && players.contains(player)) {
             this.current = player;
@@ -213,20 +134,10 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * The methode returns the phase.
-     * @return
-     */
     public Phase getPhase() {
         return phase;
     }
 
-    /**
-     * The methode sets 'phase',
-     * if it is not the curentlly phase.
-     * Finaly it calls the methode notifyChange(),
-     * @param phase
-     */
     public void setPhase(Phase phase) {
         if (phase != this.phase) {
             this.phase = phase;
@@ -234,20 +145,10 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * The methode returns the current step number of the game.
-     * @return
-     */
     public int getStep() {
         return step;
     }
 
-    /**
-     ** The methode sets 'step',
-     * if it is not the curent step.
-     * Finaly it calls the methode notifyChange(),
-     * @param step
-     */
     public void setStep(int step) {
         if (step != this.step) {
             this.step = step;
@@ -255,22 +156,10 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * Thes methode returns the 'stepMode',
-     * which is a boolean type.
-     * @return
-     */
     public boolean isStepMode() {
         return stepMode;
     }
 
-    /**
-     * This methode sets game to setMode or not setMode,
-     * depending on the boolean parameter 'stepMode',
-     * if it is not the curent stepMode.
-     * Finaly it calls the methode notifyChange(),
-     * @param stepMode
-     */
     public void setStepMode(boolean stepMode) {
         if (stepMode != this.stepMode) {
             this.stepMode = stepMode;
@@ -278,15 +167,6 @@ public class Board extends Subject {
         }
     }
 
-    /**
-     * This methode takes an argument of the type of 'player',
-     * and it will return its index,
-     * if the 'board' field of the 'player is equal to the current instance of the board.
-     * Otherwise it will return -1,
-     * which means the player does not exist.
-     * @param player
-     * @return
-     */
     public int getPlayerNumber(@NotNull Player player) {
         if (player.board == this) {
             return players.indexOf(player);
@@ -327,21 +207,38 @@ public class Board extends Subject {
     }
 
     public String getStatusMessage() {
-        // This is actually a view aspect, but for making the first task easy for
-        // the students, this method gives a string representation of the current
-        // status of the game
-
-        // TODO Assignment V1: this string could eventually be refined
-        //      The status line should show more information based on
-        //      situation; for now, introduce a counter to the Board,
-        //      which is counted up every time a player makes a move; the
-        //      status line should show the current player and the number
-        //      of the current move!
-        return "Player = " + getCurrentPlayer().getName();
+        if(winnerIsFound) {
+            return current.getName() + " is the winner!";
+        } else {
+            return "Phase: " + getPhase().name() +
+                    ", Player = " + getCurrentPlayer().getName() +
+                    ", Step: " + getStep() +
+                    "Token count: " + getCurrentPlayer().getTokenCount();
+        }
     }
 
-    // TODO Assignment V1: add a counter along with a getter and a setter, so the
-    //      state the board (game) contains the number of moves, which then can
-    //      be used to extend the status message including the number of
+    public void setWinnerStatus(boolean winnerIsFound) {
+        this.winnerIsFound = winnerIsFound;
+    }
 
+
+   /* public void setSpaceType(int x, int y, ElementType inputType) {
+        switch (inputType){
+            case Gear:
+                setSpaceType(x, y, ElementType.Gear);
+                break;
+
+            case Checkpoint:
+                setSpaceType(x, y, ElementType.Checkpoint);
+                break;
+
+            case ConveyorBelt:
+                setSpaceType(x, y, ElementType.ConveyorBelt);
+                break;
+
+            default: setSpaceType(x, y, ElementType.Normal);
+
+
+        }
+    }*/
 }

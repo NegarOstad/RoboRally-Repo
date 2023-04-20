@@ -32,39 +32,61 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 public class Space extends Subject {
 
     public final Board board;
-
+    ElementType type;
     public final int x;
     public final int y;
-
     private Player player;
+    private BoardElement boardElement;
 
-    /**
-     * Constructs a Space object which keeps track of the player's location. By default, there is no
-     * player on the space
-     * @param board board on which the Player's robot moves
-     * @param x lateral position of Player's robot
-     * @param y vertical position of Player's robot
-     */
+
     public Space(Board board, int x, int y) {
         this.board = board;
         this.x = x;
         this.y = y;
         player = null;
+        boardElement = null;
+        type = ElementType.Normal;
     }
 
-    /**
-     * This method is used to access the Player currently on this space
-     * @return Player on space
-     */
+    public void setTypeWall(){
+        type = ElementType.Wall;
+        //boardElement  = new Wall();
+    }
+
+    public void setTypeCheckpoint(int index, Board board, boolean isLastCheckpoint) {
+        type = ElementType.Checkpoint;
+        boardElement = new Checkpoint(index, board, isLastCheckpoint);
+
+    }
+
+    public void setTypeConveyor(Space slut) {
+        type = ElementType.ConveyorBelt;
+
+        boardElement = new ConveyorBelt(slut);
+    }
+
+    public void setTypeGear(Heading heading){
+        type = ElementType.Gear;
+
+        boardElement = new Gear(heading);
+    }
+
+    public ElementType getType() {
+        return type;
+    }
+
+    public void setBoardElement(BoardElement boardElement) {
+        this.boardElement = boardElement;
+    }
+
+    public BoardElement getBoardElement() {
+        return boardElement;
+    }
+
     public Player getPlayer() {
         return player;
     }
 
-    /**
-     * This method is used to set the player that is located on this Space, when the player is not
-     * currently located on it
-     * @param player which should be moved to this space
-     */
     public void setPlayer(Player player) {
         Player oldPlayer = this.player;
         if (player != oldPlayer &&
@@ -88,4 +110,11 @@ public class Space extends Subject {
         notifyChange();
     }
 
+    /*
+    public boolean hasACheckpoint() {
+        if(boardElement == null)
+            return false;
+        return boardElement.getType().equals("Checkpoint");
+    }
+    */
 }

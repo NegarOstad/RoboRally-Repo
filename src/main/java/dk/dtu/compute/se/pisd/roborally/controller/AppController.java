@@ -21,13 +21,16 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Phase;
+import dk.dtu.compute.se.pisd.roborally.model.ElementType;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
@@ -37,20 +40,18 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.Scanner;
 
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
- */
-
-/**
- * The AppController is a controller in RoboRally to deal with the user interactions with
- * the game and the game state.
  */
 public class AppController implements Observer {
 
@@ -83,6 +84,20 @@ public class AppController implements Observer {
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
+            /* board.setSpaceType(1,3, ElementType.Gear);
+            board.setSpaceType(4,4, ElementType.Gear);
+            board.setSpaceType(6,6, ElementType.Gear);*/
+            board.getSpace(1,3).setTypeGear(Heading.NORTH);
+            board.getSpace(4,4).setTypeGear(Heading.EAST);
+            board.getSpace(1,3).setTypeGear(Heading.SOUTH);
+            board.getSpace(4,0).setTypeCheckpoint(0, board, false);
+            board.getSpace(5,0).setTypeCheckpoint(1, board,true);
+            //board.getSpace(6,3).setTypeCheckpoint(1);
+            //board.getSpace(1,5).setTypeCheckpoint(2);
+            board.getSpace(1,1).setTypeConveyor(board.getSpace(6,1));
+            board.getSpace(1,6).setTypeConveyor(board.getSpace(3,3));
+            //add priority antenna and walls
+
             gameController = new GameController(board);
             int no = result.get();
             for (int i = 0; i < no; i++) {
@@ -90,17 +105,21 @@ public class AppController implements Observer {
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
             }
-            board.setCurrentPlayer(board.getPlayer(0));
+
+            // XXX: V2
+            // board.setCurrentPlayer(board.getPlayer(0));
+            gameController.startProgrammingPhase();
+
             roboRally.createBoardView(gameController);
         }
     }
 
     public void saveGame() {
-        // XXX needs to be implememged eventually
+        // XXX needs to be implemented eventually
     }
 
     public void loadGame() {
-        // XXX needs to be implememged eventually
+        // XXX needs to be implemented eventually
         // for now, we just create a new game
         if (gameController == null) {
             newGame();

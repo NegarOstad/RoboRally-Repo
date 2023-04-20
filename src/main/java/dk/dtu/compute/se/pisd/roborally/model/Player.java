@@ -48,12 +48,10 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    /**
-     * Constructs a player and creates two CommandCardField arrays for program cards and the
-     * @param board board on which the robot moves
-     * @param color color of the robot
-     * @param name name of the player
-     */
+    private int tokenCount = 0;
+
+    private boolean registerIsEmpty = false;
+
     public Player(@NotNull Board board, String color, @NotNull String name) {
         this.board = board;
         this.name = name;
@@ -72,20 +70,10 @@ public class Player extends Subject {
         }
     }
 
-    /**
-     * This method is used to access the player's name
-     * @return name of the player
-     */
     public String getName() {
         return name;
     }
 
-    /**
-     * This method is used to set the player's name and notify the observer of the change
-     * if the input is different from the current name.
-     * SPACE?!
-     * @param name of the player
-     */
     public void setName(String name) {
         if (name != null && !name.equals(this.name)) {
             this.name = name;
@@ -96,17 +84,10 @@ public class Player extends Subject {
         }
     }
 
-    /**
-     * This method is used to access the color of the player's robot
-     * @return color of the robot
-     */
     public String getColor() {
         return color;
     }
-    /**
-     * This method is used to set the color of the player's robot
-     * @param color of the robot
-     */
+
     public void setColor(String color) {
         this.color = color;
         notifyChange();
@@ -115,19 +96,10 @@ public class Player extends Subject {
         }
     }
 
-    /**
-     * This method is used to access the space on which the player is located
-     * @return the space where the player is located
-     */
     public Space getSpace() {
         return space;
     }
 
-    /**
-     * This method is used update both the space the Player's robot is moving to
-     * and the space the robot is moving from
-     * @param space the space where the player is to be located
-     */
     public void setSpace(Space space) {
         Space oldSpace = this.space;
         if (space != oldSpace &&
@@ -143,18 +115,10 @@ public class Player extends Subject {
         }
     }
 
-    /**
-     * This method is used to access the direction in which the player is pointed
-     * @return  SOUTH, WEST, NORTH or EAST
-     */
     public Heading getHeading() {
         return heading;
     }
 
-    /**
-     * This method is used to set the direction in which the player is pointed
-     * @param heading one of the set constants SOUTH, WEST, NORTH or EAST
-     */
     public void setHeading(@NotNull Heading heading) {
         if (heading != this.heading) {
             this.heading = heading;
@@ -165,24 +129,49 @@ public class Player extends Subject {
         }
     }
 
-    /**
-     * This method can be used to access a particular program field
-     * @param i index of the program array which is to be accessed
-     * @return CommandCardField program[i]
-     */
     public CommandCardField getProgramField(int i) {
         return program[i];
     }
 
-    /**
-     * This method can be used to access a particular card available in the cards array
-     * which holds the cards available for use in programming the player's robot???
-     * If this is the case, shouldn't NO_CARDS = 9 ??
-     * @param i index of the cards array which is to be accessed
-     * @return CommandCardField cards[i]
-     */
     public CommandCardField getCardField(int i) {
         return cards[i];
+    }
+
+    public void addToken() {
+        tokenCount++;
+    }
+
+    public int getTokenCount() {
+        return tokenCount;
+    }
+
+    public void setTestRegister(int ver) {
+        if (ver == 1) {
+            program[0].setCard(new CommandCard(Command.FORWARD));
+            program[1].setCard(new CommandCard(Command.FAST_FORWARD));
+
+        } else if (ver == 2){
+            program[0].setCard(new CommandCard(Command.LEFT));
+            program[1].setCard(new CommandCard(Command.FAST_FORWARD));
+
+        } else {
+            program[0].setCard(new CommandCard(Command.FAST_FORWARD));
+            program[1].setCard(new CommandCard(Command.FORWARD));
+            program[2].setCard(new CommandCard(Command.LEFT));
+            program[3].setCard(new CommandCard(Command.FAST_FORWARD));
+            program[4].setCard(new CommandCard(Command.FORWARD));
+
+        }
+        board.setPhase(Phase.ACTIVATION);
+
+    }
+
+    public void setEndOfRegister(boolean registerIsEmpty){
+        this.registerIsEmpty = registerIsEmpty;
+    }
+
+    public boolean getRegisterStatus() {
+        return registerIsEmpty;
     }
 
 }

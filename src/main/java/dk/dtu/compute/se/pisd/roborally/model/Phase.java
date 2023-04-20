@@ -27,12 +27,6 @@ package dk.dtu.compute.se.pisd.roborally.model;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-
-/**
- * This is a class Phase, that uses an enum method to define the constants of the different phases/stages of actions the player
- * can be up to in the roborally game. The stages concists of the initialisation phase, programming phase, activation phase
- * and player interaction phase.
- */
 public enum Phase {
     INITIALISATION, PROGRAMMING, ACTIVATION, PLAYER_INTERACTION
 }
