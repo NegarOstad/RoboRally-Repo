@@ -175,6 +175,10 @@ public class Board extends Subject {
         }
     }
 
+    public void setTypeConveyor(int x, int y, int endX, int endY){
+        this.getSpace(x, y).setTypeConveyor(this.getSpace(endX, endY));
+    }
+
     /**
      * Returns the neighbour of the given space of the board in the given heading.
      * The neighbour is returned only, if it can be reached from the given space
@@ -221,7 +225,6 @@ public class Board extends Subject {
     public void setWinnerStatus(boolean winnerIsFound) {
         this.winnerIsFound = winnerIsFound;
     }
-
 
    /* public void setSpaceType(int x, int y, ElementType inputType) {
         switch (inputType){
