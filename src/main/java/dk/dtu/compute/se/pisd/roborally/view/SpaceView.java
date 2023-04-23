@@ -109,11 +109,12 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
-    public void addImage(String imagePath, int x, int y) {
+    public void addImage(String imagePath, double rotate, int x, int y) {
         Image image = new Image(imagePath);
         ImageView imageView = new ImageView(image);
         imageView.setX(x);
         imageView.setY(y);
+        this.setRotate(0);
         this.imageViews.add(imageView);
         this.getChildren().add(imageView);
     }
