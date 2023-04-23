@@ -74,16 +74,20 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
 
-        ImageView imageView = null;
+        /*ImageView imageView = null;
         if (space.x == 0 && space.y == 0) {
             imageView = new ImageView(new Image("C:\\Users\\aljwa\\Desktop\\conveyorbelt.png"));
             this.getChildren().add(imageView);
-        }
+        }*/
+
+
         // updatePlayer();
 
         // This space view should listen to changes of the space
-        space.attach(this);
-        update(space);
+       space.attach(this);
+       update(space);
+
+
     }
 
     private void updatePlayer() {
