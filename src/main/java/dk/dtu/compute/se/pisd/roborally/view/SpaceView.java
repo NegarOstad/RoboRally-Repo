@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.ElementType;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
@@ -73,6 +74,11 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
 
+        ImageView imageView = null;
+        if (space.x == 0 && space.y == 0) {
+            imageView = new ImageView(new Image("C:\\Users\\aljwa\\Desktop\\conveyorbelt.png"));
+            this.getChildren().add(imageView);
+        }
         // updatePlayer();
 
         // This space view should listen to changes of the space
