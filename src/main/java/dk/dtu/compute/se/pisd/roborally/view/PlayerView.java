@@ -105,7 +105,7 @@ public class PlayerView extends Tab implements ViewObserver {
         LeftButton.setOnAction(e->gameController.executeStep());
 
         RightButton = new Button("Turn Right");
-        RightButton.setOnAction(e->gameController.executeStep());
+        RightButton.setOnAction(e->gameController.executePrograms());
 
         buttonPanel = new VBox(finishButton, executeButton, stepButton,LeftButton,RightButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
@@ -185,6 +185,8 @@ public class PlayerView extends Tab implements ViewObserver {
                         finishButton.setDisable(false);
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
+                        LeftButton.setDisable(true);
+                        RightButton.setDisable(true);
                         break;
 
                     case ACTIVATION:
