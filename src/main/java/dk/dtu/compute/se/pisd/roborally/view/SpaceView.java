@@ -66,13 +66,24 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         this.setPrefHeight(SPACE_HEIGHT);
         this.setMinHeight(SPACE_HEIGHT);
-        this.setMaxHeight(SPACE_HEIGHT);
+
+        if (space.getType() == ElementType.ConveyorBelt) {
+            addImage("C:\\Users\\aljwa\\RoboRally-Repo\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\conveyorbelt.png",0, 0, 0);
+        } else if (space.getType() == ElementType.Checkpoint) {
+            addImage("C:\\Users\\aljwa\\Desktop\\checkpoint.png",0, 0, 0);
+        } else if (space.getType() == ElementType.Gear) {
+            addImage("C:\\Users\\aljwa\\Desktop\\gear.png",0,0,0);
+        } else if (space.getType() == ElementType.Wall) {
+            addImage("C:\\Users\\aljwa\\Desktop\\wall.png",0,0,0);
+        }
 
         if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
         }
+
+
 
         /*ImageView imageView = null;
         if (space.x == 0 && space.y == 0) {

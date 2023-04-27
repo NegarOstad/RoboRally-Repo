@@ -91,15 +91,6 @@ public class BoardView extends VBox implements ViewObserver {
                 mainBoardPane.add(spaceView, x, y);
                 spaceView.setOnMouseClicked(spaceEventHandler);
                 ImageView imageView = null;
-               if (space.getType() == ElementType.ConveyorBelt) {
-                   spaceView.addImage("C:\\Users\\aljwa\\RoboRally-Repo\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\conveyorbelt.png",0, 0, 0);
-                } else if (space.getType() == ElementType.Checkpoint) {
-                  spaceView.addImage("C:\\Users\\aljwa\\Desktop\\checkpoint.png",0, 0, 0);
-               } else if (space.getType() == ElementType.Gear) {
-                  spaceView.addImage("C:\\Users\\aljwa\\Desktop\\gear.png",0,0,0);
-               } else if (space.getType() == ElementType.Wall) {
-                  spaceView.addImage("C:\\Users\\aljwa\\Desktop\\wall.png",0,0,0);
-               }
             }
         }
 
