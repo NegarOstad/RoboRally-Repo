@@ -57,7 +57,10 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
- boolean winnerIsFound = false;
+    boolean winnerIsFound = false;
+
+    private boolean OutOfBounds;
+
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;
@@ -70,6 +73,7 @@ public class Board extends Subject {
             }
         }
         this.stepMode = false;
+        this.OutOfBounds = false;
     }
 
     public Board(int width, int height) {
@@ -78,6 +82,10 @@ public class Board extends Subject {
 
     public Integer getGameId() {
         return gameId;
+    }
+
+    public void setOutOfBounds(boolean outOfBounds) {
+        OutOfBounds = outOfBounds;
     }
 
     public void setGameId(int gameId) {
@@ -209,17 +217,24 @@ public class Board extends Subject {
     public String getStatusMessage() {
         if(winnerIsFound) {
             return current.getName() + " is the winner!";
-        } else {
+        } else if(OutOfBounds) {
+            return "out of bounds";
+        }else {
             return "Phase: " + getPhase().name() +
                     ", Player = " + getCurrentPlayer().getName() +
                     ", Step: " + getStep() +
                     "Token count: " + getCurrentPlayer().getTokenCount();
         }
+       /* if(getCurrentPlayer().getSpace().x < 0 || getCurrentPlayer().getSpace().x>7 ){
+            return "movement out of bounds";
+
+        }*/
     }
 
     public void setWinnerStatus(boolean winnerIsFound) {
         this.winnerIsFound = winnerIsFound;
     }
+
 
 
    /* public void setSpaceType(int x, int y, ElementType inputType) {
