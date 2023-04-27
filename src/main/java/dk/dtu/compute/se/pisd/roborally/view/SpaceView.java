@@ -36,6 +36,9 @@ import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.io.File;
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -55,7 +58,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     //private ImageHolder imageHolder = new ImageHolder();
 
-    public SpaceView(@NotNull Space space) {
+    public SpaceView(@NotNull Space space)  {
         this.space = space;
         this.imageViews = new ArrayList<>();
 
@@ -67,14 +70,22 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setPrefHeight(SPACE_HEIGHT);
         this.setMinHeight(SPACE_HEIGHT);
 
+        String path = System.getProperty("user.dir");
+        String fullPath = path + "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\";
+
+        System.out.println(fullPath);
+
         if (space.getType() == ElementType.ConveyorBelt) {
-            addImage("C:\\Users\\aljwa\\RoboRally-Repo\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\conveyorbelt.png",0, 0, 0);
+            int i;
+            for (i = space.x; i <= space.x; i++)
+
+            addImage(fullPath + "conveyorbelt.png",0, 0, 0);
         } else if (space.getType() == ElementType.Checkpoint) {
-            addImage("C:\\Users\\aljwa\\Desktop\\checkpoint.png",0, 0, 0);
+            addImage(fullPath + "checkpoint.png",0, 0, 0);
         } else if (space.getType() == ElementType.Gear) {
-            addImage("C:\\Users\\aljwa\\Desktop\\gear.png",0,0,0);
+            addImage(fullPath + "gear.png",0,0,0);
         } else if (space.getType() == ElementType.Wall) {
-            addImage("C:\\Users\\aljwa\\Desktop\\wall.png",0,0,0);
+            addImage(fullPath + "wall.png",0,0,0);
         }
 
         if ((space.x + space.y) % 2 == 0) {

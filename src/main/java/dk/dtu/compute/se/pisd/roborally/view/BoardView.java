@@ -36,6 +36,7 @@ import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 import javafx.scene.image.ImageView;
 import java.awt.*;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -62,7 +63,7 @@ public class BoardView extends VBox implements ViewObserver {
 
 
  */
-    public BoardView(@NotNull GameController gameController) {
+    public BoardView(@NotNull GameController gameController)  {
         board = gameController.board;
        /* ImageHolder imageHolder = new ImageHolder();
 

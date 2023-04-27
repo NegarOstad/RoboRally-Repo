@@ -31,6 +31,8 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 /**
  * ...
  *
@@ -72,13 +74,15 @@ public class RoboRally extends Application {
         stage.setOnCloseRequest(
                 e -> {
                     e.consume();
-                    appController.exit();} );
+
+                        appController.exit();
+                } );
         stage.setResizable(true);
         stage.sizeToScene();
         stage.show();
     }
 
-    public void createBoardView(GameController gameController) {
+    public void createBoardView(GameController gameController)  {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
 
