@@ -91,7 +91,12 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
     private void updatePlayer() {
-        this.getChildren().clear();
+        //this.getChildren().clear();
+
+        for(int i = 0; i <this.getChildren().size(); i++){
+            if(this.getChildren().get(i).getClass().equals(Polygon.class))
+                this.getChildren().remove(i);
+        }
 
         Player player = space.getPlayer();
         if (player != null) {
@@ -117,7 +122,9 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setRotate(0);
         this.imageViews.add(imageView);
         this.getChildren().add(imageView);
+
     }
+
     /*
    private void addImageToSpace(String imagePath, int x, int y, double rotation, double width, double height) {
        imageHolder.addImage(imagePath, x, y, rotation, width, height);
