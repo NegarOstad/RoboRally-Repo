@@ -101,8 +101,13 @@ public class PlayerView extends Tab implements ViewObserver {
         stepButton = new Button("Execute Current Register");
         stepButton.setOnAction( e-> gameController.executeStep());
 
+        LeftButton = new Button("Turn Left");
+        LeftButton.setOnAction(e->gameController.executeStep());
 
-        buttonPanel = new VBox(finishButton, executeButton, stepButton);
+        RightButton = new Button("Turn Right");
+        RightButton.setOnAction(e->gameController.executeStep());
+
+        buttonPanel = new VBox(finishButton, executeButton, stepButton,LeftButton,RightButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
         // programPane.add(buttonPanel, Player.NO_REGISTERS, 0); done in update now
@@ -173,6 +178,7 @@ public class PlayerView extends Tab implements ViewObserver {
                         //     from the initialization phase to the programming phase somehow!
                         executeButton.setDisable(false);
                         stepButton.setDisable(true);
+
                         break;
 
                     case PROGRAMMING:
@@ -191,6 +197,8 @@ public class PlayerView extends Tab implements ViewObserver {
                         finishButton.setDisable(true);
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
+                        LeftButton.setDisable(true);
+                        RightButton.setDisable(false);
                 }
 
 
