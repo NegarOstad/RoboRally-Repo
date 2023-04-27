@@ -27,14 +27,14 @@ class GameControllerTest {
         Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
         gameController = new GameController(board);
         for (int i = 0; i < 1; i++) {
-            Player player = new Player(board, null,"Player " + i);
+            Player player = new Player(board, null, "Player " + i);
             board.addPlayer(player);
             player.setSpace(board.getSpace(i, i));
             player.setHeading(Heading.values()[i % Heading.values().length]);
         }
         board.setCurrentPlayer(board.getPlayer(0));
-        board.getSpace(0,3).setTypeCheckpoint(0, board, false);
-        board.getSpace(5,0).setTypeCheckpoint(1, board,true);
+        board.getSpace(0, 3).setTypeCheckpoint(0, board, false);
+        board.getSpace(5, 0).setTypeCheckpoint(1, board, true);
         /*checkpoints[0] = new Checkpoint(board.getSpace(0,3));
         checkpoints[0].setIndex(0);
         checkpoints[1] = new Checkpoint(board.getSpace(5, 0));
@@ -92,33 +92,36 @@ class GameControllerTest {
         Assertions.assertEquals(Heading.EAST, current.getHeading(), "Player " + current.getName() + " should be oriented Eastward");
 
     }
-    @Test
-    void TestConveyorBelt(){
-        Board board = gameController.board;
-        Space space = gameController.board.getSpace(0,0);
-        Player current =board.getCurrentPlayer();
-        Space endSpace = gameController.board.getSpace(0,5);
 
-        ConveyorBelt TestConveyorBelt= new ConveyorBelt(endSpace);
+    @Test
+    void TestConveyorBelt() {
+        Board board = gameController.board;
+        Space space = gameController.board.getSpace(0, 0);
+        Player current = board.getCurrentPlayer();
+        Space endSpace = gameController.board.getSpace(0, 5);
+
+        ConveyorBelt TestConveyorBelt = new ConveyorBelt(endSpace);
 
         TestConveyorBelt.movePlayer(current);
 
-        Assertions.assertEquals(endSpace,current.getSpace());
+        Assertions.assertEquals(endSpace, current.getSpace());
 
     }
+
     @Test
-    void TestGear(){
+    void TestGear() {
         Board board = gameController.board;
-        Space space = gameController.board.getSpace(0,0);
-        Player current =board.getCurrentPlayer();
+        Space space = gameController.board.getSpace(0, 0);
+        Player current = board.getCurrentPlayer();
         Heading EndDirection = Heading.NORTH;
 
-        Gear TestGear= new Gear(Heading.NORTH);
+        Gear TestGear = new Gear(Heading.NORTH);
         TestGear.turnPlayer(current);
-        Assertions.assertEquals(Heading.NORTH,current.getHeading());
+        Assertions.assertEquals(Heading.NORTH, current.getHeading());
 
 
     }
+
     /*@Test
     void spaceHasAWall() {
         Board board = gameController.board ;
@@ -128,22 +131,22 @@ class GameControllerTest {
     }*/
     @Test
     void stopPlayerOneTurn() {
-        Board board = gameController.board ;
-        board.getSpace(0,1).setTypeWall();
-       // Space space = gameController.board.getSpace(0,1);
-      //  space.setTypeWall();
+        Board board = gameController.board;
+        board.getSpace(0, 1).setTypeWall();
+        // Space space = gameController.board.getSpace(0,1);
+        //  space.setTypeWall();
         Player currentPlayer = board.getCurrentPlayer();
-        System.out.println("Player x is " + currentPlayer.getSpace().x +" player y is "+ currentPlayer.getSpace().y+" player heading is "+ currentPlayer.getHeading());
+        System.out.println("Player x is " + currentPlayer.getSpace().x + " player y is " + currentPlayer.getSpace().y + " player heading is " + currentPlayer.getHeading());
         currentPlayer.setTestRegister(1);
         board.setPhase(Phase.ACTIVATION);
 
         gameController.executePrograms();
-        System.out.println("Player x is " + currentPlayer.getSpace().x +" player y is "+ currentPlayer.getSpace().y+" player heading is "+ currentPlayer.getHeading());
+        System.out.println("Player x is " + currentPlayer.getSpace().x + " player y is " + currentPlayer.getSpace().y + " player heading is " + currentPlayer.getHeading());
 
         // Wall TestWall = new Wall(space);
-       // TestWall.stopPlayerOneTurn(currentPlayer);
-        Assertions.assertEquals(0 , currentPlayer.getSpace().x);
-        Assertions.assertEquals(0 , currentPlayer.getSpace().y);
+        // TestWall.stopPlayerOneTurn(currentPlayer);
+        Assertions.assertEquals(0, currentPlayer.getSpace().x);
+        Assertions.assertEquals(0, currentPlayer.getSpace().y);
 
     }
 
@@ -167,8 +170,8 @@ class GameControllerTest {
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
-       Assertions.assertEquals(3, current.getSpace().y, "Player at location y = 3.");
-       Assertions.assertEquals(1, current.getTokenCount(),"Player should have 1 token");
+        Assertions.assertEquals(3, current.getSpace().y, "Player at location y = 3.");
+        Assertions.assertEquals(1, current.getTokenCount(), "Player should have 1 token");
     }
 
     @Test
@@ -186,7 +189,7 @@ class GameControllerTest {
         //Assertions.assertEquals(true, player1.getSpace().hasACheckpoint());
         Assertions.assertEquals(5, player1.getSpace().x, "Player at location x = 5.");
         Assertions.assertEquals(0, player1.getSpace().y, "Player at location y = 0.");
-        Assertions.assertEquals(0, player1.getTokenCount(),"Player should have no tokens");
+        Assertions.assertEquals(0, player1.getTokenCount(), "Player should have no tokens");
     }
 
     @Test
@@ -208,7 +211,7 @@ class GameControllerTest {
 
         Assertions.assertEquals(5, player1.getSpace().x, "Player at location x = 5.");
         Assertions.assertEquals(0, player1.getSpace().y, "Player at location y = 0.");
-        Assertions.assertEquals(2, player1.getTokenCount(),"Player should have 2 tokens");
+        Assertions.assertEquals(2, player1.getTokenCount(), "Player should have 2 tokens");
 
 
     }
@@ -230,13 +233,14 @@ class GameControllerTest {
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
         Assertions.assertEquals(true, ((Checkpoint
-                )player1.getSpace().getBoardElement()).isLastCheckpoint());
+                ) player1.getSpace().getBoardElement()).isLastCheckpoint());
     }
 
+}
 
-    @Test
-    void testClosestPlayerExecutesNextStep() {
-        Board board = gameController.board;
+/*void testClosestPlayerExecutesNextStep() {
+        Board board = new Board(8,8,"testBoard");
+        PriorityAntenna priorityAntenna = new PriorityAntenna(7,7);
         Player currentPlayer = board.getCurrentPlayer();
         Player player1 = board.getPlayer(0);
         Player player2 = board.getPlayer(1);
@@ -261,4 +265,6 @@ class GameControllerTest {
         Assertions.assertEquals(currentPlayer, board.getPlayer(1), "The next player should be the player after the current player");
     }
 }
+/*
+    */
 

@@ -150,9 +150,13 @@ public class Player extends Subject {
             program[0].setCard(new CommandCard(Command.FORWARD));
             program[1].setCard(new CommandCard(Command.FAST_FORWARD));
 
-        } else if (ver == 2){
+        } else if (ver == 2) {
             program[0].setCard(new CommandCard(Command.LEFT));
             program[1].setCard(new CommandCard(Command.FAST_FORWARD));
+
+        } else if (ver == 3) {
+            program[0].setCard(new CommandCard(Command.RIGHT));
+            program[1].setCard(new CommandCard(Command.FORWARD));
 
         } else {
             program[0].setCard(new CommandCard(Command.FAST_FORWARD));

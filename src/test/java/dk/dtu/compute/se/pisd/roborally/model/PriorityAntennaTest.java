@@ -1,12 +1,12 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
+import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -21,13 +21,14 @@ class PriorityAntennaTest {
     void setUp() {
         Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
         gameController = new GameController(board);
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 2; i++) {
             Player player = new Player(board, null,"Player " + i);
             board.addPlayer(player);
             player.setSpace(board.getSpace(i, i));
             player.setHeading(Heading.values()[i % Heading.values().length]);
         }
         board.setCurrentPlayer(board.getPlayer(0));
+        board.setTypePriorityAntenna(7,7);
     }
 
     @AfterEach
@@ -43,19 +44,57 @@ class PriorityAntennaTest {
         //assertEquals(board.getSpace(2,5), );
     }
     @Test
-    void closestPlayer() {
+    void calculateDistance() {
         Board board = gameController.board;
         Player player1 = board.getPlayer(0);
-        Player player2 = board.getPlayer(1);
-        List<Player> players = new ArrayList<>();
-        players.add(player1);
-        players.add(player2);
-
-        PriorityAntenna priorityAntenna = new PriorityAntenna(7,7);
-        Player closestPlayer = priorityAntenna.(players);
-        assertEquals(player1, closestPlayer );
-
-            }
+        int a = Math.abs(board.getPriorityAntenna().x - player1.getSpace().x);
+        int b = Math.abs(board.getPriorityAntenna().y - player1.getSpace().y);
+        int minDistance = (int) Math.sqrt(Math.pow(a,2) + Math.pow(b, 2));
+        assertEquals((int) Math.sqrt(98),minDistance);
 
 
     }
+    @Test
+    void closestPlayer() {
+        Board board = gameController.board;
+        List<Player> listofcalcClosestPlayers = new ArrayList<>();
+
+        List<Player> calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
+
+        assertEquals("Player 5", calcClosestPlayers.get(0).getName());
+        System.out.println(listofcalcClosestPlayers.get(5).getName());
+        listofcalcClosestPlayers.get(5).setSpace(board.getSpace(1,2));
+        assertEquals(listofcalcClosestPlayers.get(5).getSpace(), board.getSpace(1,2));
+        gameController.moveForward(listofcalcClosestPlayers.get(5));
+        listofcalcClosestPlayers = board.getPlayerList();
+        calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
+
+        assertEquals("Player 4", calcClosestPlayers.get(0).getName());
+
+    }
+
+    @Test
+    void closestPlayerRegisters() {
+        Board board = gameController.board;
+        List<Player> listofcalcClosestPlayers = board.getPlayerList();
+        List<Player> calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
+        listofcalcClosestPlayers.get(0).setTestRegister(1);
+        listofcalcClosestPlayers.get(1).setTestRegister(2);
+        assertEquals("Player 1", calcClosestPlayers.get(0).getName());
+
+        gameController.executeNextStep();
+        listofcalcClosestPlayers = board.getPlayerList();
+        calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
+
+        assertEquals("Player 1", calcClosestPlayers.get(0).getName());
+
+        gameController.executeNextStep();
+        listofcalcClosestPlayers = board.getPlayerList();
+        calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
+        assertEquals("Player 0", calcClosestPlayers.get(0).getName());
+
+
+    }
+
+
+}
