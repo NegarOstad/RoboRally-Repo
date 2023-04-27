@@ -208,6 +208,9 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
+
+                //case LEFT_RIGHT:
+
                 default:
                     // DO NOTHING (for now)
             }
@@ -368,6 +371,7 @@ public class GameController {
         player.setHeading(currentHeading.prev());
 
     }
+
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
         CommandCard sourceCard = source.getCard();
