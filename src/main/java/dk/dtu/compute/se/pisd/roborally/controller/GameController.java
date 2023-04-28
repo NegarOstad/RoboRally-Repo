@@ -34,7 +34,7 @@ import javax.swing.*;
  */
 public class GameController {
 
-    final public Board board;
+     final public Board board;
     int x = 0;
     int y = 0;
 
@@ -209,7 +209,13 @@ public class GameController {
                     this.fastForward(player);
                     break;
 
-                //case LEFT_RIGHT:
+                case LEFT_RIGHT:
+                    //if (player.)
+                        this.turnLeft(player);
+                    this.turnRight(player);
+
+                    break;
+
 
                 default:
                     // DO NOTHING (for now)

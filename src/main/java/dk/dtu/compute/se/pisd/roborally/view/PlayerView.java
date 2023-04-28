@@ -105,7 +105,7 @@ public class PlayerView extends Tab implements ViewObserver {
         LeftButton.setOnAction(e->gameController.executeStep());
 
         RightButton = new Button("Turn Right");
-        RightButton.setOnAction(e->gameController.executePrograms());
+        RightButton.setOnAction(e->gameController.executeStep());
 
         buttonPanel = new VBox(finishButton, executeButton, stepButton,LeftButton,RightButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
@@ -193,6 +193,8 @@ public class PlayerView extends Tab implements ViewObserver {
                         finishButton.setDisable(true);
                         executeButton.setDisable(false);
                         stepButton.setDisable(false);
+                        LeftButton.setDisable(false);
+                        RightButton.setDisable(false);
                         break;
 
                     default:
@@ -200,7 +202,7 @@ public class PlayerView extends Tab implements ViewObserver {
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
                         LeftButton.setDisable(true);
-                        RightButton.setDisable(false);
+                        RightButton.setDisable(true);
                 }
 
 
