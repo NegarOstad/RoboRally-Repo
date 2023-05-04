@@ -24,7 +24,6 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
-import javax.swing.*;
 
 /**
  * ...
@@ -32,7 +31,7 @@ import javax.swing.*;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class GameController {
+public class GameController{
 
      final public Board board;
     int x = 0;
@@ -186,6 +185,40 @@ public class GameController {
             assert false;
         }
     }
+    public void executeCommandOptionAndContinue(Command option) {
+        board.setPhase(Phase.ACTIVATION);
+        Player currentPlayer = board.getCurrentPlayer();
+            int step = board.getStep();
+
+                CommandCard card = currentPlayer.getProgramField(step).getCard();
+                if(step != Player.NO_REGISTERS-1)
+                    if(currentPlayer.getProgramField(step+1).getCard() == null)
+                        currentPlayer.setEndOfRegister(true);
+
+
+                    switch(option) {
+                        case LEFT:
+                            executeCommand(currentPlayer, Command.LEFT);
+                            break;
+                        case RIGHT:
+                            executeCommand(currentPlayer, Command.RIGHT);
+                            break;
+                    }
+                executeNextStep();
+                /*
+                step++;
+                if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
+                    makeProgramFieldsVisible(step);
+                    board.setStep(step);
+                    board.setCurrentPlayer(board.getPlayer(0));
+
+                }
+                else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
+                    startProgrammingPhase();
+                }
+                */
+
+    }
 
 
     // XXX: V2
@@ -209,10 +242,9 @@ public class GameController {
                     this.fastForward(player);
                     break;
 
-                case LEFT_RIGHT:
-                    //if (player.)
-                        this.turnLeft(player);
-                    this.turnRight(player);
+               case LEFT_RIGHT:
+
+                    board.setPhase(Phase.PLAYER_INTERACTION);
 
                     break;
 

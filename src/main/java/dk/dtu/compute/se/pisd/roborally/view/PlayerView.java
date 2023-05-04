@@ -101,13 +101,7 @@ public class PlayerView extends Tab implements ViewObserver {
         stepButton = new Button("Execute Current Register");
         stepButton.setOnAction( e-> gameController.executeStep());
 
-        LeftButton = new Button("Turn Left");
-        LeftButton.setOnAction(e->gameController.executeStep());
-
-        RightButton = new Button("Turn Right");
-        RightButton.setOnAction(e->gameController.executeStep());
-
-        buttonPanel = new VBox(finishButton, executeButton, stepButton,LeftButton,RightButton);
+        buttonPanel = new VBox(finishButton, executeButton, stepButton);
         buttonPanel.setAlignment(Pos.CENTER_LEFT);
         buttonPanel.setSpacing(3.0);
         // programPane.add(buttonPanel, Player.NO_REGISTERS, 0); done in update now
@@ -185,24 +179,23 @@ public class PlayerView extends Tab implements ViewObserver {
                         finishButton.setDisable(false);
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
-                        LeftButton.setDisable(true);
-                        RightButton.setDisable(true);
+
                         break;
 
                     case ACTIVATION:
                         finishButton.setDisable(true);
                         executeButton.setDisable(false);
                         stepButton.setDisable(false);
-                        LeftButton.setDisable(false);
-                        RightButton.setDisable(false);
+
+
                         break;
 
                     default:
                         finishButton.setDisable(true);
                         executeButton.setDisable(true);
                         stepButton.setDisable(true);
-                        LeftButton.setDisable(true);
-                        RightButton.setDisable(true);
+
+
                 }
 
 
@@ -218,13 +211,13 @@ public class PlayerView extends Tab implements ViewObserver {
                     //      an interactive command card, and the buttons should represent
                     //      the player's choices of the interactive command card. The
                     //      following is just a mockup showing two options
-                    Button optionButton = new Button("Option1");
-                    optionButton.setOnAction( e -> gameController.notImplemented());
+                    Button optionButton = new Button("Left");
+                    optionButton.setOnAction( e -> gameController.executeCommandOptionAndContinue(Command.LEFT));
                     optionButton.setDisable(false);
                     playerInteractionPanel.getChildren().add(optionButton);
 
-                    optionButton = new Button("Option 2");
-                    optionButton.setOnAction( e -> gameController.notImplemented());
+                    optionButton = new Button("Right");
+                    optionButton.setOnAction( e -> gameController.executeCommandOptionAndContinue(Command.RIGHT));
                     optionButton.setDisable(false);
                     playerInteractionPanel.getChildren().add(optionButton);
                 }
