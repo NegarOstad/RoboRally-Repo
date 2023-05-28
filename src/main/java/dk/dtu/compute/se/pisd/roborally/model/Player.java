@@ -152,7 +152,7 @@ public class Player extends Subject {
 
         } else if (ver == 2) {
             program[0].setCard(new CommandCard(Command.LEFT));
-            program[1].setCard(new CommandCard(Command.FAST_FORWARD));
+            program[1].setCard(new CommandCard(Command.LEFT));
 
         } else if (ver == 3) {
             program[0].setCard(new CommandCard(Command.RIGHT));

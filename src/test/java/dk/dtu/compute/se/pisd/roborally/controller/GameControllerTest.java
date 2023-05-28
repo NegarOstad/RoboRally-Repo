@@ -265,6 +265,6 @@ class GameControllerTest {
         Assertions.assertEquals(currentPlayer, board.getPlayer(1), "The next player should be the player after the current player");
     }
 }
-/*
-    */
+*/
+
 

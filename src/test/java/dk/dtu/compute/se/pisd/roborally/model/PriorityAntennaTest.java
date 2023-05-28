@@ -78,22 +78,21 @@ class PriorityAntennaTest {
         Board board = gameController.board;
         List<Player> listofcalcClosestPlayers = board.getPlayerList();
         List<Player> calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
-        listofcalcClosestPlayers.get(0).setTestRegister(1);
-        listofcalcClosestPlayers.get(1).setTestRegister(2);
+        listofcalcClosestPlayers.get(1).setTestRegister(1);
+        listofcalcClosestPlayers.get(0).setTestRegister(2);
         assertEquals("Player 1", calcClosestPlayers.get(0).getName());
 
         gameController.executeNextStep();
         listofcalcClosestPlayers = board.getPlayerList();
         calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
 
-        assertEquals("Player 1", calcClosestPlayers.get(0).getName());
-
-        gameController.executeNextStep();
-        listofcalcClosestPlayers = board.getPlayerList();
-        calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
         assertEquals("Player 0", calcClosestPlayers.get(0).getName());
 
+        gameController.executeNextStep();
+        listofcalcClosestPlayers = board.getPlayerList();
+        calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
 
+        assertEquals("Player 0", calcClosestPlayers.get(0).getName());
     }
 
 
