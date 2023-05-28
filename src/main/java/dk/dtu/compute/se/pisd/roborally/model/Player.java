@@ -149,26 +149,67 @@ public class Player extends Subject {
         if (ver == 1) {
             program[0].setCard(new CommandCard(Command.FORWARD));
             program[1].setCard(new CommandCard(Command.FAST_FORWARD));
-
         } else if (ver == 2) {
             program[0].setCard(new CommandCard(Command.LEFT));
             program[1].setCard(new CommandCard(Command.LEFT));
-
         } else if (ver == 3) {
             program[0].setCard(new CommandCard(Command.RIGHT));
             program[1].setCard(new CommandCard(Command.FORWARD));
-
         } else {
             program[0].setCard(new CommandCard(Command.FAST_FORWARD));
             program[1].setCard(new CommandCard(Command.FORWARD));
             program[2].setCard(new CommandCard(Command.LEFT));
             program[3].setCard(new CommandCard(Command.FAST_FORWARD));
             program[4].setCard(new CommandCard(Command.FORWARD));
-
         }
-        board.setPhase(Phase.ACTIVATION);
 
+        // Update the player positions based on the new commands
+        board.movePlayers();
+
+        board.setPhase(Phase.ACTIVATION);
     }
+    public void movePlayers() {
+        List<Player> playersToMove = new ArrayList<>(players);
+
+        for (Player player : playersToMove) {
+            Space currentPosition = player.getPosition();
+            Heading currentHeading = player.getHeading();
+            CommandCard commandCard = player.getCard();
+
+            if (commandCard != null) {
+                Command command = commandCard.getCommand();
+
+                // Determine the new heading based on the player's current heading and the command
+                Heading newHeading;
+                switch (command) {
+                    case FORWARD:
+                        newHeading = currentHeading;
+                        break;
+                    case BACKWARD:
+                        newHeading = currentHeading.prev().prev(); // Example logic, adjust as needed
+                        break;
+                    case LEFT:
+                        newHeading = currentHeading.prev();
+                        break;
+                    case RIGHT:
+                        newHeading = currentHeading.next();
+                        break;
+                    default:
+                        newHeading = currentHeading;
+                        break;
+                }
+
+                // Determine the new position by getting the neighbor space based on the new heading
+                Space newPosition = board.getNeighbour(currentPosition, newHeading);
+
+                // Update the player's position and heading
+                player.setPosition(newPosition);
+                player.setHeading(newHeading);
+            }
+        }
+    }
+
+
 
     public void setEndOfRegister(boolean registerIsEmpty){
         this.registerIsEmpty = registerIsEmpty;
