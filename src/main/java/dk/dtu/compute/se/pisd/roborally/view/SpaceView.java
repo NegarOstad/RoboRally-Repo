@@ -93,7 +93,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         } else if (space.getType() == ElementType.ConveyorBelt) {
             this.setStyle("-fx-background-color: pink;");
         } else if (space.getType() == ElementType.Checkpoint) {
-            this.setStyle("-fx-background-color: red;");
+            this.setStyle("-fx-background-color: purple;");
         } else if (space.getType() == ElementType.Wall) {
             this.setStyle("-fx-background-color: green;");
         } else if ((space.x + space.y) % 2 == 0) {
