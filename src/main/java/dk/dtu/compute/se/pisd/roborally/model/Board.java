@@ -196,25 +196,24 @@ public class Board extends Subject {
      * @return the space in the given direction; null if there is no (reachable) neighbour
      */
     public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {
-        int newX = space.x;
-        int newY = space.y;
-
+        int x = space.x;
+        int y = space.y;
         switch (heading) {
             case SOUTH:
-                newY = (newY + 1) % height;
+                y = (y + 1) % height;
                 break;
             case WEST:
-                newX = (newX + width - 1) % width;
+                x = (x + width - 1) % width;
                 break;
             case NORTH:
-                newY = (newY + height - 1) % height;
+                y = (y + height - 1) % height;
                 break;
             case EAST:
-                newX = (newX + 1) % width;
+                x = (x + 1) % width;
                 break;
         }
 
-        return getSpace(newX, newY);
+        return getSpace(x, y);
     }
 
     public String getStatusMessage() {
