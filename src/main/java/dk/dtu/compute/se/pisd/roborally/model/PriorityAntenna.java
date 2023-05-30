@@ -1,9 +1,51 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
+        import java.util.ArrayList;
+        import java.util.List;
 public class PriorityAntenna extends BoardElement {
+    public int x;
+    public int y;
+
+    @Override
+    public void doAction(Player currentPlayer) {
+        // Implementation of the doAction method
+    }
+
+    public PriorityAntenna(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public List<Player> calcClosestPlayers(List<Player> players) {
+        List<Player> sortedPlayers = new ArrayList<>();
+
+        double a = Math.abs(this.x - players.get(0).getSpace().x);
+        double b = Math.abs(this.y - players.get(0).getSpace().y);
+        double minDistance = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        Player currentClosest = players.get(0);
+
+        for (int i = 0; i < players.size(); i++) {
+            for (Player player : players) {
+                currentClosest = player;
+                a = Math.abs(this.x - player.getSpace().x);
+                b = Math.abs(this.y - player.getSpace().y);
+                double distance = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+                if (distance <= minDistance) {
+                    currentClosest = player;
+                }
+            }
+            sortedPlayers.add(currentClosest);
+            players.remove(currentClosest);
+        }
+        return sortedPlayers;
+    }
+
+    public String getType() {
+        return "PriorityAntenna";
+    }
+}
+
+/*public class PriorityAntenna extends BoardElement {
     public int x;
     public int y;
 
@@ -34,8 +76,8 @@ public class PriorityAntenna extends BoardElement {
         for (int i = 0; i < players.size(); i++) {
             for (Player player : tempPlayersList) {
                 currentClosest = player;
-                 a = Math.abs(this.x - player.getSpace().x);
-                 b = Math.abs(this.y - player.getSpace().y);
+                a = Math.abs(this.x - player.getSpace().x);
+                b = Math.abs(this.y - player.getSpace().y);
                 double distance = Math.sqrt(Math.pow(a,2) + Math.pow(b, 2));
                 if (distance <= minDistance) {
                     currentClosest = player;
@@ -50,6 +92,6 @@ public class PriorityAntenna extends BoardElement {
     public String getType() {
         return "PriorityAntenna";
     }
-}
+}*/
 
 

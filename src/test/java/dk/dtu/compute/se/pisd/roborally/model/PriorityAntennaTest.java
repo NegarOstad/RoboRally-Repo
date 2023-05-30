@@ -59,21 +59,21 @@ class PriorityAntennaTest {
     @Test
     void closestPlayer() {
         Board board = gameController.board;
-        List<Player> listofcalcClosestPlayers = new ArrayList<>();
+        List<Player> listofcalcClosestPlayers = new ArrayList<>(board.getPlayerList()); // Initialize with player list
 
         List<Player> calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
 
         assertEquals("Player 5", calcClosestPlayers.get(0).getName());
-        System.out.println(listofcalcClosestPlayers.get(5).getName());
-        /*listofcalcClosestPlayers.get(5).setSpace(board.getSpace(1,2));
-        assertEquals(listofcalcClosestPlayers.get(5).getSpace(), board.getSpace(1,2));
+        System.out.println(calcClosestPlayers.get(0).getName()); // Print the closest player's name
+        listofcalcClosestPlayers.get(5).setSpace(board.getSpace(1, 2));
+        assertEquals(board.getSpace(1, 2), listofcalcClosestPlayers.get(5).getSpace());
         gameController.moveForward(listofcalcClosestPlayers.get(5));
         listofcalcClosestPlayers = board.getPlayerList();
         calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
 
-        assertEquals("Player 4", calcClosestPlayers.get(0).getName());*/
-
+        assertEquals("Player 4", calcClosestPlayers.get(0).getName());
     }
+
 
     @Test
     void closestPlayerRegisters() {
