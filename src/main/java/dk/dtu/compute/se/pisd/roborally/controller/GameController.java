@@ -214,8 +214,9 @@ public class GameController {
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
-        int newY;
-        int newX;
+        int newX = player.getSpace().x;
+        int newY = player.getSpace().y;
+
         ElementType nextSpaceType;
         switch (currentHeading){
             case SOUTH:
@@ -223,7 +224,7 @@ public class GameController {
                 if(newY >= 0 && newY < board.height) {
                     nextSpaceType = board.getSpace(player.getSpace().x, player.getSpace().y + 1).getType();
                     if (!(nextSpaceType.equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(x, newY));
+                        player.setSpace(board.getSpace(newX, newY));
                 }
 
                 break;
@@ -232,7 +233,7 @@ public class GameController {
                 if(newY >= 0 && newY < board.height) {
                     nextSpaceType = board.getSpace(player.getSpace().x, player.getSpace().y - 1).getType();
                     if (!(nextSpaceType.equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(x, newY));
+                        player.setSpace(board.getSpace(newX, newY));
                 }
                 break;
 
@@ -241,7 +242,7 @@ public class GameController {
                 if(newX >= 0 && newX < board.width) {
                     nextSpaceType = board.getSpace(player.getSpace().x - 1, player.getSpace().y).getType();
                     if (!(nextSpaceType.equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(newX, y));
+                        player.setSpace(board.getSpace(newX, newY));
                 }
                 break;
 
@@ -250,7 +251,7 @@ public class GameController {
                 if(newX >= 0 && newX < board.width) {
                     nextSpaceType = board.getSpace(player.getSpace().x + 1, player.getSpace().y).getType();
                     if (!(nextSpaceType.equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(newX, y));
+                        player.setSpace(board.getSpace(newX, newY));
                 }
                 break;
             default:
