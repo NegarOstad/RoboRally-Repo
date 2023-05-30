@@ -73,9 +73,9 @@ public class SpaceView extends StackPane implements ViewObserver {
         String path = System.getProperty("user.dir");
         String fullPath = path + "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\";
 
-        System.out.println(fullPath);
+         /*System.out.println(fullPath);
 
-       /* if (space.getType() == ElementType.ConveyorBelt) {
+       if (space.getType() == ElementType.ConveyorBelt) {
             int i;
             for (i = space.x; i <= space.x; i++)
 

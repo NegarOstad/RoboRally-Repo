@@ -57,6 +57,18 @@ class GameControllerTest {
     }
 
     @Test
+    void moveAwayAndBackToStartPosition() {
+        Board board = gameController.board;
+        Player player1 = board.getCurrentPlayer();
+        player1.setTestRegister(3);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+        Assertions.assertEquals(player1, board.getSpace(0, 0).getPlayer(), "Player " + player1.getName() + " should beSpace (0,0)!");
+
+
+    }
+
+    @Test
     void fastForward() {
         Board board = gameController.board;
         Player current = board.getCurrentPlayer();
