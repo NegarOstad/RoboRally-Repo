@@ -220,30 +220,28 @@ public class GameController {
         switch (currentHeading){
             case SOUTH:
                 newY = player.getSpace().y + 1;
-                if(newY > 0 && newY < board.height)
-                    if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall)))
+                if(newY >= 0 && newY < board.height)
+                    if(!(board.getSpace(player.getSpace().x, player.getSpace().y + 1).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(x, newY));
 
                 break;
             case NORTH:
                 newY = player.getSpace().y - 1;
-                if(newY > 0 && newY < board.height)
-                    if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
+                if(newY >= 0 && newY < board.height)
+                    if(!(board.getSpace(player.getSpace().x, player.getSpace().y - 1).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(x, newY));
                 break;
 
             case WEST:
                 newX = player.getSpace().x  - 1 ;
-                if(newX > 0 && newX < board.width)
-                    if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
+                if(newX >= 0 && newX < board.width)
+                    if(!(board.getSpace(player.getSpace().x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(newX, y));
-
-
                 break;
 
             case EAST:
                 newX = player.getSpace().x  + 1 ;
-                if(newX > 0 && newX < board.width)
+                if(newX >= 0 && newX < board.width)
                     if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(newX, y));
 
