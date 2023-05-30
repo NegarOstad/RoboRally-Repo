@@ -279,8 +279,8 @@ public class GameController {
 
                 case NORTH:
                     newY--;
-                    if(newY > 0 && newY < board.height)
-                        if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
+                    if(newY >= 0 && newY < board.height)
+                        if(!(board.getSpace(player.getSpace().x, player.getSpace().y - 1).getType().equals(ElementType.Wall)))
                             player.setSpace(board.getSpace(newX, newY));
                     break;
 
