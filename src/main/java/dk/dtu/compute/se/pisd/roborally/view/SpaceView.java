@@ -75,7 +75,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         System.out.println(fullPath);
 
-        if (space.getType() == ElementType.ConveyorBelt) {
+       /* if (space.getType() == ElementType.ConveyorBelt) {
             int i;
             for (i = space.x; i <= space.x; i++)
 
@@ -86,9 +86,17 @@ public class SpaceView extends StackPane implements ViewObserver {
             addImage(fullPath + "gear.png",0,0,0);
         } else if (space.getType() == ElementType.Wall) {
             addImage(fullPath + "wall.png",0,0,0);
-        }
+        }*/
 
-        if ((space.x + space.y) % 2 == 0) {
+        if (space.getType() == ElementType.Gear) {
+            this.setStyle("-fx-background-color: blue;");
+        } else if (space.getType() == ElementType.ConveyorBelt) {
+            this.setStyle("-fx-background-color: pink;");
+        } else if (space.getType() == ElementType.Checkpoint) {
+            this.setStyle("-fx-background-color: red;");
+        } else if (space.getType() == ElementType.Wall) {
+            this.setStyle("-fx-background-color: green;");
+        } else if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
