@@ -20,6 +20,7 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.model;
+import java.util.List;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
@@ -163,53 +164,8 @@ public class Player extends Subject {
             program[4].setCard(new CommandCard(Command.FORWARD));
         }
 
-        // Update the player positions based on the new commands
-        board.movePlayers();
-
         board.setPhase(Phase.ACTIVATION);
     }
-    public void movePlayers() {
-        List<Player> playersToMove = new ArrayList<>(players);
-
-        for (Player player : playersToMove) {
-            Space currentPosition = player.getPosition();
-            Heading currentHeading = player.getHeading();
-            CommandCard commandCard = player.getCard();
-
-            if (commandCard != null) {
-                Command command = commandCard.getCommand();
-
-                // Determine the new heading based on the player's current heading and the command
-                Heading newHeading;
-                switch (command) {
-                    case FORWARD:
-                        newHeading = currentHeading;
-                        break;
-                    case BACKWARD:
-                        newHeading = currentHeading.prev().prev(); // Example logic, adjust as needed
-                        break;
-                    case LEFT:
-                        newHeading = currentHeading.prev();
-                        break;
-                    case RIGHT:
-                        newHeading = currentHeading.next();
-                        break;
-                    default:
-                        newHeading = currentHeading;
-                        break;
-                }
-
-                // Determine the new position by getting the neighbor space based on the new heading
-                Space newPosition = board.getNeighbour(currentPosition, newHeading);
-
-                // Update the player's position and heading
-                player.setPosition(newPosition);
-                player.setHeading(newHeading);
-            }
-        }
-    }
-
-
 
     public void setEndOfRegister(boolean registerIsEmpty){
         this.registerIsEmpty = registerIsEmpty;

@@ -21,9 +21,12 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
-
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
+
+import static dk.dtu.compute.se.pisd.roborally.model.Command.FAST_FORWARD;
 
 /**
  * ...

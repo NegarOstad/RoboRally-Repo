@@ -135,7 +135,6 @@ public class Board extends Subject {
         }
     }
 
-
     public int getNextPlayersNumber(List<Player> listOfClosestPlayers){
     // public int getNextPlayersNumber(Player closestPlayer){
         int index = players.indexOf(listOfClosestPlayers);
@@ -197,26 +196,26 @@ public class Board extends Subject {
      * @return the space in the given direction; null if there is no (reachable) neighbour
      */
     public Space getNeighbour(@NotNull Space space, @NotNull Heading heading) {
-        int x = space.x;
-        int y = space.y;
+        int newX = space.x;
+        int newY = space.y;
+
         switch (heading) {
             case SOUTH:
-                y = (y + 1) % height;
+                newY = (newY + 1) % height;
                 break;
             case WEST:
-                x = (x + width - 1) % width;
+                newX = (newX + width - 1) % width;
                 break;
             case NORTH:
-                y = (y + height - 1) % height;
+                newY = (newY + height - 1) % height;
                 break;
             case EAST:
-                x = (x + 1) % width;
+                newX = (newX + 1) % width;
                 break;
         }
 
-        return getSpace(x, y);
+        return getSpace(newX, newY);
     }
-
 
     public String getStatusMessage() {
         if(winnerIsFound) {
