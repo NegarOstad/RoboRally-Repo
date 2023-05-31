@@ -64,7 +64,13 @@ public class Space extends Subject {
         boardElement = new ConveyorBelt(slut);
 
         if (x == slut.x) {
-            return;
+            if(y > slut.y){
+                y--;
+                board.getSpace(x, y).setTypeConveyor(slut, x, y);
+            } else if(y < slut.y){
+                y++;
+                board.getSpace(x, y).setTypeConveyor(slut, x, y);
+            }
         } else if (x > slut.x) {
             x--;
             board.getSpace(x, y).setTypeConveyor(slut, x, y);
