@@ -33,12 +33,13 @@ public class PriorityAntenna extends BoardElement {
 
         for (int i = 0; i < players.size(); i++) {
             for (Player player : tempPlayersList) {
-                currentClosest = player;
+                //currentClosest = player;
                 a = Math.abs(this.x - player.getSpace().x);
                 b = Math.abs(this.y - player.getSpace().y);
                 double distance = Math.sqrt(Math.pow(a,2) + Math.pow(b, 2));
                 if (distance <= minDistance) {
                     currentClosest = player;
+                    minDistance = distance;
                 }
             }
             sortedPlayers.add(currentClosest);
