@@ -73,7 +73,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         String path = System.getProperty("user.dir");
         String fullPath = path + "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\";
 
-         /*System.out.println(fullPath);
+         System.out.println(fullPath);
 
        if (space.getType() == ElementType.ConveyorBelt) {
             int i;
@@ -86,9 +86,15 @@ public class SpaceView extends StackPane implements ViewObserver {
             addImage(fullPath + "gear.png",0,0,0);
         } else if (space.getType() == ElementType.Wall) {
             addImage(fullPath + "wall.png",0,0,0);
-        }*/
+        }
 
-        if (space.getType() == ElementType.Gear) {
+        if ((space.x + space.y) % 2 == 0) {
+            this.setStyle("-fx-background-color: white;");
+        } else {
+            this.setStyle("-fx-background-color: black;");
+        }
+
+       /* if (space.getType() == ElementType.Gear) {
             this.setStyle("-fx-background-color: blue;");
         } else if (space.getType() == ElementType.ConveyorBelt) {
             this.setStyle("-fx-background-color: pink;");
@@ -100,7 +106,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
-        }
+        }*/
 
 
 
