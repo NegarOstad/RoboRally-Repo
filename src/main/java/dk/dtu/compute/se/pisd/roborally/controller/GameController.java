@@ -223,8 +223,10 @@ public class GameController {
                 newY = player.getSpace().y + 1;
                 if(newY >= 0 && newY < board.height) {
                     nextSpaceType = board.getSpace(player.getSpace().x, player.getSpace().y + 1).getType();
-                    if (!(nextSpaceType.equals(ElementType.Wall)))
+                    if (!(nextSpaceType.equals(ElementType.Wall))){
                         player.setSpace(board.getSpace(newX, newY));
+                    }
+
                 }
 
                 break;
