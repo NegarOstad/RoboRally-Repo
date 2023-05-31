@@ -101,12 +101,12 @@ public class Player extends Subject {
     }
 
     public void setSpace(Space space) {
-        Space oldSpace = this.space;
+        Space oldSpace = this.space; //holds player's space before move
         if (space != oldSpace &&
                 (space == null || space.board == this.board)) {
-            this.space = space;
+            this.space = space; // makes player's space the space passed as argument
             if (oldSpace != null) {
-                oldSpace.setPlayer(null);
+                oldSpace.setPlayer(null); // sets the Player for the player's space before move to null so that the robot disappears
             }
             if (space != null) {
                 space.setPlayer(this);
@@ -114,6 +114,43 @@ public class Player extends Subject {
             notifyChange();
         }
     }
+
+    private boolean pushRobot(Player opponent){
+        boolean canBePushed = false;
+        int x = opponent.getSpace().x;
+        int y = opponent.getSpace().y;
+        Space newSpace = opponent.getSpace();
+        switch(heading) {
+            case NORTH:
+                if (y - 1 >= 0) {
+                    newSpace = board.getSpace(x, y - 1);
+                    canBePushed = true;
+                }
+                break;
+            case SOUTH:
+                if(y + 1 < board.height) {
+                    newSpace = board.getSpace(x, y + 1);
+                    canBePushed = true;
+                }
+                break;
+            case EAST:
+                if(x + 1 < board.width) {
+                    newSpace = board.getSpace(x + 1, y);
+                    canBePushed = true;
+                }
+                break;
+            case WEST:
+                if(x - 1 >= 0) {
+                    newSpace = board.getSpace(x - 1, y);
+                    canBePushed = true;
+                }
+                break;
+        }
+        if(canBePushed)
+            opponent.setSpace(newSpace);
+        return canBePushed;
+    }
+
 
     public Heading getHeading() {
         return heading;
