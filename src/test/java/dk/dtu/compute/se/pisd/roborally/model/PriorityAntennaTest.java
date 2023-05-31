@@ -21,7 +21,7 @@ class PriorityAntennaTest {
     void setUp() {
         Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
         gameController = new GameController(board);
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 6; i++) {
             Player player = new Player(board, null, "Player " + i);
             board.addPlayer(player);
             player.setSpace(board.getSpace(i, i));
@@ -73,6 +73,7 @@ class PriorityAntennaTest {
         calcClosestPlayers.clear();
         calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
         assertEquals("Player 4", calcClosestPlayers.get(0).getName());
+        System.out.println(calcClosestPlayers.get(0).getName());
     }
 
 
