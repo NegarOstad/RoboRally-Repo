@@ -24,15 +24,16 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+
 /**
  * ...
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class GameController {
+public class GameController{
 
-    final public Board board;
+     final public Board board;
     int x = 0;
     int y = 0;
 
@@ -132,6 +133,7 @@ public class GameController {
 
     // XXX: V2
     private void continuePrograms() {
+        board.setOutOfBounds(false);
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
@@ -183,6 +185,40 @@ public class GameController {
             assert false;
         }
     }
+    public void executeCommandOptionAndContinue(Command option) {
+        board.setPhase(Phase.ACTIVATION);
+        Player currentPlayer = board.getCurrentPlayer();
+            int step = board.getStep();
+
+                CommandCard card = currentPlayer.getProgramField(step).getCard();
+                if(step != Player.NO_REGISTERS-1)
+                    if(currentPlayer.getProgramField(step+1).getCard() == null)
+                        currentPlayer.setEndOfRegister(true);
+
+
+                    switch(option) {
+                        case LEFT:
+                            executeCommand(currentPlayer, Command.LEFT);
+                            break;
+                        case RIGHT:
+                            executeCommand(currentPlayer, Command.RIGHT);
+                            break;
+                    }
+                executeNextStep();
+                /*
+                step++;
+                if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
+                    makeProgramFieldsVisible(step);
+                    board.setStep(step);
+                    board.setCurrentPlayer(board.getPlayer(0));
+
+                }
+                else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
+                    startProgrammingPhase();
+                }
+                */
+
+    }
 
 
     // XXX: V2
@@ -205,6 +241,14 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
+
+               case LEFT_RIGHT:
+
+                    board.setPhase(Phase.PLAYER_INTERACTION);
+
+                    break;
+
+
                 default:
                     // DO NOTHING (for now)
             }
@@ -220,33 +264,51 @@ public class GameController {
         switch (currentHeading){
             case SOUTH:
                 newY = player.getSpace().y + 1;
-                if(newY > 0 && newY < board.height)
-                    if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall)))
+                if(newY > 0 && newY < board.height) {
+                    if (!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(x, newY));
+                    else {
+                        board.setOutOfBounds(true);
+                        player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                    }
+                }
 
                 break;
             case NORTH:
                 newY = player.getSpace().y - 1;
-                if(newY > 0 && newY < board.height)
-                    if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
+                if(newY > 0 && newY < board.height) {
+                    if (!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(x, newY));
+                    else {
+                        board.setOutOfBounds(true);
+                        player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                    }
+                }
                 break;
 
             case WEST:
                 newX = player.getSpace().x  - 1 ;
-                if(newX > 0 && newX < board.width)
-                    if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
+                if(newX > 0 && newX < board.width) {
+                    if (!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(newX, y));
 
-
+                    //if(newX<0 || newX>7) {
+                } else{
+                    board.setOutOfBounds(true);
+                    player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                }
                 break;
 
             case EAST:
                 newX = player.getSpace().x  + 1 ;
-                if(newX > 0 && newX < board.width)
-                    if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall)))
+                if(newX > 0 && newX < board.width) {
+                    if (!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall)))
                         player.setSpace(board.getSpace(newX, y));
-
+                    else{
+                        board.setOutOfBounds(true);
+                        player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                    }
+                }
                 break;
             default:
                 //DO NOTHING
@@ -272,30 +334,50 @@ public class GameController {
             switch (currentHeading){
                 case SOUTH:
                     newY++;
-                    if(newY > 0 && newY < board.height)
+                    if(newY > 0 && newY < board.height){
                         if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall)))
                             player.setSpace(board.getSpace(newX, newY));
+                             else{
+                                board.setOutOfBounds(true);
+                                player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                            }
+                        }
                     break;
 
                 case NORTH:
                     newY--;
-                    if(newY > 0 && newY < board.height)
-                        if(!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
+                    if(newY > 0 && newY < board.height) {
+                        if (!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
                             player.setSpace(board.getSpace(newX, newY));
+                        else {
+                            board.setOutOfBounds(true);
+                            player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                        }
+                    }
                     break;
 
                 case WEST:
                     newX--;
-                    if(newX > 0 && newX < board.width)
-                        if(!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
+                    if(newX > 0 && newX < board.width) {
+                        if (!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
                             player.setSpace(board.getSpace(newX, newY));
+                        else {
+                            board.setOutOfBounds(true);
+                            player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                        }
+                    }
                     break;
 
                 case EAST:
                     newX++;
-                    if(newX > 0 && newX < board.width)
-                        if(!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall)))
+                    if(newX > 0 && newX < board.width) {
+                        if (!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall)))
                             player.setSpace(board.getSpace(newX, newY));
+                        else {
+                            board.setOutOfBounds(true);
+                            player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                        }
+                    }
                     break;
 
                 default:
@@ -327,6 +409,7 @@ public class GameController {
         player.setHeading(currentHeading.prev());
 
     }
+
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
         CommandCard sourceCard = source.getCard();
