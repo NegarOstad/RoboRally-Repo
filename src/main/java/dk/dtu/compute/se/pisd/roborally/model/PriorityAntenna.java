@@ -20,35 +20,6 @@ public class PriorityAntenna extends BoardElement {
     }
 
     public List<Player> calcClosestPlayers(List<Player> players) {
-        List<Player> tempPlayersList = new ArrayList<>(players);
-        sortedPlayers.clear();
-
-        while (!tempPlayersList.isEmpty()) {
-            double minDistance = Double.POSITIVE_INFINITY;
-            Player currentClosest = null;
-
-            for (Player player : tempPlayersList) {
-                double a = Math.abs(this.x - player.getSpace().x);
-                double b = Math.abs(this.y - player.getSpace().y);
-                double distance = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    currentClosest = player;
-                }
-            }
-
-            sortedPlayers.add(currentClosest);
-            tempPlayersList.remove(currentClosest);
-        }
-
-        return sortedPlayers;
-    }
-
-
-}/*
-
-    public List<Player> calcClosestPlayers(List<Player> players) {
         List<Player> tempPlayersList = new ArrayList<>();
         for(int i = 0 ; i < players.size() ; i++){
             tempPlayersList.add(players.get(i));
@@ -81,47 +52,37 @@ public class PriorityAntenna extends BoardElement {
     }
 }
 
-/*public class PriorityAntenna extends BoardElement {
-    public int x;
-    public int y;
 
-    @Override
-    public void doAction(Player currentPlayer) {
-        // Implementation of the doAction method
-    }
-
-    public PriorityAntenna(int x, int y) {
-        this.x = x;
-        this.y = y;
-    }
+/*
 
     public List<Player> calcClosestPlayers(List<Player> players) {
-        List<Player> sortedPlayers = new ArrayList<>();
+        List<Player> tempPlayersList = new ArrayList<>(players);
+        sortedPlayers.clear();
 
-        double a = Math.abs(this.x - players.get(0).getSpace().x);
-        double b = Math.abs(this.y - players.get(0).getSpace().y);
-        double minDistance = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-        Player currentClosest = players.get(0);
+        while (!tempPlayersList.isEmpty()) {
+            double minDistance = Double.POSITIVE_INFINITY;
+            Player currentClosest = null;
 
-        for (int i = 0; i < players.size(); i++) {
-            for (Player player : players) {
-                currentClosest = player;
-                a = Math.abs(this.x - player.getSpace().x);
-                b = Math.abs(this.y - player.getSpace().y);
+            for (Player player : tempPlayersList) {
+                double a = Math.abs(this.x - player.getSpace().x);
+                double b = Math.abs(this.y - player.getSpace().y);
                 double distance = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-                if (distance <= minDistance) {
+
+                if (distance < minDistance) {
+                    minDistance = distance;
                     currentClosest = player;
                 }
             }
+
             sortedPlayers.add(currentClosest);
-            players.remove(currentClosest);
+            tempPlayersList.remove(currentClosest);
         }
+
         return sortedPlayers;
     }
 
-    public String getType() {
-        return "PriorityAntenna";
-    }
-}*/
+
+}
+*/
 
 
