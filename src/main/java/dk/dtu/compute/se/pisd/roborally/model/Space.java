@@ -59,14 +59,31 @@ public class Space extends Subject {
 
     }
 
-    public void setTypeConveyor(Space slut) {
+    public void setTypeConveyor(Space slut, int x, int y) {
         type = ElementType.ConveyorBelt;
         boardElement = new ConveyorBelt(slut);
+
+        if (x == slut.x) {
+            if(y > slut.y){
+                y--;
+                board.getSpace(x, y).setTypeConveyor(slut, x, y);
+            } else if(y < slut.y){
+                y++;
+                board.getSpace(x, y).setTypeConveyor(slut, x, y);
+            }
+        } else if (x > slut.x) {
+            x--;
+            board.getSpace(x, y).setTypeConveyor(slut, x, y);
+        } else {
+            x++;
+            board.getSpace(x, y).setTypeConveyor(slut, x, y);
+        }
     }
+
+
 
     public void setTypeGear(Heading heading){
         type = ElementType.Gear;
-
         boardElement = new Gear(heading);
     }
 
