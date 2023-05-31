@@ -96,7 +96,8 @@ public class AppController implements Observer {
             //board.getSpace(6,3).setTypeCheckpoint(1);
             //board.getSpace(1,5).setTypeCheckpoint(2);
             board.getSpace(2,1).setTypeConveyor(board.getSpace(6,1), 2, 1);
-           // board.getSpace(1,6).setTypeConveyor(board.getSpace(3,3), 1, 6);
+            board.getSpace(1,6).setTypeConveyor(board.getSpace(3,3), 1, 6);
+            board.getSpace(7,6).setTypeConveyor(board.getSpace(5,6), 7, 6);
             //add priority antenna and walls
             board.getSpace(0,5).setTypeWall();
             board.getSpace(5,3).setTypeWall();
