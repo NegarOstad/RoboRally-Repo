@@ -43,6 +43,8 @@ public class GameController {
     int x = 0;
     int y = 0;
 
+    List<Player> calcClosestPlayers;
+
     public GameController(@NotNull Board board) {
         this.board = board;
     }
