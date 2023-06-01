@@ -3,6 +3,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import org.jetbrains.annotations.NotNull;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -97,13 +98,13 @@ class PriorityAntennaTest {
         board.setPhase(Phase.ACTIVATION);
         gameController.executeNextStep();
         listofcalcClosestPlayers.get(1).setTestRegister(2);
-        assertEquals(board.getSpace(1, 1), listofcalcClosestPlayers.get(1).getSpace());
+        Assertions.assertEquals(board.getSpace(1, 1), listofcalcClosestPlayers.get(1).getSpace());
         gameController.moveForward(listofcalcClosestPlayers.get(1));
 
         board.setPhase(Phase.ACTIVATION);
         gameController.executeNextStep();
         listofcalcClosestPlayers.get(0).setTestRegister(1);
-        assertEquals(board.getSpace(0, 3), listofcalcClosestPlayers.get(0).getSpace());
+        Assertions.assertEquals(board.getSpace(0, 3), listofcalcClosestPlayers.get(0).getSpace());
         gameController.moveForward(listofcalcClosestPlayers.get(0));
         listofcalcClosestPlayers = board.getPlayerList();
         calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
@@ -113,13 +114,13 @@ class PriorityAntennaTest {
         board.setPhase(Phase.ACTIVATION);
         gameController.executeNextStep();
         listofcalcClosestPlayers.get(1).setTestRegister(2);
-        assertEquals(board.getSpace(1, 1), listofcalcClosestPlayers.get(1).getSpace());
+        Assertions.assertEquals(board.getSpace(1, 1), listofcalcClosestPlayers.get(1).getSpace());
         gameController.moveForward(listofcalcClosestPlayers.get(1));
 
         board.setPhase(Phase.ACTIVATION);
         gameController.executeNextStep();
         listofcalcClosestPlayers.get(0).setTestRegister(1);
-        assertEquals(board.getSpace(0, 6), listofcalcClosestPlayers.get(0).getSpace());
+        Assertions.assertEquals(board.getSpace(0, 6), listofcalcClosestPlayers.get(0).getSpace());
         gameController.moveForward(listofcalcClosestPlayers.get(0));
         listofcalcClosestPlayers = board.getPlayerList();
         calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
