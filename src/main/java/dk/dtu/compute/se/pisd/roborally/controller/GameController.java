@@ -154,7 +154,8 @@ public class GameController {
     public void executeNextStep() {
         //int nextPlayerIndex;
         int counter = 0;
-        Player currentPlayer = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList()).get(0);
+        List<Player> priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
+        Player currentPlayer = priorityList.get(0);
 
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -176,7 +177,7 @@ public class GameController {
                 if (counter < board.getPlayersCount()) { // DOES THIS IF THERE IS A NEXT PLAYER
                     counter ++;
                    // board.setCurrentPlayer(board.getPlayer());
-                    board.setCurrentPlayer(board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList()).get(counter));
+                    board.setCurrentPlayer(priorityList.get(counter));
 
                 } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
                     step++;

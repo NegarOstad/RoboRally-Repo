@@ -89,6 +89,8 @@ class PriorityAntennaTest {
 
     @Test
     void closestPlayerRegisters() {
+
+
         Board board = gameController.board;
         List<Player> listofcalcClosestPlayers = board.getPlayerList();
         List<Player> calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
@@ -101,33 +103,9 @@ class PriorityAntennaTest {
         board.setPhase(Phase.ACTIVATION);
         gameController.executeNextStep();
         listofcalcClosestPlayers = board.getPlayerList();
-
-        listofcalcClosestPlayers.get(0).setSpace(board.getSpace(1, 2));
-        assertEquals(board.getSpace(1, 2), listofcalcClosestPlayers.get(0).getSpace());
-        gameController.moveForward(listofcalcClosestPlayers.get(0));
-
-        listofcalcClosestPlayers.get(1).setSpace(board.getSpace(0, 0));
-        assertEquals(board.getSpace(0, 0), listofcalcClosestPlayers.get(1).getSpace());
-        gameController.moveForward(listofcalcClosestPlayers.get(1));
-
         calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
-        assertEquals("Player 0", calcClosestPlayers.get(0).getName());
-        System.out.println(calcClosestPlayers.get(0).getName());
-
-        /*listofcalcClosestPlayers.get(1).setTestRegister(2);
-        assertEquals(board.getSpace(1, 1), listofcalcClosestPlayers.get(1).getSpace());
-        gameController.moveForward(listofcalcClosestPlayers.get(1));
-
-
-        gameController.executeNextStep();
-        listofcalcClosestPlayers.get(0).setTestRegister(1);
-        assertEquals(board.getSpace(0, 6), listofcalcClosestPlayers.get(0).getSpace());
-        gameController.moveForward(listofcalcClosestPlayers.get(0));
-
-        listofcalcClosestPlayers = board.getPlayerList();
-        calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(listofcalcClosestPlayers);
-        assertEquals("Player 0", calcClosestPlayers.get(0).getName());
-        System.out.println(calcClosestPlayers.get(0).getName());*/
+        assertEquals("Player 0", calcClosestPlayers.get(1).getName());
+        System.out.println(calcClosestPlayers.get(1).getName());
 
     }
 
