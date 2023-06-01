@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class Board extends Subject {
+public class Board extends Subject implements Serializable {
 
     public final int width;
 
@@ -46,6 +47,8 @@ public class Board extends Subject {
     private Integer gameId;
 
     private final Space[][] spaces;
+
+    private final SpaceTemplate[][] spaceTemplates;
 
     private final List<Player> players = new ArrayList<>();
 
@@ -63,11 +66,13 @@ public class Board extends Subject {
         this.width = width;
         this.height = height;
         spaces = new Space[width][height];
+        spaceTemplates = new SpaceTemplate[width][height];
         for (int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
-                SpaceTemplate spaceTemplate = new SpaceTemplate(x, y); // not new, but get from json
-                Space space = new Space(spaceTemplate.x, spaceTemplate.y);
+                //SpaceTemplate spaceTemplate = new SpaceTemplate(x, y); // not new, but get from json
+                Space space = new Space(x, y);
                 spaces[x][y] = space;
+                //spaceTemplates[x][y] = spaceTemplate;
             }
         }
         this.stepMode = false;
@@ -99,6 +104,14 @@ public class Board extends Subject {
         } else {
             return null;
         }
+    }
+
+    public Space[][] getSpaces() {
+        return spaces;
+    }
+
+    public SpaceTemplate[][] getSpaceTemplates() {
+        return spaceTemplates;
     }
 
     /*public void setSpaceType(int x, int y, ElementType inputType){
@@ -220,6 +233,9 @@ public class Board extends Subject {
     }
 
 
+    /*public String toString() {
+        return
+    }*/
    /* public void setSpaceType(int x, int y, ElementType inputType) {
         switch (inputType){
             case Gear:

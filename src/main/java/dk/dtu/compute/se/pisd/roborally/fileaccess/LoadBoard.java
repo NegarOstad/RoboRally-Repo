@@ -25,11 +25,12 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
-import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
+//import dk.dtu.compute.se.pisd.roborally.model.BoardElement;
+//import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
+//import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.SpaceTemplate;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -48,7 +49,7 @@ public class LoadBoard {
     private static final String JSON_EXT = "json";
 
     public static Board loadBoard(String boardname) {
-        if (boardname == null) {
+       /* if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
 
@@ -61,7 +62,7 @@ public class LoadBoard {
 
 		// In simple cases, we can create a Gson object with new Gson():
         GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>());
+                registerTypeAdapter(Board.class, new Adapter<Board>());
         Gson gson = simpleBuilder.create();
 
 		Board result;
@@ -70,15 +71,20 @@ public class LoadBoard {
 		try {
 			// fileReader = new FileReader(filename);
 			reader = gson.newJsonReader(new InputStreamReader(inputStream));
-			BoardTemplate template = gson.fromJson(reader, BoardTemplate.class);
+            Board board = gson.fromJson(reader, Board.class);
+			result = new Board(board.width, board.height);
+            SpaceTemplate[][] spaceTemplates = board.getSpaceTemplates();
+            for (int i = 0; i < board.width; i++) {
+                for(int j = 0 ; j < board.height; j++){
+                    //Space space = result.getSpace(spaceTemplates[i][j].x, spaceTemplates[i][j].y);
 
-			result = new Board(template.width, template.height);
-			for (SpaceTemplate spaceTemplate: template.spaces) {
-			    Space space = result.getSpace(spaceTemplate.x, spaceTemplate.y);
-			    if (space != null) {
-                    space.getActions().addAll(spaceTemplate.actions);
-                    space.getWalls().addAll(spaceTemplate.walls);
+                        if (space != null) {
+                            space.setBoardElement(spaceTemplates[i][j].boardElement);
+                            // space.getActions().addAll(spaceTemplate.actions);
+                            // space.getWalls().addAll(spaceTemplate.walls);
+                    }
                 }
+
             }
 			reader.close();
 			return result;
@@ -156,6 +162,10 @@ public class LoadBoard {
                 } catch (IOException e2) {}
             }
         }
+
+        */
     }
+
+
 
 }
