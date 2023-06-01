@@ -49,7 +49,7 @@ public class LoadBoard {
     private static final String JSON_EXT = "json";
 
     public static Board loadBoard(String boardname) {
-       /* if (boardname == null) {
+        if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
 
@@ -78,14 +78,16 @@ public class LoadBoard {
                 for(int j = 0 ; j < board.height; j++){
                     //Space space = result.getSpace(spaceTemplates[i][j].x, spaceTemplates[i][j].y);
 
-                        if (space != null) {
+                        /*if (space != null) {
                             space.setBoardElement(spaceTemplates[i][j].boardElement);
                             // space.getActions().addAll(spaceTemplate.actions);
                             // space.getWalls().addAll(spaceTemplate.walls);
-                    }
+
+                    }*/
                 }
 
             }
+            System.out.println();
 			reader.close();
 			return result;
 		} catch (IOException e1) {
@@ -105,21 +107,19 @@ public class LoadBoard {
     }
 
     public static void saveBoard(Board board, String name) {
-        BoardTemplate template = new BoardTemplate();
-        template.width = board.width;
-        template.height = board.height;
+        Board template = new Board(board.width, board.height);
 
         for (int i=0; i<board.width; i++) {
             for (int j=0; j<board.height; j++) {
                 Space space = board.getSpace(i,j);
-                if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
+               /* if (!space.getWalls().isEmpty() || !space.getActions().isEmpty()) {
                     SpaceTemplate spaceTemplate = new SpaceTemplate();
                     spaceTemplate.x = space.x;
                     spaceTemplate.y = space.y;
                     spaceTemplate.actions.addAll(space.getActions());
                     spaceTemplate.walls.addAll(space.getWalls());
                     template.spaces.add(spaceTemplate);
-                }
+                }*/
             }
         }
 
@@ -138,15 +138,15 @@ public class LoadBoard {
         // a builder (here, we want to configure the JSON serialisation with
         // a pretty printer):
         GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(FieldAction.class, new Adapter<FieldAction>()).
+                registerTypeAdapter(Board.class, new Adapter<Board>()).
                 setPrettyPrinting();
         Gson gson = simpleBuilder.create();
 
         FileWriter fileWriter = null;
         JsonWriter writer = null;
         try {
-            fileWriter = new FileWriter(filename);
-            writer = gson.newJsonWriter(fileWriter);
+            /*fileWriter = new FileWriter(filename);
+            writer = gson.newJsonWriter(fileWriter);*/
             gson.toJson(template, template.getClass(), writer);
             writer.close();
         } catch (IOException e1) {
@@ -163,9 +163,7 @@ public class LoadBoard {
             }
         }
 
-        */
+
     }
-
-
 
 }
