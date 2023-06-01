@@ -56,36 +56,3 @@ public class PriorityAntenna extends BoardElement {
 }
 
 
-/*
-
-    public List<Player> calcClosestPlayers(List<Player> players) {
-        List<Player> tempPlayersList = new ArrayList<>(players);
-        sortedPlayers.clear();
-
-        while (!tempPlayersList.isEmpty()) {
-            double minDistance = Double.POSITIVE_INFINITY;
-            Player currentClosest = null;
-
-            for (Player player : tempPlayersList) {
-                double a = Math.abs(this.x - player.getSpace().x);
-                double b = Math.abs(this.y - player.getSpace().y);
-                double distance = Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-
-                if (distance < minDistance) {
-                    minDistance = distance;
-                    currentClosest = player;
-                }
-            }
-
-            sortedPlayers.add(currentClosest);
-            tempPlayersList.remove(currentClosest);
-        }
-
-        return sortedPlayers;
-    }
-
-
-}
-*/
-
-
