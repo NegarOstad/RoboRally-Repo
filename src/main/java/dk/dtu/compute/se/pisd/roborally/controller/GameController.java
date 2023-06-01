@@ -140,9 +140,6 @@ public class GameController {
         continuePrograms();
     }
 
-
-
-
     // XXX: V2
     private void continuePrograms() {;
         calcClosestPlayers =  board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
