@@ -5,12 +5,12 @@ public class Gear extends BoardElement {
     public Gear(Heading EndDirection) {
         this.EndDirection= EndDirection;
     }
-    public void turnPlayer(Player currentPlayer){
+    /*public void turnPlayer(Player currentPlayer){
         currentPlayer.setHeading(EndDirection);
-    }
+    }*/
 
     @Override
-    public void doAction(Player currentPlayer) {
+    public void doAction(Player currentPlayer, Board board) {
         currentPlayer.setHeading(EndDirection);
     }
 }

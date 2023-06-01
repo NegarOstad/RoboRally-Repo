@@ -8,13 +8,13 @@ package dk.dtu.compute.se.pisd.roborally.model;
             endSpace = inputEndSpace;
         }
 
-        public void movePlayer(Player currentPlayer) {
+        /*public void movePlayer(Player currentPlayer) {
             currentPlayer.setSpace(endSpace);
-        }
+        }*/
 
         @Override
-        public void doAction(Player currentPlayer) {
-            currentPlayer.setSpace(endSpace);
+        public void doAction(Player currentPlayer, Board board) {
+            currentPlayer.setSpace(endSpace, board);
         }
     }
 

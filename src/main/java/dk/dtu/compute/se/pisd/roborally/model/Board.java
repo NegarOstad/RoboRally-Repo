@@ -109,7 +109,7 @@ public class Board extends Subject {
     }
 
     public void addPlayer(@NotNull Player player) {
-        if (player.board == this && !players.contains(player)) {
+        if (!players.contains(player)) {
             players.add(player);
             notifyChange();
         }
@@ -168,11 +168,8 @@ public class Board extends Subject {
     }
 
     public int getPlayerNumber(@NotNull Player player) {
-        if (player.board == this) {
             return players.indexOf(player);
-        } else {
-            return -1;
-        }
+
     }
 
     /**

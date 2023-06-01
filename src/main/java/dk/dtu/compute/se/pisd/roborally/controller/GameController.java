@@ -154,7 +154,7 @@ public class GameController {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
                     if(currentPlayer.getSpace().getBoardElement() != null)
-                        currentPlayer.getSpace().getBoardElement().doAction(currentPlayer);
+                        currentPlayer.getSpace().getBoardElement().doAction(currentPlayer, board);
                     currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
 
@@ -187,7 +187,7 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
+        if (player != null && /*player.board == board &&*/ command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
             //     their execution. This should eventually be done in a more elegant way
             //     (this concerns the way cards are modelled as well as the way they are executed).
@@ -224,7 +224,7 @@ public class GameController {
                 if(newY >= 0 && newY < board.height) {
                     nextSpaceType = board.getSpace(player.getSpace().x, player.getSpace().y + 1).getType();
                     if (!(nextSpaceType.equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(newX, newY));
+                        player.setSpace(board.getSpace(newX, newY), board);
                 }
 
                 break;
@@ -233,7 +233,7 @@ public class GameController {
                 if(newY >= 0 && newY < board.height) {
                     nextSpaceType = board.getSpace(player.getSpace().x, player.getSpace().y - 1).getType();
                     if (!(nextSpaceType.equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(newX, newY));
+                        player.setSpace(board.getSpace(newX, newY), board);
                 }
                 break;
 
@@ -242,7 +242,7 @@ public class GameController {
                 if(newX >= 0 && newX < board.width) {
                     nextSpaceType = board.getSpace(player.getSpace().x - 1, player.getSpace().y).getType();
                     if (!(nextSpaceType.equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(newX, newY));
+                        player.setSpace(board.getSpace(newX, newY), board);
                 }
                 break;
 
@@ -251,7 +251,7 @@ public class GameController {
                 if(newX >= 0 && newX < board.width) {
                     nextSpaceType = board.getSpace(player.getSpace().x + 1, player.getSpace().y).getType();
                     if (!(nextSpaceType.equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(newX, newY));
+                        player.setSpace(board.getSpace(newX, newY), board);
                 }
                 break;
             default:
@@ -281,7 +281,7 @@ public class GameController {
                     if(newY >= 0 && newY < board.height) {
                         nextSpaceType = board.getSpace(player.getSpace().x, player.getSpace().y + 1).getType();
                         if (!(nextSpaceType.equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY));
+                            player.setSpace(board.getSpace(newX, newY), board);
                     }
                     break;
 
@@ -290,7 +290,7 @@ public class GameController {
                     if(newY >= 0 && newY < board.height) {
                         nextSpaceType = board.getSpace(player.getSpace().x, player.getSpace().y - 1).getType();
                         if (!(nextSpaceType.equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY));
+                            player.setSpace(board.getSpace(newX, newY), board);
                     }
                     break;
 
@@ -299,7 +299,7 @@ public class GameController {
                     if(newX >= 0 && newX < board.width) {
                         nextSpaceType = board.getSpace(player.getSpace().x - 1, player.getSpace().y).getType();
                         if (!(nextSpaceType.equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY));
+                            player.setSpace(board.getSpace(newX, newY), board);
                     }
                     break;
 
@@ -308,7 +308,7 @@ public class GameController {
                     if(newX >= 0 && newX < board.width) {
                         nextSpaceType = board.getSpace(player.getSpace().x + 1, player.getSpace().y).getType();
                         if (!(nextSpaceType.equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY));
+                            player.setSpace(board.getSpace(newX, newY), board);
                     }
                     break;
 

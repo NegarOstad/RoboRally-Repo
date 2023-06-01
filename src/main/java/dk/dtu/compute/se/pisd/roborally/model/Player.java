@@ -37,7 +37,7 @@ public class Player extends Subject {
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 
-    final public Board board;
+    //final public Board board;
 
     private String name;
     private String color;
@@ -52,8 +52,8 @@ public class Player extends Subject {
 
     private boolean registerIsEmpty = false;
 
-    public Player(@NotNull Board board, String color, @NotNull String name) {
-        this.board = board;
+    public Player(/*@NotNull Board board,*/ String color, @NotNull String name) {
+       // this.board = board;
         this.name = name;
         this.color = color;
 
@@ -100,15 +100,15 @@ public class Player extends Subject {
         return space;
     }
 
-    public void setSpace(Space space) {
+    public void setSpace(Space space, Board board) {
         boolean moveIsValid = false;
         Space oldSpace = this.space; //holds player's space before move
-        if (space != oldSpace && (space == null || space.board == this.board)) {
+        if (space != oldSpace && (space == null || space.board == board)) {
             if(space.getPlayer() == null) {
                 moveIsValid = true;
 
             } else {
-                if(pushRobot(space.getPlayer()))
+                if(pushRobot(space.getPlayer(), board))
                     moveIsValid = true;
             }
 
@@ -129,7 +129,7 @@ public class Player extends Subject {
         }
     }
 
-    private boolean pushRobot(Player opponent){
+    private boolean pushRobot(Player opponent, Board board){
         boolean canBePushed = false;
         int x = opponent.getSpace().x;
         int y = opponent.getSpace().y;
@@ -161,7 +161,7 @@ public class Player extends Subject {
                 break;
         }
         if(canBePushed)
-            opponent.setSpace(newSpace);
+            opponent.setSpace(newSpace, board);
         return canBePushed;
     }
 
@@ -196,7 +196,7 @@ public class Player extends Subject {
         return tokenCount;
     }
 
-    public void setTestRegister(int ver) {
+    public void setTestRegister(int ver, Board board) {
         if (ver == 1) {
             program[0].setCard(new CommandCard(Command.FORWARD));
             program[1].setCard(new CommandCard(Command.FAST_FORWARD));

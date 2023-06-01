@@ -53,9 +53,9 @@ public class Space extends Subject {
         //boardElement  = new Wall();
     }
 
-    public void setTypeCheckpoint(int index, Board board, boolean isLastCheckpoint) {
+    public void setTypeCheckpoint(int index, boolean isLastCheckpoint) {
         type = ElementType.Checkpoint;
-        boardElement = new Checkpoint(index, board, isLastCheckpoint);
+        boardElement = new Checkpoint(index, isLastCheckpoint);
 
     }
 
@@ -106,7 +106,7 @@ public class Space extends Subject {
     public void setPlayer(Player player) {
         Player oldPlayer = this.player;
         if (player != oldPlayer &&
-                (player == null || board == player.board)) {
+                (player == null || board == this.board)) {
             this.player = player;
            /* if (oldPlayer != null) {
                 // this should actually not happen

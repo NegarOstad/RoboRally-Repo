@@ -6,13 +6,13 @@ public class Wall extends BoardElement{
 
 
 
-    public void stopPlayerOneTurn(Player currentPlayer, Space currentSpace) {
+   /* public void stopPlayerOneTurn(Player currentPlayer, Space currentSpace) {
 
         currentPlayer.setSpace(currentSpace);
-    }
+    }*/
 
     @Override
-    public void doAction(Player currentPlayer) {
-
+    public void doAction(Player currentPlayer, Board board) {
+        currentPlayer.setSpace(currentSpace, board);
     }
 }

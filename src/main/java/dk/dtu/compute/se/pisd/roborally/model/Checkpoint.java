@@ -3,14 +3,14 @@ package dk.dtu.compute.se.pisd.roborally.model;
 public class Checkpoint extends BoardElement {
     private int index;
 
-    Board board;
+    //Board board;
     private boolean isLastCheckpoint;
 
-    public Checkpoint(int inputIndex, Board board, boolean isLastCheckpoint) {
+    public Checkpoint(int inputIndex/*, Board board*/, boolean isLastCheckpoint) {
         super();
         index = inputIndex;
         this.isLastCheckpoint = isLastCheckpoint;
-        this.board = board;
+        //this.board = board;
     }
 
 
@@ -23,7 +23,7 @@ public class Checkpoint extends BoardElement {
     }
 
     @Override
-    public void doAction(Player currentPlayer) {
+    public void doAction(Player currentPlayer, Board board) {
         System.out.println("We made it here");
         boolean validateAddToken = (board.getStep() == Player.NO_REGISTERS - 1 || currentPlayer.getRegisterStatus())
                 && currentPlayer.getTokenCount() == ((Checkpoint)currentPlayer.getSpace().getBoardElement()).getIndex();
