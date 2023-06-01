@@ -31,7 +31,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
  */
 public class Space extends Subject {
 
-    public final Board board;
+    //public final Board board;
     ElementType type;
     public final int x;
     public final int y;
@@ -39,8 +39,8 @@ public class Space extends Subject {
     private BoardElement boardElement;
 
 
-    public Space(Board board, int x, int y) {
-        this.board = board;
+    public Space(int x, int y) {
+        //this.board = board;
         this.x = x;
         this.y = y;
         player = null;
@@ -59,24 +59,24 @@ public class Space extends Subject {
 
     }
 
-    public void setTypeConveyor(Space slut, int x, int y) {
+    public void setTypeConveyor(Space slut, int x, int y , Board board) {
         type = ElementType.ConveyorBelt;
         boardElement = new ConveyorBelt(slut);
 
         if (x == slut.x) {
             if(y > slut.y){
                 y--;
-                board.getSpace(x, y).setTypeConveyor(slut, x, y);
+                board.getSpace(x, y).setTypeConveyor(slut, x, y , board);
             } else if(y < slut.y){
                 y++;
-                board.getSpace(x, y).setTypeConveyor(slut, x, y);
+                board.getSpace(x, y).setTypeConveyor(slut, x, y, board);
             }
         } else if (x > slut.x) {
             x--;
-            board.getSpace(x, y).setTypeConveyor(slut, x, y);
+            board.getSpace(x, y).setTypeConveyor(slut, x, y , board);
         } else {
             x++;
-            board.getSpace(x, y).setTypeConveyor(slut, x, y);
+            board.getSpace(x, y).setTypeConveyor(slut, x, y , board);
         }
     }
 
@@ -103,10 +103,9 @@ public class Space extends Subject {
         return player;
     }
 
-    public void setPlayer(Player player) {
+    public void setPlayer(Player player , Board board) {
         Player oldPlayer = this.player;
-        if (player != oldPlayer &&
-                (player == null || board == this.board)) {
+        if (player != oldPlayer) {
             this.player = player;
            /* if (oldPlayer != null) {
                 // this should actually not happen

@@ -103,7 +103,7 @@ public class Player extends Subject {
     public void setSpace(Space space, Board board) {
         boolean moveIsValid = false;
         Space oldSpace = this.space; //holds player's space before move
-        if (space != oldSpace && (space == null || space.board == board)) {
+        if (space != oldSpace) {
             if(space.getPlayer() == null) {
                 moveIsValid = true;
 
@@ -114,10 +114,10 @@ public class Player extends Subject {
 
             if(moveIsValid) {
                 if (oldSpace != null) {
-                    oldSpace.setPlayer(null); // sets the Player for the player's space before move to null so that the robot disappears
+                    oldSpace.setPlayer(null , board); // sets the Player for the player's space before move to null so that the robot disappears
                 }
                 if (space != null) {
-                    space.setPlayer(this);
+                    space.setPlayer(this , board);
                 }
 
                 this.space = space; // makes player's space the space passed as argument
