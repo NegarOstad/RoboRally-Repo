@@ -75,11 +75,8 @@ public class SpaceView extends StackPane implements ViewObserver {
 
          System.out.println(fullPath);
 
-       if (space.getType() == ElementType.ConveyorBelt) {
-            int i;
-            for (i = space.x; i <= space.x; i++)
 
-            addImage(fullPath + "conveyorbelt.png",0, 0, 0);
+            /*addImage(fullPath + "conveyorbelt.png",0, 0, 0);
         } else if (space.getType() == ElementType.Checkpoint) {
             addImage(fullPath + "checkpoint.png",0, 0, 0);
         } else if (space.getType() == ElementType.Gear) {
@@ -92,21 +89,25 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
-        }
+        }*/
 
-       /* if (space.getType() == ElementType.Gear) {
-            this.setStyle("-fx-background-color: blue;");
-        } else if (space.getType() == ElementType.ConveyorBelt) {
+        int i;
+        for (i = space.x; i <= space.x; i++)
+        if (space.getType() == ElementType.ConveyorBelt) {
             this.setStyle("-fx-background-color: pink;");
+        } else if (space.getType() == ElementType.Gear) {
+            this.setStyle("-fx-background-color: blue;");
         } else if (space.getType() == ElementType.Checkpoint) {
             this.setStyle("-fx-background-color: purple;");
         } else if (space.getType() == ElementType.Wall) {
             this.setStyle("-fx-background-color: green;");
+        } else if (space.getType() == ElementType.PriorityAntenna) {
+            this.setStyle("-fx-background-color: yellow;");
         } else if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
-        }*/
+        }
 
 
 
@@ -150,7 +151,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
-    public void addImage(String imagePath, double rotate, int x, int y) {
+    /*public void addImage(String imagePath, double rotate, int x, int y) {
         Image image = new Image(imagePath);
         ImageView imageView = new ImageView(image);
         imageView.setX(x);

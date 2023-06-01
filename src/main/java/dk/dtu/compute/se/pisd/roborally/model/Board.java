@@ -181,9 +181,6 @@ public class Board extends Subject {
         }
     }
 
-    public void setTypeConveyor(int x, int y, int endX, int endY){
-        this.getSpace(x, y).setTypeConveyor(this.getSpace(endX, endY));
-    }
 
     /**
      * Returns the neighbour of the given space of the board in the given heading.
@@ -230,7 +227,6 @@ public class Board extends Subject {
     public void setWinnerStatus(boolean winnerIsFound) {
         this.winnerIsFound = winnerIsFound;
     }
-
     public void setTypePriorityAntenna(int x, int y) {
         priorityAntenna = (PriorityAntenna)this.getSpace(x, y).setTypePriorityAntenna();
 
