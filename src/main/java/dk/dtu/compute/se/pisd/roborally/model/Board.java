@@ -57,6 +57,8 @@ public class Board extends Subject {
 
     private boolean stepMode;
 
+    PriorityAntenna priorityAntenna;
+
  boolean winnerIsFound = false;
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
@@ -90,7 +92,6 @@ public class Board extends Subject {
         }
     }
 
-
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
                 y >= 0 && y < height) {
@@ -100,11 +101,7 @@ public class Board extends Subject {
         }
     }
 
-    /*public void setSpaceType(int x, int y, ElementType inputType){
-        spaces[x][y].setType(inputType);
-    }*/
-
-    public int getPlayersNumber() {
+    public int getPlayersCount() {
         return players.size();
     }
 
@@ -123,6 +120,10 @@ public class Board extends Subject {
         }
     }
 
+    public List<Player> getPlayerList(){
+        return players;
+    }
+
     public Player getCurrentPlayer() {
         return current;
     }
@@ -134,6 +135,11 @@ public class Board extends Subject {
         }
     }
 
+    public int getNextPlayersNumber(List<Player> listOfClosestPlayers){
+    // public int getNextPlayersNumber(Player closestPlayer){
+        int index = players.indexOf(listOfClosestPlayers);
+        return (index + 1) % players.size();
+    }
     public Phase getPhase() {
         return phase;
     }
@@ -173,6 +179,10 @@ public class Board extends Subject {
         } else {
             return -1;
         }
+    }
+
+    public void setTypeConveyor(int x, int y, int endX, int endY){
+        this.getSpace(x, y).setTypeConveyor(this.getSpace(endX, endY));
     }
 
     /**
@@ -220,6 +230,20 @@ public class Board extends Subject {
     public void setWinnerStatus(boolean winnerIsFound) {
         this.winnerIsFound = winnerIsFound;
     }
+
+    public void setTypePriorityAntenna(int x, int y) {
+        priorityAntenna = (PriorityAntenna)this.getSpace(x, y).setTypePriorityAntenna();
+
+    }
+
+    public PriorityAntenna getPriorityAntenna() {
+        return priorityAntenna;
+    }
+
+
+
+
+
 
 
    /* public void setSpaceType(int x, int y, ElementType inputType) {
