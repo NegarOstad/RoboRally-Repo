@@ -42,6 +42,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -66,7 +67,7 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
-    public void newGame() {
+    public void newGame()  {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
@@ -94,13 +95,16 @@ public class AppController implements Observer {
             board.getSpace(5,0).setTypeCheckpoint(1, board,true);
             //board.getSpace(6,3).setTypeCheckpoint(1);
             //board.getSpace(1,5).setTypeCheckpoint(2);
-            board.getSpace(1,1).setTypeConveyor(board.getSpace(6,1));
+            board.getSpace(2,1).setTypeConveyor(board.getSpace(6,1));
             board.getSpace(1,6).setTypeConveyor(board.getSpace(3,3));
             board.setTypePriorityAntenna(7,7);
             //board.getSpace(1,1).setTypeConveyor(board.getSpace(6,1));
             board.setTypeConveyor(1,1,6,1);
             board.setTypeConveyor(1,6,3,3);
             //add priority antenna and walls
+            board.getSpace(0,5).setTypeWall();
+            board.getSpace(5,3).setTypeWall();
+
 
             gameController = new GameController(board);
             int no = result.get();
@@ -122,7 +126,7 @@ public class AppController implements Observer {
         // XXX needs to be implemented eventually
     }
 
-    public void loadGame() {
+    public void loadGame()  {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
         if (gameController == null) {
@@ -139,7 +143,7 @@ public class AppController implements Observer {
      *
      * @return true if the current game was stopped, false otherwise
      */
-    public boolean stopGame() {
+    public boolean stopGame()  {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
@@ -152,7 +156,7 @@ public class AppController implements Observer {
         return false;
     }
 
-    public void exit() {
+    public void exit()  {
         if (gameController != null) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Exit RoboRally?");

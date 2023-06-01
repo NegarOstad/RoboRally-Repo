@@ -24,15 +24,20 @@ package dk.dtu.compute.se.pisd.roborally.view;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.ElementType;
 import dk.dtu.compute.se.pisd.roborally.model.Phase;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import javafx.scene.image.Image;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
+import javafx.scene.image.ImageView;
+import java.awt.*;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * ...
@@ -50,11 +55,22 @@ public class BoardView extends VBox implements ViewObserver {
     private PlayersView playersView;
 
     private Label statusLabel;
-
     private SpaceEventHandler spaceEventHandler;
+/*
 
-    public BoardView(@NotNull GameController gameController) {
+    private ImageHolder imageHolder = new ImageHolder();
+    List<ImageView> imageList = imageHolder.getImageViewList();
+
+
+ */
+    public BoardView(@NotNull GameController gameController)  {
         board = gameController.board;
+       /* ImageHolder imageHolder = new ImageHolder();
+
+        this.getChildren().add(imageHolder);
+
+
+        */
 
         mainBoardPane = new GridPane();
         playersView = new PlayersView(gameController);
@@ -75,12 +91,14 @@ public class BoardView extends VBox implements ViewObserver {
                 spaces[x][y] = spaceView;
                 mainBoardPane.add(spaceView, x, y);
                 spaceView.setOnMouseClicked(spaceEventHandler);
+                ImageView imageView = null;
             }
         }
 
         board.attach(this);
         update(board);
     }
+
 
     @Override
     public void updateView(Subject subject) {
@@ -116,5 +134,4 @@ public class BoardView extends VBox implements ViewObserver {
         }
 
     }
-
 }

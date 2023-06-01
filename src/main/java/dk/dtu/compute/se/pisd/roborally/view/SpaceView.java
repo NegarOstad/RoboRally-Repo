@@ -22,16 +22,24 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.model.ElementType;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.StrokeLineCap;
 import org.jetbrains.annotations.NotNull;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.*;
 
 /**
  * ...
@@ -41,14 +49,18 @@ import org.jetbrains.annotations.NotNull;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 60; // 60; // 75;
-    final public static int SPACE_WIDTH = 60;  // 60; // 75;
+    final public static int SPACE_HEIGHT = 45; // 60; // 75;
+    final public static int SPACE_WIDTH = 45;  // 60; // 75;
 
     public final Space space;
 
+    private List<ImageView> imageViews;
 
-    public SpaceView(@NotNull Space space) {
+    //private ImageHolder imageHolder = new ImageHolder();
+
+    public SpaceView(@NotNull Space space)  {
         this.space = space;
+        this.imageViews = new ArrayList<>();
 
         // XXX the following styling should better be done with styles
         this.setPrefWidth(SPACE_WIDTH);
@@ -57,7 +69,24 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         this.setPrefHeight(SPACE_HEIGHT);
         this.setMinHeight(SPACE_HEIGHT);
-        this.setMaxHeight(SPACE_HEIGHT);
+
+        String path = System.getProperty("user.dir");
+        String fullPath = path + "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\";
+
+        System.out.println(fullPath);
+
+        if (space.getType() == ElementType.ConveyorBelt) {
+            int i;
+            for (i = space.x; i <= space.x; i++)
+
+            addImage(fullPath + "conveyorbelt.png",0, 0, 0);
+        } else if (space.getType() == ElementType.Checkpoint) {
+            addImage(fullPath + "checkpoint.png",0, 0, 0);
+        } else if (space.getType() == ElementType.Gear) {
+            addImage(fullPath + "gear.png",0,0,0);
+        } else if (space.getType() == ElementType.Wall) {
+            addImage(fullPath + "wall.png",0,0,0);
+        }
 
         if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
@@ -65,15 +94,31 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
 
+
+
+        /*ImageView imageView = null;
+        if (space.x == 0 && space.y == 0) {
+            imageView = new ImageView(new Image("C:\\Users\\aljwa\\Desktop\\conveyorbelt.png"));
+            this.getChildren().add(imageView);
+        }*/
+
+
         // updatePlayer();
 
         // This space view should listen to changes of the space
-        space.attach(this);
-        update(space);
+       space.attach(this);
+       update(space);
+
+
     }
 
     private void updatePlayer() {
-        this.getChildren().clear();
+        //this.getChildren().clear();
+
+        for(int i = 0; i <this.getChildren().size(); i++){
+            if(this.getChildren().get(i).getClass().equals(Polygon.class))
+                this.getChildren().remove(i);
+        }
 
         Player player = space.getPlayer();
         if (player != null) {
@@ -91,6 +136,24 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+    public void addImage(String imagePath, double rotate, int x, int y) {
+        Image image = new Image(imagePath);
+        ImageView imageView = new ImageView(image);
+        imageView.setX(x);
+        imageView.setY(y);
+        this.setRotate(0);
+        this.imageViews.add(imageView);
+        this.getChildren().add(imageView);
+
+    }
+
+    /*
+   private void addImageToSpace(String imagePath, int x, int y, double rotation, double width, double height) {
+       imageHolder.addImage(imagePath, x, y, rotation, width, height);
+   }
+
+
+     */
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
