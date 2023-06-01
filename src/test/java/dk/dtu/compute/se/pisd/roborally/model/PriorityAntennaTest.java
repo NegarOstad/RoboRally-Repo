@@ -22,7 +22,7 @@ class PriorityAntennaTest {
     void setUp() {
         Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
         gameController = new GameController(board);
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 2; i++) {
             Player player = new Player(board, null, "Player " + i);
             board.addPlayer(player);
             player.setSpace(board.getSpace(i, i));
