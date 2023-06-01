@@ -22,7 +22,7 @@ class PriorityAntennaTest {
     void setUp() {
         Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
         gameController = new GameController(board);
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 6; i++) {
             Player player = new Player(board, null, "Player " + i);
             board.addPlayer(player);
             player.setSpace(board.getSpace(i, i));
@@ -39,20 +39,13 @@ class PriorityAntennaTest {
     }
 
     @Test
-    public void testSetPriorityAntenna() {
-        Board board = gameController.board;
-        PriorityAntenna priorityAntenna = new PriorityAntenna(7, 7);
-        //assertEquals(board.getSpace(2,5), );
-    }
-
-    @Test
     void calculateDistance() {
         Board board = gameController.board;
         Player player1 = board.getPlayer(0);
-        int a = Math.abs(board.getPriorityAntenna().x - player1.getSpace().x);
-        int b = Math.abs(board.getPriorityAntenna().y - player1.getSpace().y);
-        int minDistance = (int) Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
-        assertEquals((int) Math.sqrt(98), minDistance);
+        double a = Math.abs(board.getPriorityAntenna().x - player1.getSpace().x);
+        double b = Math.abs(board.getPriorityAntenna().y - player1.getSpace().y);
+        double distance = (int) Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
+        assertEquals((int) Math.sqrt(98), distance);
 
 
     }
@@ -89,7 +82,6 @@ class PriorityAntennaTest {
 
     @Test
     void closestPlayerRegisters() {
-
 
         Board board = gameController.board;
         List<Player> listofcalcClosestPlayers = board.getPlayerList();
