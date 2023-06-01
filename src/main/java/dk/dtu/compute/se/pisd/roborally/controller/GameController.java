@@ -144,11 +144,12 @@ public class GameController {
 
 
     // XXX: V2
-    private void continuePrograms() {
+    private void continuePrograms() {;
+        calcClosestPlayers =  board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
+        board.setCurrentPlayer(calcClosestPlayers.get(0));
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
-
     }
 
 
@@ -182,6 +183,7 @@ public class GameController {
 
                 } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
                     step++;
+                    calcClosestPlayers = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
 
                     if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
                         makeProgramFieldsVisible(step);
