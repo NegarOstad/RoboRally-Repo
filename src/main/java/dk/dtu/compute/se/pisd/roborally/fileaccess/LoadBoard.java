@@ -44,7 +44,7 @@ public class LoadBoard {
 
     private static final String BOARDSFOLDER = "boards";
     private static final String DEFAULTBOARD = "defaultboard";
-    private static final String JSON_EXT = ".json";
+    private static final String JSON_EXT = "json";
 
     public static Board loadBoard(String boardname) {
         if (boardname == null) {
@@ -108,14 +108,15 @@ public class LoadBoard {
         BoardTemplate template = new BoardTemplate(board.width, board.height, board.getSpaces());
         template.setPlayerTemplates(board.getPlayers());
         template.setCurrentPlayerTemplate(board.getCurrentPlayer());
-        //ClassLoader classLoader = LoadBoard.class.getClassLoader();
+        ClassLoader classLoader = LoadBoard.class.getClassLoader();
         // TODO: this is not very defensive, and will result in a NullPointerException
         //       when the folder "resources" does not exist! But, it does not need
         //       the file "simpleCards.json" to exist!
        /* String filename =
                 classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;*/
       //  String filename = "defaultname.json";
-        String filename = "src/main/java/dk/dtu/compute/se/pisd/fileaccess/savefiles/"+name+JSON_EXT;
+        String filename = "src/main/java/dk/dtu/compute/se/pisd/fileaccess/savefiles/"+name+".json";
+        System.out.println(filename);
 
         // In simple cases, we can create a Gson object with new:
         //

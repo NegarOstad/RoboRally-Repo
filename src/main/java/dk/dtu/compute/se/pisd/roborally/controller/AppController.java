@@ -39,6 +39,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -121,7 +122,17 @@ public class AppController implements Observer {
     }
 
     public void saveGame() {
-        LoadBoard.saveBoard(gameController.board, "testboard");
+
+            TextInputDialog textInputDialog = new TextInputDialog();
+            textInputDialog.setHeaderText("Save Game");
+            textInputDialog.setContentText("Enter a name for your game:");
+            textInputDialog.showAndWait();
+            //Button button = new Button("Save");
+            String result = textInputDialog.getResult();
+        System.out.println(result);
+            LoadBoard.saveBoard(gameController.board, result);
+
+
     }
 
     public void loadGame()  {
