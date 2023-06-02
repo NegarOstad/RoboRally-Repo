@@ -47,10 +47,7 @@ import java.beans.Customizer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * ...
@@ -62,6 +59,7 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
+    final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
     private String gameName ;
 
     final private RoboRally roboRally;
@@ -133,10 +131,29 @@ public class AppController implements Observer {
         textInputDialog.showAndWait();
         String result = textInputDialog.getResult();
         LoadBoard.saveBoard(gameController.board, result);
-        //Button button = new Button("");
+
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setContentText("Game is saved.");
         alert.showAndWait();
+        //ChoiceDialog<String> dialog = new ChoiceDialog<>(COUNTINUE_OR_NOT.get(0), COUNTINUE_OR_NOT);
+
+        //dialog.setHeaderText("Do you want to exit the game?");
+        //Optional<String> choice = dialog.showAndWait();
+        //Optional<ButtonType> choice =
+        /*if ( choice.get().equals("Yes") ) {
+            exit();
+        }*/
+        exit();
+       /* Alert alertBox = new Alert(AlertType.CONFIRMATION);
+        alertBox.setTitle("Exit RoboRally?");
+        alertBox.setContentText("Do you want to exit RoboRally?");
+        Optional<ButtonType> choice = alertBox.showAndWait();
+
+        if (!choice.isPresent() || choice.get() != ButtonType.OK) {
+            //return; // return without exiting the application
+            exit();
+        }*/
+
 
     }
 
@@ -161,7 +178,7 @@ public class AppController implements Observer {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
-            saveGame();
+            //saveGame();
 
             gameController = null;
             roboRally.createBoardView(null);
@@ -174,7 +191,7 @@ public class AppController implements Observer {
         if (gameController != null) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Exit RoboRally?");
-            alert.setContentText("Are you sure you want to exit RoboRally?");
+            alert.setContentText("Do you want to exit RoboRally?");
             Optional<ButtonType> result = alert.showAndWait();
 
             if (!result.isPresent() || result.get() != ButtonType.OK) {
