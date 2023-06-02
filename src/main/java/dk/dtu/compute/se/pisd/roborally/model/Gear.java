@@ -13,4 +13,8 @@ public class Gear extends SpaceAction {
     public void doAction(Player currentPlayer, Board board) {
         currentPlayer.setHeading(EndDirection);
     }
+
+    public Heading getHeading() {
+        return EndDirection;
+    }
 }

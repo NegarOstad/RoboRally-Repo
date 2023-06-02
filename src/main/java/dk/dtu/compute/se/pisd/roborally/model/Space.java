@@ -59,25 +59,27 @@ public class Space extends Subject {
 
     }
 
-    public void setTypeConveyor(Space slut, int x, int y , Board board) {
+    public void setTypeConveyor(int endX, int endY, int x, int y , Board board) {
         type = ElementType.ConveyorBelt;
-        spaceAction = new ConveyorBelt(slut.x, slut.y);
-
-        if (x == slut.x) {
-            if(y > slut.y){
+        spaceAction = new ConveyorBelt(endX, endY);
+/*
+        if (x == endX) {
+            if(y > endY){
                 y--;
-                board.getSpace(x, y).setTypeConveyor(slut, x, y , board);
-            } else if(y < slut.y){
+                board.getSpace(x, y).setTypeConveyor(endX,  endY, x, y, board);
+            } else if(y < endY){
                 y++;
-                board.getSpace(x, y).setTypeConveyor(slut, x, y, board);
+                board.getSpace(x, y).setTypeConveyor( endX,  endY, x, y, board);
             }
-        } else if (x > slut.x) {
+        } else if (x > endX) {
             x--;
-            board.getSpace(x, y).setTypeConveyor(slut, x, y , board);
+            board.getSpace(x, y).setTypeConveyor( endX,  endY, x, y , board);
         } else {
             x++;
-            board.getSpace(x, y).setTypeConveyor(slut, x, y , board);
+            board.getSpace(x, y).setTypeConveyor( endX,  endY, x, y , board);
         }
+
+ */
     }
 
 

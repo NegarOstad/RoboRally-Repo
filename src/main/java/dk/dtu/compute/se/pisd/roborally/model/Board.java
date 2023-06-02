@@ -95,16 +95,29 @@ public class Board extends Subject implements Serializable {
                 spaces[x][y] = space;
                 setSpaceType(spaceTemplates[x][y].type, spaces[x][y], spaceTemplates[x][y]);
 
-
             }
         }
     }
 
-    private void setSpaceType(ElementType type, Space space, SpaceTemplate spaceTemplates){
+    private void setSpaceType(ElementType type, Space space, SpaceTemplate spaceTemplate){
         switch(type) {
-            case Gear:
-               // Gear gear = spaceTemplates.sa;
-                // space.setTypeGear(spaceTemplates.sa);
+                case Gear:
+                    Gear gear = (Gear)spaceTemplate.sa;
+                    space.setTypeGear(gear.getHeading());
+                    break;
+                case Checkpoint:
+                    Checkpoint checkpoint = (Checkpoint)spaceTemplate.sa;
+                    space.setTypeCheckpoint(checkpoint.getIndex(), checkpoint.isLastCheckpoint());
+                    break;
+
+                case Wall:
+                    space.setTypeWall();
+                    break;
+
+                case ConveyorBelt:
+                    ConveyorBelt conveyorBelt = (ConveyorBelt)spaceTemplate.sa;
+                    space.setTypeConveyor(conveyorBelt.endX, conveyorBelt.endY, space.x, space.y, this);
+                    break;
         }
     }
 
