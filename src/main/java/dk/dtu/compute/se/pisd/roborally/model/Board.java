@@ -63,7 +63,6 @@ public class Board extends Subject {
 
     PriorityAntenna priorityAntenna;
 
- boolean winnerIsFound = false;
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;

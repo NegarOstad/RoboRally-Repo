@@ -175,7 +175,7 @@ public class GameController {
                     currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
                 // = board.getPlayerNumber(currentPlayer) + 1;
-                if (counter < board.getPlayersCount()) { // DOES THIS IF THERE IS A NEXT PLAYER
+                if (counter < board.getPlayersNumber()) { // DOES THIS IF THERE IS A NEXT PLAYER
                     counter ++;
                    // board.setCurrentPlayer(board.getPlayer());
                     board.setCurrentPlayer(priorityList.get(counter));
