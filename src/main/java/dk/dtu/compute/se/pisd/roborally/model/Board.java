@@ -93,17 +93,18 @@ public class Board extends Subject implements Serializable {
                 int spaceY = spaceTemplates[x][y].y;
                 Space space = new Space(spaceX, spaceY);
                 spaces[x][y] = space;
-                //setSpaceType(spaceTemplates[x][y].type, spaces[x][y]);
+                setSpaceType(spaceTemplates[x][y].type, spaces[x][y], spaceTemplates[x][y]);
 
 
             }
         }
     }
 
-    private void setSpaceType(ElementType type, Space space){
+    private void setSpaceType(ElementType type, Space space, SpaceTemplate spaceTemplates){
         switch(type) {
             case Gear:
-                //space.setTypeGear();
+               // Gear gear = spaceTemplates.sa;
+                // space.setTypeGear(spaceTemplates.sa);
         }
     }
 

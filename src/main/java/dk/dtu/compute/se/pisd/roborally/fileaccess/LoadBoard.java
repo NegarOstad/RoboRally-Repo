@@ -69,11 +69,18 @@ public class LoadBoard {
             //reader = gson.newJsonReader(fileReader);
 			reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate boardTemplate = gson.fromJson(reader, BoardTemplate.class);
-			newBoard = new Board(boardTemplate.width, boardTemplate.height, boardname, boardTemplate.spaceTemplates);
+			// Genopstil board
+            newBoard = new Board(boardTemplate.width, boardTemplate.height, boardname, boardTemplate.spaceTemplates);
+
+            // Genopstil spillerne
             for(PlayerTemplate p : boardTemplate.playerTemplates){
-                newBoard.getPlayers().add(new Player(p.color, p.name));
+                Player newPlayer = new Player(p.color, p.name);
+                Space newPlayerSpace = newBoard.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
+                newPlayer.setSpace(newPlayerSpace, newBoard);
+                newBoard.getPlayers().add(newPlayer);
+
             }
-            newBoard.getPlayers();
+
            /* for (int i = 0; i < newBoard.width; i++) {
                 for(int j = 0 ; j < newBoard.height; j++){
                     Space space = new Space(spaceTemplates[i][j].x, spaceTemplates[i][j].y);
