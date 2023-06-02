@@ -83,7 +83,10 @@ public class SpaceView extends StackPane implements ViewObserver {
             addImage(fullPath + "gear.png",0,0,0);
         } else if (space.getType() == ElementType.Wall) {
             addImage(fullPath + "wall.png",0,0,0);
-        }
+        } else if (space.getType() == ElementType.) {
+        addImage(fullPath + "priorityantenna.png",0,0,0);
+       }
+
 
         if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
