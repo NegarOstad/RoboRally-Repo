@@ -90,8 +90,9 @@ public class AppController implements Observer {
 
 
             Board board = setupBaseBoard();
-
             gameController = new GameController(board);
+
+
             int no = result.get();
             for (int i = 0; i < no; i++) {
                 Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
@@ -103,6 +104,13 @@ public class AppController implements Observer {
 
             roboRally.createBoardView(gameController);
         }
+    }
+
+    public void newGame(Board board){
+        gameController = new GameController(board);
+        gameController.startProgrammingPhase();
+        roboRally.createBoardView(gameController);
+
     }
 
     private Board setupBaseBoard(){
@@ -139,7 +147,8 @@ public class AppController implements Observer {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
         if (gameController == null) {
-            newGame();
+            newGame(LoadBoard.loadBoard("mygame"));
+
         }
     }
 

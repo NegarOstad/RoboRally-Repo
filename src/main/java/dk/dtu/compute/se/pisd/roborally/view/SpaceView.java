@@ -88,6 +88,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             addImage(fullPath + "wall.png",0,0,0);
         }*/
 
+
         if (space.getType() == ElementType.Gear) {
             this.setStyle("-fx-background-color: blue;");
         } else if (space.getType() == ElementType.ConveyorBelt) {

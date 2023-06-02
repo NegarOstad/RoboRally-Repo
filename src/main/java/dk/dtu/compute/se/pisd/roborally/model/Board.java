@@ -46,9 +46,9 @@ public class Board extends Subject implements Serializable {
 
     private Integer gameId;
 
-    private final Space[][] spaces;
+    private Space[][] spaces;
 
-    private final SpaceTemplate[][] spaceTemplates;
+    //private final SpaceTemplate[][] spaceTemplates;
 
     private final List<Player> players = new ArrayList<>();
 
@@ -60,25 +60,33 @@ public class Board extends Subject implements Serializable {
 
     private boolean stepMode;
 
- boolean winnerIsFound = false;
+    boolean winnerIsFound = false;
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;
         this.height = height;
         spaces = new Space[width][height];
-        spaceTemplates = new SpaceTemplate[width][height];
+
         for (int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
-                //SpaceTemplate spaceTemplate = new SpaceTemplate(x, y); // not new, but get from json
                 Space space = new Space(x, y);
                 spaces[x][y] = space;
-                //spaceTemplates[x][y] = spaceTemplate;
+
             }
         }
         this.stepMode = false;
     }
 
-    public void setSpaces(SpaceTemplate[][] spaceTemplates) {
+    public Board(int width, int height, @NotNull String boardName, SpaceTemplate[][] spaceTemplates) {
+        this.boardName = boardName;
+        this.width = width;
+        this.height = height;
+        spaces = new Space[width][height];
+        setSpaces(spaceTemplates);
+
+    }
+
+    private void setSpaces(SpaceTemplate[][] spaceTemplates) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 int spaceX = spaceTemplates[x][y].x;
@@ -92,12 +100,12 @@ public class Board extends Subject implements Serializable {
         }
     }
 
-    /*public void setSpaceType(ElementType type, Space space){
+    private void setSpaceType(ElementType type, Space space){
         switch(type) {
             case Gear:
-                space.setTypeGear();
+                //space.setTypeGear();
         }
-    }*/
+    }
 
 
 
@@ -133,9 +141,9 @@ public class Board extends Subject implements Serializable {
         return spaces;
     }
 
-    public SpaceTemplate[][] getSpaceTemplates() {
+   /* public SpaceTemplate[][] getSpaceTemplates() {
         return spaceTemplates;
-    }
+    }*/
 
     /*public void setSpaceType(int x, int y, ElementType inputType){
         spaces[x][y].setType(inputType);

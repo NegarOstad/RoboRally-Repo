@@ -30,10 +30,7 @@ import com.google.gson.stream.JsonWriter;
 //import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
 
 /**
  * ...
@@ -51,7 +48,7 @@ public class LoadBoard {
             boardname = DEFAULTBOARD;
         }
 
-        ClassLoader classLoader = LoadBoard.class.getClassLoader();
+       ClassLoader classLoader = LoadBoard.class.getClassLoader();
         InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
         if (inputStream == null) {
             // TODO these constants should be defined somewhere
@@ -60,46 +57,50 @@ public class LoadBoard {
 
 		// In simple cases, we can create a Gson object with new Gson():
         GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(Board.class, new Adapter<Board>());
+                registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>());
         Gson gson = simpleBuilder.create();
 
-		Board result;
-		// FileReader fileReader = null;
+		Board newBoard;
+		 //FileReader fileReader = null;
         JsonReader reader = null;
 		try {
-			// fileReader = new FileReader(filename);
+            //String filename = "src/main/java/dk/dtu/compute/se/pisd/roborally/fileaccess/savefiles/"+boardname+".json";
+            //fileReader = new FileReader(filename);
+            //reader = gson.newJsonReader(fileReader);
 			reader = gson.newJsonReader(new InputStreamReader(inputStream));
-            Board board = gson.fromJson(reader, Board.class);
-			result = new Board(board.width, board.height);
-            SpaceTemplate[][] spaceTemplates = board.getSpaceTemplates();
-            for (int i = 0; i < board.width; i++) {
-                for(int j = 0 ; j < board.height; j++){
-                    //Space space = result.getSpace(spaceTemplates[i][j].x, spaceTemplates[i][j].y);
+            BoardTemplate boardTemplate = gson.fromJson(reader, BoardTemplate.class);
+			newBoard = new Board(boardTemplate.width, boardTemplate.height, boardname, boardTemplate.spaceTemplates);
+            for(PlayerTemplate p : boardTemplate.playerTemplates){
+                newBoard.getPlayers().add(new Player(p.color, p.name));
+            }
+            newBoard.getPlayers();
+           /* for (int i = 0; i < newBoard.width; i++) {
+                for(int j = 0 ; j < newBoard.height; j++){
+                    Space space = new Space(spaceTemplates[i][j].x, spaceTemplates[i][j].y);
 
-                        /*if (space != null) {
+
+                    if (space != null) {
                             space.setBoardElement(spaceTemplates[i][j].boardElement);
-                            // space.getActions().addAll(spaceTemplate.actions);
-                            // space.getWalls().addAll(spaceTemplate.walls);
 
-                    }*/
+                    }
                 }
 
-            }
+            }*/
             System.out.println();
 			reader.close();
-			return result;
+			return newBoard;
 		} catch (IOException e1) {
             if (reader != null) {
                 try {
                     reader.close();
-                    inputStream = null;
+                    //inputStream = null;
                 } catch (IOException e2) {}
             }
-            if (inputStream != null) {
+           /* if (inputStream != null) {
 				try {
 					inputStream.close();
 				} catch (IOException e2) {}
-			}
+			}*/
 		}
 		return null;
     }
@@ -112,11 +113,12 @@ public class LoadBoard {
         // TODO: this is not very defensive, and will result in a NullPointerException
         //       when the folder "resources" does not exist! But, it does not need
         //       the file "simpleCards.json" to exist!
-       /* String filename =
-                classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;*/
-      //  String filename = "defaultname.json";
-        String filename = "src/main/java/dk/dtu/compute/se/pisd/fileaccess/savefiles/"+name+".json";
-        System.out.println(filename);
+        //String filename =classLoader.getResource("boards").getPath() + "/" + name + "." + JSON_EXT;
+
+//        System.out.println("this is my file name: " + filename);
+       //String filename = "src/defaultname.json";
+
+        String filename = "src/main/resources/boards/"+name+".json";
 
         // In simple cases, we can create a Gson object with new:
         //
@@ -137,6 +139,7 @@ public class LoadBoard {
             writer = gson.newJsonWriter(fileWriter);
             gson.toJson(template, template.getClass(), writer);
             writer.close();
+
         } catch (IOException e1) {
             if (writer != null) {
                 try {
