@@ -58,7 +58,7 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-
+    final private List<String> BOARD_NUMBER = Arrays.asList("Board 1" , "Board 2");
     final private RoboRally roboRally;
 
     private GameController gameController;
@@ -73,6 +73,12 @@ public class AppController implements Observer {
         dialog.setHeaderText("Select number of players");
         Optional<Integer> result = dialog.showAndWait();
 
+        //// Add new Board
+        ChoiceDialog<String> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
+        boardDialog.setTitle("Boards");
+        boardDialog.setHeaderText("Choose one board");
+        Optional<String> boardResult = boardDialog.showAndWait();
+
         if (result.isPresent()) {
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
@@ -85,23 +91,43 @@ public class AppController implements Observer {
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
+            String bordNum = boardResult.get();
+            switch (bordNum) {
+                case "Board 1":
             /* board.setSpaceType(1,3, ElementType.Gear);
             board.setSpaceType(4,4, ElementType.Gear);
             board.setSpaceType(6,6, ElementType.Gear);*/
-            board.getSpace(2,7).setTypeGear(Heading.WEST);
-            board.getSpace(4,4).setTypeGear(Heading.EAST);
-            board.getSpace(1,3).setTypeGear(Heading.EAST);
-            board.getSpace(4,0).setTypeCheckpoint(0, board, false);
-            board.getSpace(5,0).setTypeCheckpoint(1, board,true);
-            //board.getSpace(6,3).setTypeCheckpoint(1);
-            //board.getSpace(1,5).setTypeCheckpoint(2);
-            board.getSpace(2,1).setTypeConveyor(board.getSpace(6,1), 2, 1);
-            board.getSpace(1,6).setTypeConveyor(board.getSpace(3,3), 1, 6);
-            board.getSpace(7,6).setTypeConveyor(board.getSpace(5,6), 7, 6);
-            board.setTypePriorityAntenna(7,7);
-            //add priority antenna and walls
-            board.getSpace(0,5).setTypeWall();
-            board.getSpace(5,3).setTypeWall();
+                    board.getSpace(2, 7).setTypeGear(Heading.WEST);
+                    board.getSpace(4, 4).setTypeGear(Heading.EAST);
+                    board.getSpace(1, 3).setTypeGear(Heading.EAST);
+                    board.getSpace(4, 0).setTypeCheckpoint(0, board, false);
+                    board.getSpace(5, 0).setTypeCheckpoint(1, board, true);
+                    //board.getSpace(6,3).setTypeCheckpoint(1);
+                    //board.getSpace(1,5).setTypeCheckpoint(2);
+                    board.getSpace(2, 1).setTypeConveyor(board.getSpace(6, 1), 2, 1);
+                    board.getSpace(1, 6).setTypeConveyor(board.getSpace(3, 3), 1, 6);
+                    board.getSpace(7, 6).setTypeConveyor(board.getSpace(5, 6), 7, 6);
+                    board.setTypePriorityAntenna(7, 7);
+                    //add priority antenna and walls
+                    board.getSpace(0, 5).setTypeWall();
+                    board.getSpace(5, 3).setTypeWall();
+                case "Board 2":
+                    board.getSpace(3, 7).setTypeGear(Heading.WEST);
+                    board.getSpace(5, 4).setTypeGear(Heading.EAST);
+                    board.getSpace(1, 6).setTypeGear(Heading.EAST);
+                    board.getSpace(4, 0).setTypeCheckpoint(0, board, false);
+                    board.getSpace(6, 6).setTypeCheckpoint(1, board, true);
+                    //board.getSpace(6,3).setTypeCheckpoint(1);
+                    //board.getSpace(1,5).setTypeCheckpoint(2);
+                    board.getSpace(2, 1).setTypeConveyor(board.getSpace(6, 1), 2, 1);
+                    board.getSpace(1, 2).setTypeConveyor(board.getSpace(3, 3), 1, 6);
+                    board.getSpace(7, 6).setTypeConveyor(board.getSpace(5, 6), 7, 6);
+                    board.setTypePriorityAntenna(7, 7);
+                    //add priority antenna and walls
+                    board.getSpace(0, 2).setTypeWall();
+                    board.getSpace(4, 3).setTypeWall();
+                    board.getSpace(7, 5).setTypeWall();
+            }
 
 
             gameController = new GameController(board);
