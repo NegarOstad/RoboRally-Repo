@@ -1,16 +1,17 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 public class SpaceTemplate {
-    ElementType type;
+    public ElementType type;
     public final int x;
     public final int y;
-    public BoardElement boardElement;
+    //public BoardElement be;
 
 
-    public SpaceTemplate(int x, int y) {
+    public SpaceTemplate(int x, int y, ElementType type/*,  BoardElement be*/) {
         this.x = x;
         this.y = y;
-        boardElement = null;
-        type = ElementType.Normal;
+        //this.be = be;
+        this.type = type;
+
     }
 }

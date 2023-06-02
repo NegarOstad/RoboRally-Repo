@@ -255,8 +255,5 @@ public class Board extends Subject implements Serializable {
 
         }
     }*/
-    public String toString() {
-        return width + height + boardName + gameId + spaceTemplates + players + current + phase + step + stepMode + winnerIsFound;
 
-    }
 }
