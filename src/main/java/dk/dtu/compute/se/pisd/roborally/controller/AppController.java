@@ -68,6 +68,7 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
+
     public void newGame()  {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
@@ -85,18 +86,9 @@ public class AppController implements Observer {
 
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
-            Board board = new Board(8,8);
-            board.getSpace(1,3).setTypeGear(Heading.NORTH);
-            board.getSpace(4,4).setTypeGear(Heading.EAST);
-            board.getSpace(1,3).setTypeGear(Heading.SOUTH);
-            board.getSpace(4,0).setTypeCheckpoint(0, false);
-            board.getSpace(5,0).setTypeCheckpoint(1,true);
-            board.getSpace(2,1).setTypeConveyor(board.getSpace(6,1), 2, 1 , board);
-            board.getSpace(1,6).setTypeConveyor(board.getSpace(3,3), 1, 6 , board);
-            board.getSpace(7,6).setTypeConveyor(board.getSpace(5,6), 7, 6 , board);
-            board.getSpace(0,5).setTypeWall();
-            board.getSpace(5,3).setTypeWall();
 
+
+            Board board = setupBaseBoard();
 
             gameController = new GameController(board);
             int no = result.get();
@@ -110,6 +102,22 @@ public class AppController implements Observer {
 
             roboRally.createBoardView(gameController);
         }
+    }
+
+    private Board setupBaseBoard(){
+        Board board = new Board(8,8);
+        board.getSpace(1,3).setTypeGear(Heading.NORTH);
+        board.getSpace(4,4).setTypeGear(Heading.EAST);
+        board.getSpace(1,3).setTypeGear(Heading.SOUTH);
+        board.getSpace(4,0).setTypeCheckpoint(0, false);
+        board.getSpace(5,0).setTypeCheckpoint(1,true);
+        board.getSpace(2,1).setTypeConveyor(board.getSpace(6,1), 2, 1 , board);
+        board.getSpace(1,6).setTypeConveyor(board.getSpace(3,3), 1, 6 , board);
+        board.getSpace(7,6).setTypeConveyor(board.getSpace(5,6), 7, 6 , board);
+        board.getSpace(0,5).setTypeWall();
+        board.getSpace(5,3).setTypeWall();
+
+        return  board;
     }
 
     public void saveGame() {

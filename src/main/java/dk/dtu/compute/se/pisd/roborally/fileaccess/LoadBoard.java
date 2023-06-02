@@ -44,7 +44,7 @@ public class LoadBoard {
 
     private static final String BOARDSFOLDER = "boards";
     private static final String DEFAULTBOARD = "defaultboard";
-    private static final String JSON_EXT = "json";
+    private static final String JSON_EXT = ".json";
 
     public static Board loadBoard(String boardname) {
         if (boardname == null) {
@@ -114,7 +114,8 @@ public class LoadBoard {
         //       the file "simpleCards.json" to exist!
        /* String filename =
                 classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;*/
-        String filename = "defaultname.json";
+      //  String filename = "defaultname.json";
+        String filename = "src/main/java/dk/dtu/compute/se/pisd/fileaccess/savefiles/"+name+JSON_EXT;
 
         // In simple cases, we can create a Gson object with new:
         //
