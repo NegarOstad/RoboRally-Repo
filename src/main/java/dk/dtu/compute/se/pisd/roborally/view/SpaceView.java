@@ -56,7 +56,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     private List<ImageView> imageViews;
 
-    private ImageHolder imageHolder = new ImageHolder();
+   // private ImageHolder imageHolder = new ImageHolder();
 
     public SpaceView(@NotNull Space space)  {
         this.space = space;
@@ -75,7 +75,9 @@ public class SpaceView extends StackPane implements ViewObserver {
 
          System.out.println(fullPath);
 
-
+        int i;
+        for (i = space.x; i <= space.x; i++)
+            if (space.getType() == ElementType.ConveyorBelt){
             addImage(fullPath + "conveyorbelt.png",0, 0, 0);
         } else if (space.getType() == ElementType.Checkpoint) {
             addImage(fullPath + "checkpoint.png",0, 0, 0);
@@ -83,7 +85,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             addImage(fullPath + "gear.png",0,0,0);
         } else if (space.getType() == ElementType.Wall) {
             addImage(fullPath + "wall.png",0,0,0);
-        } else if (space.getType() == ElementType) {
+        } else if (space.getType() == ElementType.PriorityAntenna) {
         addImage(fullPath + "priorityantenna.png",0,0,0);
        }
 
@@ -94,8 +96,7 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.setStyle("-fx-background-color: black;");
         }
 /*
-        int i;
-        for (i = space.x; i <= space.x; i++)
+
         if (space.getType() == ElementType.ConveyorBelt) {
             this.setStyle("-fx-background-color: pink;");
         } else if (space.getType() == ElementType.Gear) {
@@ -113,13 +114,13 @@ public class SpaceView extends StackPane implements ViewObserver {
         }*/
 
 
-
+/*
         ImageView imageView = null;
         if (space.x == 0 && space.y == 0) {
             imageView = new ImageView(new Image("C:\\Users\\aljwa\\Desktop\\conveyorbelt.png"));
             this.getChildren().add(imageView);
         }
-
+*/
 
         // updatePlayer();
 
@@ -154,7 +155,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
-    /*public void addImage(String imagePath, double rotate, int x, int y) {
+    public void addImage(String imagePath, double rotate, int x, int y) {
         Image image = new Image(imagePath);
         ImageView imageView = new ImageView(image);
         imageView.setX(x);
@@ -168,10 +169,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     /*
    private void addImageToSpace(String imagePath, int x, int y, double rotation, double width, double height) {
        imageHolder.addImage(imagePath, x, y, rotation, width, height);
-   }
+   }*/
 
 
-     */
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
