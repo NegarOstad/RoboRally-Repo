@@ -86,9 +86,6 @@ public class AppController implements Observer {
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
-            /* board.setSpaceType(1,3, ElementType.Gear);
-            board.setSpaceType(4,4, ElementType.Gear);
-            board.setSpaceType(6,6, ElementType.Gear);*/
             board.getSpace(1,3).setTypeGear(Heading.NORTH);
             board.getSpace(4,4).setTypeGear(Heading.EAST);
             board.getSpace(1,3).setTypeGear(Heading.SOUTH);
@@ -97,7 +94,6 @@ public class AppController implements Observer {
             board.getSpace(2,1).setTypeConveyor(board.getSpace(6,1), 2, 1 , board);
             board.getSpace(1,6).setTypeConveyor(board.getSpace(3,3), 1, 6 , board);
             board.getSpace(7,6).setTypeConveyor(board.getSpace(5,6), 7, 6 , board);
-            //add priority antenna and walls
             board.getSpace(0,5).setTypeWall();
             board.getSpace(5,3).setTypeWall();
 
@@ -110,10 +106,6 @@ public class AppController implements Observer {
                 player.setSpace(board.getSpace(i % board.width, i), board);
 
             }
-            System.out.println(board.toString());
-
-            // XXX: V2
-            // board.setCurrentPlayer(board.getPlayer(0));
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
