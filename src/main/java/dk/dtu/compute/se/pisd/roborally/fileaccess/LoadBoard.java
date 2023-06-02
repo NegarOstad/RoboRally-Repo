@@ -33,10 +33,8 @@ import dk.dtu.compute.se.pisd.roborally.model.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.model.SpaceTemplate;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.io.*;
+import java.nio.file.Path;
 
 /**
  * ...
@@ -48,6 +46,7 @@ public class LoadBoard {
     private static final String BOARDSFOLDER = "boards";
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
+     //private static String filename;
 
     public static Board loadBoard(String boardname) {
         if (boardname == null) {
@@ -55,7 +54,7 @@ public class LoadBoard {
         }
 
         ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
+        InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + /*boardname */ "testBoard"+ "." + JSON_EXT);
         if (inputStream == null) {
             // TODO these constants should be defined somewhere
             return new Board(8,8);
@@ -111,13 +110,30 @@ public class LoadBoard {
         BoardTemplate template = new BoardTemplate(board.width, board.height, board.getSpaces());
         template.setPlayerTemplates(board.getPlayers());
         template.setCurrentPlayerTemplate(board.getCurrentPlayer());
-        //ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        // TODO: this is not very defensive, and will result in a NullPointerException
-        //       when the folder "resources" does not exist! But, it does not need
-        //       the file "simpleCards.json" to exist!
-       /* String filename =
-                classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;*/
-        String filename = "defaultname.json";
+        FileInputStream in = null;
+        FileOutputStream out = null;
+    ClassLoader classLoader = LoadBoard.class.getClassLoader();
+    // TODO: this is not very defensive, and will result in a NullPointerException
+    //       when the folder "resources" does not exist! But, it does not need
+    //       the file "simpleCards.json" to exist!
+
+
+
+    /*String fullPath = "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\boards\\";
+    String path = System.getProperty("boards.dir");
+    File saveBaords = new File(path);
+
+    if (!saveBaords.exists()) {
+        saveBaords.mkdirs();
+    }*/
+    String filename =
+            classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;
+
+
+/*catch (){
+
+}*/
+        //String filename = "defaultname.json";
 
         // In simple cases, we can create a Gson object with new:
         //

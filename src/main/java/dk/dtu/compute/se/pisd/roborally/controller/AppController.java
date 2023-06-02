@@ -35,12 +35,14 @@ import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.ChoiceDialog;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
+import java.beans.Customizer;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -59,6 +61,7 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
+    private String gameName ;
 
     final private RoboRally roboRally;
 
@@ -123,7 +126,13 @@ public class AppController implements Observer {
     }
 
     public void saveGame() {
-        LoadBoard.saveBoard(gameController.board, "testboard");
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setHeaderText("Save Game");
+        textInputDialog.setContentText("Enter a name for your game:");
+        textInputDialog.showAndWait();
+        //Button button = new Button("Save");
+        String result = textInputDialog.getResult();
+        LoadBoard.saveBoard(gameController.board, result);
     }
 
     public void loadGame()  {
