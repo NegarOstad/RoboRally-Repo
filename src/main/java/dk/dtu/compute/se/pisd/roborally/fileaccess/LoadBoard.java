@@ -110,30 +110,32 @@ public class LoadBoard {
         BoardTemplate template = new BoardTemplate(board.width, board.height, board.getSpaces());
         template.setPlayerTemplates(board.getPlayers());
         template.setCurrentPlayerTemplate(board.getCurrentPlayer());
-        FileInputStream in = null;
-        FileOutputStream out = null;
-    ClassLoader classLoader = LoadBoard.class.getClassLoader();
+        ClassLoader classLoader = LoadBoard.class.getClassLoader();
     // TODO: this is not very defensive, and will result in a NullPointerException
     //       when the folder "resources" does not exist! But, it does not need
     //       the file "simpleCards.json" to exist!
 
 
 
-    /*String fullPath = "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\boards\\";
-    String path = System.getProperty("boards.dir");
+    //String fullPath = "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\boards\\";
+
+        //String filename =classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;
+
+
+    /*String path = System.getProperty("boards.dir");
     File saveBaords = new File(path);
 
     if (!saveBaords.exists()) {
         saveBaords.mkdirs();
     }*/
-    String filename =
-            classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;
+
+
 
 
 /*catch (){
 
 }*/
-        //String filename = "defaultname.json";
+        String filename = "src/main/java/dk/dtu/compute/se/pisd/roborally/fileaccess/boardsaves/"+name+".json";
 
         // In simple cases, we can create a Gson object with new:
         //
@@ -154,6 +156,7 @@ public class LoadBoard {
             writer = gson.newJsonWriter(fileWriter);
             gson.toJson(template, template.getClass(), writer);
             writer.close();
+
         } catch (IOException e1) {
             if (writer != null) {
                 try {
