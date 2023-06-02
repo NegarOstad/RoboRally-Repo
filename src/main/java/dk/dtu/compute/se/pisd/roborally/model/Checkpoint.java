@@ -1,6 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
-public class Checkpoint extends BoardElement {
+public class Checkpoint extends SpaceAction {
     private int index;
 
     //Board board;

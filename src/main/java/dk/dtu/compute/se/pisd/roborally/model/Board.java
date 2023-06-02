@@ -78,6 +78,29 @@ public class Board extends Subject implements Serializable {
         this.stepMode = false;
     }
 
+    public void setSpaces(SpaceTemplate[][] spaceTemplates) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int spaceX = spaceTemplates[x][y].x;
+                int spaceY = spaceTemplates[x][y].y;
+                Space space = new Space(spaceX, spaceY);
+                spaces[x][y] = space;
+                //setSpaceType(spaceTemplates[x][y].type, spaces[x][y]);
+
+
+            }
+        }
+    }
+
+    /*public void setSpaceType(ElementType type, Space space){
+        switch(type) {
+            case Gear:
+                space.setTypeGear();
+        }
+    }*/
+
+
+
     public Board(int width, int height) {
         this(width, height, "defaultboard");
     }

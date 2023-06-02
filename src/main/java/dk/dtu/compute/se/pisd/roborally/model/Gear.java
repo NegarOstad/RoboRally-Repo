@@ -1,6 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
-public class Gear extends BoardElement {
+public class Gear extends SpaceAction {
     private Heading EndDirection;
     public Gear(Heading EndDirection) {
         this.EndDirection= EndDirection;

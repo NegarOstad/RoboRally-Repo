@@ -36,7 +36,7 @@ public class Space extends Subject {
     public final int x;
     public final int y;
     private Player player;
-    private BoardElement boardElement;
+    private SpaceAction spaceAction;
 
 
     public Space(int x, int y) {
@@ -44,7 +44,7 @@ public class Space extends Subject {
         this.x = x;
         this.y = y;
         player = null;
-        boardElement = null;
+        spaceAction = null;
         type = ElementType.Normal;
     }
 
@@ -55,13 +55,13 @@ public class Space extends Subject {
 
     public void setTypeCheckpoint(int index, boolean isLastCheckpoint) {
         type = ElementType.Checkpoint;
-        boardElement = new Checkpoint(index, isLastCheckpoint);
+        spaceAction = new Checkpoint(index, isLastCheckpoint);
 
     }
 
     public void setTypeConveyor(Space slut, int x, int y , Board board) {
         type = ElementType.ConveyorBelt;
-        boardElement = new ConveyorBelt(slut);
+        spaceAction = new ConveyorBelt(slut.x, slut.y);
 
         if (x == slut.x) {
             if(y > slut.y){
@@ -84,19 +84,19 @@ public class Space extends Subject {
 
     public void setTypeGear(Heading heading){
         type = ElementType.Gear;
-        boardElement = new Gear(heading);
+        spaceAction = new Gear(heading);
     }
 
     public ElementType getType() {
         return type;
     }
 
-    public void setBoardElement(BoardElement boardElement) {
-        this.boardElement = boardElement;
+    public void setBoardElement(SpaceAction spaceAction) {
+        this.spaceAction = spaceAction;
     }
 
-    public BoardElement getBoardElement() {
-        return boardElement;
+    public SpaceAction getBoardElement() {
+        return spaceAction;
     }
 
     public Player getPlayer() {

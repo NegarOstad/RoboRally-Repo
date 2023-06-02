@@ -4,13 +4,13 @@ public class SpaceTemplate {
     public ElementType type;
     public final int x;
     public final int y;
-    //public BoardElement be;
+    public SpaceAction sa;
 
 
-    public SpaceTemplate(int x, int y, ElementType type/*,  BoardElement be*/) {
+    public SpaceTemplate(int x, int y, ElementType type,  SpaceAction sa) {
         this.x = x;
         this.y = y;
-        //this.be = be;
+        this.sa = sa;
         this.type = type;
 
     }

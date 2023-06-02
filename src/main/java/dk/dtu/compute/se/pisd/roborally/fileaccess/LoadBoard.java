@@ -28,10 +28,7 @@ import com.google.gson.stream.JsonWriter;
 //import dk.dtu.compute.se.pisd.roborally.model.BoardElement;
 //import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
 //import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.BoardTemplate;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
-import dk.dtu.compute.se.pisd.roborally.model.SpaceTemplate;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -127,7 +124,7 @@ public class LoadBoard {
         // a builder (here, we want to configure the JSON serialisation with
         // a pretty printer):
         GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(Board.class, new Adapter<Board>()).
+                registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>()).
                 setPrettyPrinting();
         Gson gson = simpleBuilder.create();
 

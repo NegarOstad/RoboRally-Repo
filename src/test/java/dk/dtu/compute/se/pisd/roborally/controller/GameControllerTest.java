@@ -5,9 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testng.Converter;
-
-import java.net.Socket;
 
 class GameControllerTest {
 
@@ -108,7 +105,7 @@ class GameControllerTest {
         Player current =board.getCurrentPlayer();
         Space endSpace = gameController.board.getSpace(0,5);
 
-        ConveyorBelt TestConveyorBelt= new ConveyorBelt(endSpace);
+        ConveyorBelt TestConveyorBelt= new ConveyorBelt(0, 5);
 
         TestConveyorBelt.doAction(current, board);
 

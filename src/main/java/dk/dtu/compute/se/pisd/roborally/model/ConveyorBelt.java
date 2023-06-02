@@ -1,11 +1,15 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 
-    public class ConveyorBelt extends BoardElement {
-        Space endSpace;
-        public ConveyorBelt(Space inputEndSpace) {
+    public class ConveyorBelt extends SpaceAction {
+        //Space endSpace;
+        int endX;
+        int endY;
+        public ConveyorBelt(int endX, int endY) {
             super();
-            endSpace = inputEndSpace;
+            this.endX = endX;
+            this.endY = endY;
+            //endSpace = inputEndSpace;
         }
 
         /*public void movePlayer(Player currentPlayer) {
@@ -14,7 +18,7 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
         @Override
         public void doAction(Player currentPlayer, Board board) {
-            currentPlayer.setSpace(endSpace, board);
+            currentPlayer.setSpace(board.getSpace(endX, endY), board);
         }
     }
 

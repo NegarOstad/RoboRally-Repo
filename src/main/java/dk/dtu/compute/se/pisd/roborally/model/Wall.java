@@ -1,6 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
-public class Wall extends BoardElement{
+public class Wall extends SpaceAction {
 
     private Space currentSpace;
 
