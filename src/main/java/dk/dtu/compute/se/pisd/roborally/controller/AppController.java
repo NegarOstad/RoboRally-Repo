@@ -131,30 +131,10 @@ public class AppController implements Observer {
         textInputDialog.showAndWait();
         String result = textInputDialog.getResult();
         LoadBoard.saveBoard(gameController.board, result);
-
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setContentText("Game is saved.");
         alert.showAndWait();
-        //ChoiceDialog<String> dialog = new ChoiceDialog<>(COUNTINUE_OR_NOT.get(0), COUNTINUE_OR_NOT);
-
-        //dialog.setHeaderText("Do you want to exit the game?");
-        //Optional<String> choice = dialog.showAndWait();
-        //Optional<ButtonType> choice =
-        /*if ( choice.get().equals("Yes") ) {
-            exit();
-        }*/
         exit();
-       /* Alert alertBox = new Alert(AlertType.CONFIRMATION);
-        alertBox.setTitle("Exit RoboRally?");
-        alertBox.setContentText("Do you want to exit RoboRally?");
-        Optional<ButtonType> choice = alertBox.showAndWait();
-
-        if (!choice.isPresent() || choice.get() != ButtonType.OK) {
-            //return; // return without exiting the application
-            exit();
-        }*/
-
-
     }
 
     public void loadGame()  {
