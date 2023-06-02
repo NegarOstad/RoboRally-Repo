@@ -59,16 +59,41 @@ public class Space extends Subject {
 
     }
 
-    public void setTypeConveyor(Space slut) {
+    public void setTypeConveyor(Space slut, int x, int y) {
         type = ElementType.ConveyorBelt;
-
         boardElement = new ConveyorBelt(slut);
+
+        if (x == slut.x) {
+            if(y > slut.y){
+                y--;
+                board.getSpace(x, y).setTypeConveyor(slut, x, y);
+            } else if(y < slut.y){
+                y++;
+                board.getSpace(x, y).setTypeConveyor(slut, x, y);
+            }
+        } else if (x > slut.x) {
+            x--;
+            board.getSpace(x, y).setTypeConveyor(slut, x, y);
+        } else {
+            x++;
+            board.getSpace(x, y).setTypeConveyor(slut, x, y);
+        }
     }
+
+
 
     public void setTypeGear(Heading heading){
         type = ElementType.Gear;
 
         boardElement = new Gear(heading);
+    }
+
+
+    public BoardElement setTypePriorityAntenna(){
+        type = ElementType.PriorityAntenna;
+        boardElement = new PriorityAntenna(7,7);
+        return boardElement;
+        //board.setTypePriorityAntenna();
     }
 
     public ElementType getType() {
@@ -92,13 +117,13 @@ public class Space extends Subject {
         if (player != oldPlayer &&
                 (player == null || board == player.board)) {
             this.player = player;
-            if (oldPlayer != null) {
+           /* if (oldPlayer != null) {
                 // this should actually not happen
                 oldPlayer.setSpace(null);
             }
             if (player != null) {
                 player.setSpace(this);
-            }
+            }*/
             notifyChange();
         }
     }

@@ -61,6 +61,9 @@ public class Board extends Subject {
 
     private boolean OutOfBounds;
 
+    PriorityAntenna priorityAntenna;
+
+ boolean winnerIsFound = false;
     public Board(int width, int height, @NotNull String boardName) {
         this.boardName = boardName;
         this.width = width;
@@ -131,6 +134,10 @@ public class Board extends Subject {
         }
     }
 
+    public List<Player> getPlayerList(){
+        return players;
+    }
+
     public Player getCurrentPlayer() {
         return current;
     }
@@ -142,6 +149,11 @@ public class Board extends Subject {
         }
     }
 
+    public int getNextPlayersNumber(List<Player> listOfClosestPlayers){
+    // public int getNextPlayersNumber(Player closestPlayer){
+        int index = players.indexOf(listOfClosestPlayers);
+        return (index + 1) % players.size();
+    }
     public Phase getPhase() {
         return phase;
     }
@@ -234,6 +246,19 @@ public class Board extends Subject {
     public void setWinnerStatus(boolean winnerIsFound) {
         this.winnerIsFound = winnerIsFound;
     }
+    public void setTypePriorityAntenna(int x, int y) {
+        priorityAntenna = (PriorityAntenna)this.getSpace(x, y).setTypePriorityAntenna();
+
+    }
+
+    public PriorityAntenna getPriorityAntenna() {
+        return priorityAntenna;
+    }
+
+
+
+
+
 
 
 

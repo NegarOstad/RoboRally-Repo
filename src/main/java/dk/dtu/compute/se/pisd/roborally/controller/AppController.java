@@ -88,15 +88,17 @@ public class AppController implements Observer {
             /* board.setSpaceType(1,3, ElementType.Gear);
             board.setSpaceType(4,4, ElementType.Gear);
             board.setSpaceType(6,6, ElementType.Gear);*/
-            board.getSpace(1,3).setTypeGear(Heading.NORTH);
+            board.getSpace(2,7).setTypeGear(Heading.WEST);
             board.getSpace(4,4).setTypeGear(Heading.EAST);
-            board.getSpace(1,3).setTypeGear(Heading.SOUTH);
+            board.getSpace(1,3).setTypeGear(Heading.EAST);
             board.getSpace(4,0).setTypeCheckpoint(0, board, false);
             board.getSpace(5,0).setTypeCheckpoint(1, board,true);
             //board.getSpace(6,3).setTypeCheckpoint(1);
             //board.getSpace(1,5).setTypeCheckpoint(2);
-            board.getSpace(2,1).setTypeConveyor(board.getSpace(6,1));
-            board.getSpace(1,6).setTypeConveyor(board.getSpace(3,3));
+            board.getSpace(2,1).setTypeConveyor(board.getSpace(6,1), 2, 1);
+            board.getSpace(1,6).setTypeConveyor(board.getSpace(3,3), 1, 6);
+            board.getSpace(7,6).setTypeConveyor(board.getSpace(5,6), 7, 6);
+            board.setTypePriorityAntenna(7,7);
             //add priority antenna and walls
             board.getSpace(0,5).setTypeWall();
             board.getSpace(5,3).setTypeWall();

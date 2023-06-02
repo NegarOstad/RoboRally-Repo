@@ -56,7 +56,7 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     private List<ImageView> imageViews;
 
-    //private ImageHolder imageHolder = new ImageHolder();
+   // private ImageHolder imageHolder = new ImageHolder();
 
     public SpaceView(@NotNull Space space)  {
         this.space = space;
@@ -70,15 +70,16 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setPrefHeight(SPACE_HEIGHT);
         this.setMinHeight(SPACE_HEIGHT);
 
-        String path = System.getProperty("user.dir");
-        String fullPath = path + "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\";
+        //String path = System.getProperty("user.dir");
+        String path = System.getProperty("user.dir") + File.separator;
+        //String fullPath = path + "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\";
+        String fullPath = "file:" + path + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + "dk" + File.separator + "dtu" + File.separator + "compute" + File.separator + "se" + File.separator + "pisd" + File.separator + "roborally" + File.separator + "view" + File.separator + "Images" + File.separator;
 
-        System.out.println(fullPath);
+         System.out.println(fullPath);
 
-        if (space.getType() == ElementType.ConveyorBelt) {
-            int i;
-            for (i = space.x; i <= space.x; i++)
-
+        int i;
+        for (i = space.x; i <= space.x; i++)
+            if (space.getType() == ElementType.ConveyorBelt){
             addImage(fullPath + "conveyorbelt.png",0, 0, 0);
         } else if (space.getType() == ElementType.Checkpoint) {
             addImage(fullPath + "checkpoint.png",0, 0, 0);
@@ -86,22 +87,42 @@ public class SpaceView extends StackPane implements ViewObserver {
             addImage(fullPath + "gear.png",0,0,0);
         } else if (space.getType() == ElementType.Wall) {
             addImage(fullPath + "wall.png",0,0,0);
-        }
+        } else if (space.getType() == ElementType.PriorityAntenna) {
+        addImage(fullPath + "priorityantenna.png",0,0,0);
+       }
+
 
         if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
         }
+/*
+
+        if (space.getType() == ElementType.ConveyorBelt) {
+            this.setStyle("-fx-background-color: pink;");
+        } else if (space.getType() == ElementType.Gear) {
+            this.setStyle("-fx-background-color: blue;");
+        } else if (space.getType() == ElementType.Checkpoint) {
+            this.setStyle("-fx-background-color: purple;");
+        } else if (space.getType() == ElementType.Wall) {
+            this.setStyle("-fx-background-color: green;");
+        } else if (space.getType() == ElementType.PriorityAntenna) {
+            this.setStyle("-fx-background-color: yellow;");
+        } else if ((space.x + space.y) % 2 == 0) {
+            this.setStyle("-fx-background-color: white;");
+        } else {
+            this.setStyle("-fx-background-color: black;");
+        }*/
 
 
-
-        /*ImageView imageView = null;
+/*
+        ImageView imageView = null;
         if (space.x == 0 && space.y == 0) {
             imageView = new ImageView(new Image("C:\\Users\\aljwa\\Desktop\\conveyorbelt.png"));
             this.getChildren().add(imageView);
-        }*/
-
+        }
+*/
 
         // updatePlayer();
 
@@ -150,10 +171,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     /*
    private void addImageToSpace(String imagePath, int x, int y, double rotation, double width, double height) {
        imageHolder.addImage(imagePath, x, y, rotation, width, height);
-   }
+   }*/
 
 
-     */
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {

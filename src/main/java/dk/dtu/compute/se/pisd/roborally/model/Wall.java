@@ -13,6 +13,7 @@ public class Wall extends BoardElement{
 
     @Override
     public void doAction(Player currentPlayer) {
+        currentPlayer.setSpace(currentSpace);
 
     }
 }
