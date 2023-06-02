@@ -29,6 +29,7 @@ import com.google.gson.stream.JsonWriter;
 //import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
 //import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
+import dk.dtu.compute.se.pisd.roborally.model.BoardTemplate;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 import dk.dtu.compute.se.pisd.roborally.model.SpaceTemplate;
 
@@ -107,14 +108,16 @@ public class LoadBoard {
     }
 
     public static void saveBoard(Board board, String name) {
-        Board template = new Board(board.width, board.height);
+        BoardTemplate template = new BoardTemplate(board.width, board.height, board.getSpaces());
+        template.setPlayerTemplates(board.getPlayers());
+        template.setCurrentPlayerTemplate(board.getCurrentPlayer());
         //ClassLoader classLoader = LoadBoard.class.getClassLoader();
         // TODO: this is not very defensive, and will result in a NullPointerException
         //       when the folder "resources" does not exist! But, it does not need
         //       the file "simpleCards.json" to exist!
        /* String filename =
                 classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;*/
-        String filename = "defaultname";
+        String filename = "defaultname.json";
 
         // In simple cases, we can create a Gson object with new:
         //

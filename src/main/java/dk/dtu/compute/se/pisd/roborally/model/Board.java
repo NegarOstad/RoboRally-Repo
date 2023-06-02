@@ -232,6 +232,10 @@ public class Board extends Subject implements Serializable {
         this.winnerIsFound = winnerIsFound;
     }
 
+    public List<Player> getPlayers() {
+        return players;
+    }
+
 
     /*public String toString() {
         return
