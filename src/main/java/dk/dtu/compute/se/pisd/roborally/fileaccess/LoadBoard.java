@@ -115,26 +115,6 @@ public class LoadBoard {
     //       when the folder "resources" does not exist! But, it does not need
     //       the file "simpleCards.json" to exist!
 
-
-
-    //String fullPath = "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\boards\\";
-
-        //String filename =classLoader.getResource(BOARDSFOLDER).getPath() + "/" + name + "." + JSON_EXT;
-
-
-    /*String path = System.getProperty("boards.dir");
-    File saveBaords = new File(path);
-
-    if (!saveBaords.exists()) {
-        saveBaords.mkdirs();
-    }*/
-
-
-
-
-/*catch (){
-
-}*/
         String filename = "src/main/java/dk/dtu/compute/se/pisd/roborally/fileaccess/boardsaves/"+name+".json";
 
         // In simple cases, we can create a Gson object with new:

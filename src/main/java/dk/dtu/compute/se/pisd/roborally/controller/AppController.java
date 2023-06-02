@@ -37,6 +37,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Player;
 import javafx.application.Platform;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.jetbrains.annotations.NotNull;
@@ -130,9 +131,13 @@ public class AppController implements Observer {
         textInputDialog.setHeaderText("Save Game");
         textInputDialog.setContentText("Enter a name for your game:");
         textInputDialog.showAndWait();
-        //Button button = new Button("Save");
         String result = textInputDialog.getResult();
         LoadBoard.saveBoard(gameController.board, result);
+        //Button button = new Button("");
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Game is saved.");
+        alert.showAndWait();
+
     }
 
     public void loadGame()  {
