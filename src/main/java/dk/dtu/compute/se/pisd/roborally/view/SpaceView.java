@@ -70,8 +70,10 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setPrefHeight(SPACE_HEIGHT);
         this.setMinHeight(SPACE_HEIGHT);
 
-        String path = System.getProperty("user.dir");
-        String fullPath = path + "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\";
+        //String path = System.getProperty("user.dir");
+        String path = System.getProperty("user.dir") + File.separator;
+        //String fullPath = path + "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\";
+        String fullPath = "file:" + path + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + "dk" + File.separator + "dtu" + File.separator + "compute" + File.separator + "se" + File.separator + "pisd" + File.separator + "roborally" + File.separator + "view" + File.separator + "Images" + File.separator;
 
          System.out.println(fullPath);
 
@@ -181,4 +183,3 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
 }
-//HIHI its sussy
