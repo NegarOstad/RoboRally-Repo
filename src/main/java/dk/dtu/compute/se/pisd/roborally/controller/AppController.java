@@ -175,7 +175,7 @@ public class AppController implements Observer {
         if (gameController != null) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Exit RoboRally?");
-            alert.setContentText("Are you sure you want to exit RoboRally?");
+            alert.setContentText("Do you want to exit RoboRally?");
             Optional<ButtonType> result = alert.showAndWait();
 
             if (!result.isPresent() || result.get() != ButtonType.OK) {
