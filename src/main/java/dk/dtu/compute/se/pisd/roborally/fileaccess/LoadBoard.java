@@ -114,7 +114,7 @@ public class LoadBoard {
     }
 
     public static void saveBoard(Board board, String name) {
-        BoardTemplate template = new BoardTemplate(board.width, board.height, board.getSpaces(), board.getPlayers(), board.getCurrentPlayer());
+        BoardTemplate template = new BoardTemplate(board, board.getSpaces(), board.getPlayers(), board.getCurrentPlayer());
 
         //ClassLoader classLoader = LoadBoard.class.getClassLoader();
         // TODO: this is not very defensive, and will result in a NullPointerException

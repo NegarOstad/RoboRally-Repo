@@ -26,9 +26,9 @@ public class BoardTemplate extends Subject {
     public boolean winnerIsFound;
 
 
-    public BoardTemplate(int width, int height, Space[][] spaces, List<Player> players, Player current) {
-        this.width = width;
-        this.height = height;
+    public BoardTemplate(Board board, Space[][] spaces, List<Player> players, Player current) {
+        this.width = board.width;
+        this.height = board.height;
         spaceTemplates = new SpaceTemplate[width][height];
         for (int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
@@ -39,6 +39,9 @@ public class BoardTemplate extends Subject {
             }
         }
         setPlayerTemplates(players, current);
+        step = board.getStep();
+        stepMode = board.isStepMode();
+        winnerIsFound = board.getWinnerStatus();
 
     }
 
