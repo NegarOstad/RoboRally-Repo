@@ -35,20 +35,16 @@ import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
-import javafx.scene.control.TextInputDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * ...
@@ -60,6 +56,8 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
+    final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
+    private String gameName ;
 
     final private RoboRally roboRally;
 
@@ -130,17 +128,16 @@ public class AppController implements Observer {
     }
 
     public void saveGame() {
-
-            TextInputDialog textInputDialog = new TextInputDialog();
-            textInputDialog.setHeaderText("Save Game");
-            textInputDialog.setContentText("Enter a name for your game:");
-            textInputDialog.showAndWait();
-            //Button button = new Button("Save");
-            String result = textInputDialog.getResult();
-        System.out.println(result);
-            LoadBoard.saveBoard(gameController.board, result);
-
-
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setHeaderText("Save Game");
+        textInputDialog.setContentText("Enter a name for your game:");
+        textInputDialog.showAndWait();
+        String result = textInputDialog.getResult();
+        LoadBoard.saveBoard(gameController.board, result);
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Game is saved.");
+        alert.showAndWait();
+        exit();
     }
 
     public void loadGame()  {
@@ -166,7 +163,7 @@ public class AppController implements Observer {
 
             // here we save the game (without asking the user).
             saveGame();
-
+//saveGame();
             gameController = null;
             roboRally.createBoardView(null);
             return true;

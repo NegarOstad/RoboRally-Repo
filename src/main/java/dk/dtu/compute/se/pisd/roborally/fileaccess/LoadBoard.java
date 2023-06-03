@@ -31,6 +31,7 @@ import com.google.gson.stream.JsonWriter;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.io.*;
+import java.nio.file.Path;
 
 /**
  * ...
