@@ -116,7 +116,7 @@ public class Board extends Subject implements Serializable {
 
                 case ConveyorBelt:
                     ConveyorBelt conveyorBelt = (ConveyorBelt)spaceTemplate.sa;
-                    space.setTypeConveyor(conveyorBelt.endX, conveyorBelt.endY, space.x, space.y, this);
+                    space.setTypeConveyor(conveyorBelt.endX, conveyorBelt.endY);
                     break;
         }
     }
