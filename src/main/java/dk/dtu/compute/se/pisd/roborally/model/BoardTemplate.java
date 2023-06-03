@@ -15,11 +15,18 @@ public class BoardTemplate extends Subject {
     public SpaceTemplate[][] spaceTemplates;
 
     public List<PlayerTemplate> playerTemplates = new ArrayList<>();
-
     public PlayerTemplate currentTemplate;
 
+    public Phase phase = INITIALISATION;
 
-    public BoardTemplate(int width, int height, Space[][] spaces) {
+    public int step;
+
+    public boolean stepMode;
+
+    public boolean winnerIsFound;
+
+
+    public BoardTemplate(int width, int height, Space[][] spaces, List<Player> players, Player current) {
         this.width = width;
         this.height = height;
         spaceTemplates = new SpaceTemplate[width][height];
@@ -31,23 +38,19 @@ public class BoardTemplate extends Subject {
                 spaceTemplates[x][y] = spaceTemplate;
             }
         }
+        setPlayerTemplates(players, current);
 
     }
 
-    public void setPlayerTemplates(List<Player> players){
+    private void setPlayerTemplates(List<Player> players, Player current){
 
         for(Player p : players){
             int spaceX = p.getSpace().x;
             int spaceY = p.getSpace().y;
             PlayerTemplate newPlayer = new PlayerTemplate(p.getName(), p.getColor(), spaceTemplates[spaceX][spaceY], p.getHeading(), p.getTokenCount(), p.getRegisterStatus());
             playerTemplates.add(newPlayer);
-        }
-    }
-
-    public void setCurrentPlayerTemplate(Player current) {
-        for (int i = 0; i < playerTemplates.size(); i++) {
-            if(playerTemplates.get(i).name.equals(current.getName())){
-                currentTemplate = playerTemplates.get(i);
+            if(p.equals(current)){
+                currentTemplate = newPlayer;
             }
         }
     }

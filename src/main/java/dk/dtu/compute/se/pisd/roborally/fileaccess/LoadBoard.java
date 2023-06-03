@@ -113,27 +113,19 @@ public class LoadBoard {
     }
 
     public static void saveBoard(Board board, String name) {
-        BoardTemplate template = new BoardTemplate(board.width, board.height, board.getSpaces());
-        template.setPlayerTemplates(board.getPlayers());
-        template.setCurrentPlayerTemplate(board.getCurrentPlayer());
-        ClassLoader classLoader = LoadBoard.class.getClassLoader();
+        BoardTemplate template = new BoardTemplate(board.width, board.height, board.getSpaces(), board.getPlayers(), board.getCurrentPlayer());
+
+        //ClassLoader classLoader = LoadBoard.class.getClassLoader();
         // TODO: this is not very defensive, and will result in a NullPointerException
         //       when the folder "resources" does not exist! But, it does not need
         //       the file "simpleCards.json" to exist!
         //String filename =classLoader.getResource("boards").getPath() + "/" + name + "." + JSON_EXT;
 
-//        System.out.println("this is my file name: " + filename);
+//     System.out.println("this is my file name: " + filename);
        //String filename = "src/defaultname.json";
 
         String filename = "src/main/resources/boards/"+name+".json";
 
-        // In simple cases, we can create a Gson object with new:
-        //
-        //   Gson gson = new Gson();
-        //
-        // But, if you need to configure it, it is better to create it from
-        // a builder (here, we want to configure the JSON serialisation with
-        // a pretty printer):
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>()).
                 setPrettyPrinting();
