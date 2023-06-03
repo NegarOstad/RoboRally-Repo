@@ -59,28 +59,32 @@ public class Space extends Subject {
 
     }
 
-    public void setTypeConveyor(int endX, int endY, int x, int y , Board board) {
+    public void setTypeConveyor(int endX, int endY) {
         type = ElementType.ConveyorBelt;
         spaceAction = new ConveyorBelt(endX, endY);
-/*
-        if (x == endX) {
-            if(y > endY){
-                y--;
-                board.getSpace(x, y).setTypeConveyor(endX,  endY, x, y, board);
-            } else if(y < endY){
-                y++;
-                board.getSpace(x, y).setTypeConveyor( endX,  endY, x, y, board);
-            }
-        } else if (x > endX) {
-            x--;
-            board.getSpace(x, y).setTypeConveyor( endX,  endY, x, y , board);
-        } else {
-            x++;
-            board.getSpace(x, y).setTypeConveyor( endX,  endY, x, y , board);
+
         }
 
- */
-    }
+        public void fillConveyorBelt(int endX, int endY, int x, int y , Board board){
+            type = ElementType.ConveyorBelt;
+            spaceAction = new ConveyorBelt(endX, endY);
+            if (x == endX) {
+                if(y > endY){
+                    y--;
+                    board.getSpace(x, y).fillConveyorBelt(endX,  endY, x, y, board);
+                } else if(y < endY){
+                    y++;
+                    board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y, board);
+                }
+            } else if (x > endX) {
+                x--;
+                board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board);
+            } else {
+                x++;
+                board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board);
+            }
+
+        }
 
 
 
