@@ -17,7 +17,7 @@ public class BoardTemplate extends Subject {
     public List<PlayerTemplate> playerTemplates = new ArrayList<>();
     public PlayerTemplate currentTemplate;
 
-    public Phase phase = INITIALISATION;
+    public Phase phase;
 
     public int step;
 
@@ -39,6 +39,7 @@ public class BoardTemplate extends Subject {
             }
         }
         setPlayerTemplates(players, current);
+        phase = board.getPhase();
         step = board.getStep();
         stepMode = board.isStepMode();
         winnerIsFound = board.getWinnerStatus();
