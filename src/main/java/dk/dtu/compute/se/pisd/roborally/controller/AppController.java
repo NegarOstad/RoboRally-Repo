@@ -21,16 +21,14 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.fileaccess.IOUtil;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.ElementType;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -41,10 +39,14 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
+import java.io.IOException;
+
 
 /**
  * ...
@@ -57,8 +59,12 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
-    private String gameName ;
-
+    final private List<String> gameOptions = IOUtil.readResourcee("src/main/resources/boards/");
+    //final private List<String> LOAD_GAME = readFile("src/main/resources/boards/");
+    //final private List<String> LOAD_GAME ;
+    String filename = "src/main/resources/boards/";
+    final private String LOAD_GAME = IOUtil.readResource(filename);
+    //final private List<String> LOAD_GAME = IOUtil.readResourcee(filename);
     final private RoboRally roboRally;
 
     private GameController gameController;
@@ -144,10 +150,47 @@ public class AppController implements Observer {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
         if (gameController == null) {
-            newGame(LoadBoard.loadBoard("mygame"));
+            //newGame(LoadBoard.loadBoard("mygame"));
+            String filename = "src/main/resources/boards/";
+            ChoiceDialog  dialog = new ChoiceDialog(filename);
+            //ChoiceDialog<String> dialog = new ChoiceDialog<>();
+            dialog.getItems().addAll(LOAD_GAME);
+            dialog.setTitle("Load Game");
+            dialog.setHeaderText("Which game do you want to continue?");
+            dialog.setContentText("Saved Games:");
+            //Optional<String> result = dialog.showAndWait();
+            Optional result = dialog.showAndWait();
+            //newGame(LoadBoard.loadBoard(result.toString()));
 
+
+            /*List<String> savedGames = IOUtil.readResourcee(filename);
+            ChoiceDialog<String> dialog = new ChoiceDialog<>();
+            dialog.setTitle("Load Game");
+            dialog.setHeaderText("Choose a game to continue:");
+            dialog.setContentText("Saved Games:");
+            dialog.getItems().addAll(savedGames);
+
+            // Show the dialog and get the user's choice
+            Optional<String> result = dialog.showAndWait();
+            result.toString();
+            result.ifPresent(game -> {
+                // User selected a game, do something with it
+                System.out.println("Selected game: " + game);
+            });*/
         }
     }
+
+    private List<String> readFile(String filePath) {
+        Path path = Paths.get(filePath);
+        try {
+            return Files.readAllLines(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+    }
+
 
     /**
      * Stop playing the current game, giving the user the option to save

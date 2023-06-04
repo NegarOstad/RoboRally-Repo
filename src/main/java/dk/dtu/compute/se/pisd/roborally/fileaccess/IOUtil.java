@@ -24,8 +24,12 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess;
 import com.google.common.base.Charsets;
 import com.google.common.io.ByteSource;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A utility class reading strings from resources and arbitrary input streams.
@@ -50,7 +54,6 @@ public class IOUtil {
                 return inputStream;
             }
         };
-
         try {
             return byteSource.asCharSource(Charsets.UTF_8).read();
         } catch (IOException e) {
@@ -72,4 +75,48 @@ public class IOUtil {
         return IOUtil.readString(inputStream);
     }
 
-}
+
+    public static List<String> readResources(String relativeResourcePath) {
+        List<String> lines = new ArrayList<>();
+
+        try {
+            ClassLoader classLoader = IOUtil.class.getClassLoader();
+            InputStream inputStream = classLoader.getResourceAsStream(relativeResourcePath);
+
+            if (inputStream != null) {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+                reader.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return lines;
+    }
+
+    public static List<String> readResourcee(String relativeResourcePath) {
+        List<String> lines = new ArrayList<>();
+
+        ClassLoader classLoader = IOUtil.class.getClassLoader();
+        InputStream inputStream = classLoader.getResourceAsStream(relativeResourcePath);
+        if (inputStream != null) {
+            try {
+                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    lines.add(line);
+                }
+                reader.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return lines;
+}}
+
+

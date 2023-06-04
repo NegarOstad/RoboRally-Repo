@@ -66,6 +66,7 @@ public class LoadBoard {
         JsonReader reader = null;
 		try {
             //String filename = "src/main/java/dk/dtu/compute/se/pisd/roborally/fileaccess/savefiles/"+boardname+".json";
+            String filename = "src/main/resources/boards/";
             //fileReader = new FileReader(filename);
             //reader = gson.newJsonReader(fileReader);
 			reader = gson.newJsonReader(new InputStreamReader(inputStream));
