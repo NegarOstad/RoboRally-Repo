@@ -192,6 +192,10 @@ public class Player extends Subject {
         tokenCount++;
     }
 
+    public void setTokenCount(int tokenCount){
+        this.tokenCount = tokenCount;
+    }
+
     public int getTokenCount() {
         return tokenCount;
     }

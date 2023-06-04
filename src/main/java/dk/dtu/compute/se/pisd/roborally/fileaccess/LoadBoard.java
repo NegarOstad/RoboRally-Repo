@@ -78,6 +78,8 @@ public class LoadBoard {
                 Player newPlayer = new Player(p.color, p.name);
                 Space newPlayerSpace = newBoard.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
                 newPlayer.setSpace(newPlayerSpace, newBoard);
+                newPlayer.setTokenCount(p.tokenCount);
+                newPlayer.setHeading(p.heading);
                 newBoard.getPlayers().add(newPlayer);
                 if(p.name.equals(boardTemplate.currentTemplate.name))
                     newBoard.setCurrentPlayer(newPlayer);
