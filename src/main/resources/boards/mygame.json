@@ -468,38 +468,62 @@
       "name": "Player 1",
       "color": "red",
       "spaceTemplate": {
-        "type": "Normal",
-        "x": 0,
-        "y": 0
+        "type": "Checkpoint",
+        "x": 4,
+        "y": 0,
+        "sa": {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+          "INSTANCE": {
+            "index": 0,
+            "isLastCheckpoint": false
+          }
+        }
       },
-      "heading": "SOUTH",
-      "tokenCount": 0,
+      "heading": "EAST",
+      "tokenCount": 1,
       "registerIsEmpty": false
     },
     {
       "name": "Player 2",
       "color": "green",
       "spaceTemplate": {
-        "type": "Normal",
+        "type": "Gear",
         "x": 1,
-        "y": 1
+        "y": 3,
+        "sa": {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Gear",
+          "INSTANCE": {
+            "EndDirection": "SOUTH"
+          }
+        }
       },
       "heading": "SOUTH",
       "tokenCount": 0,
-      "registerIsEmpty": false
+      "registerIsEmpty": true
     }
   ],
   "currentTemplate": {
     "name": "Player 1",
     "color": "red",
     "spaceTemplate": {
-      "type": "Normal",
-      "x": 0,
-      "y": 0
+      "type": "Checkpoint",
+      "x": 4,
+      "y": 0,
+      "sa": {
+        "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
+        "INSTANCE": {
+          "index": 0,
+          "isLastCheckpoint": false
+        }
+      }
     },
-    "heading": "SOUTH",
-    "tokenCount": 0,
+    "heading": "EAST",
+    "tokenCount": 1,
     "registerIsEmpty": false
   },
+  "phase": "PROGRAMMING",
+  "step": 0,
+  "stepMode": false,
+  "winnerIsFound": false,
   "observers": []
 }

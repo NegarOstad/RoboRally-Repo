@@ -56,6 +56,27 @@ public class GameController {
         //     if the player is moved
 
     }
+    public void reinitializeBoard(Phase phase, Player current, int step){
+        board.setPhase(phase);
+        board.setCurrentPlayer(current);
+        board.setStep(step);
+        for (int i = 0; i < board.getPlayersNumber(); i++) {
+            Player player = board.getPlayer(i);
+            if (player != null) {
+                for (int j = 0; j < Player.NO_REGISTERS; j++) {
+                    CommandCardField field = player.getProgramField(j);
+                    field.setCard(null);
+                    field.setVisible(true);
+                }
+                for (int j = 0; j < Player.NO_CARDS; j++) {
+                    CommandCardField field = player.getCardField(j);
+                    field.setCard(generateRandomCommandCard());
+                    field.setVisible(true);
+                }
+            }
+        }
+
+    }
 
     // XXX: V2
     public void startProgrammingPhase() {

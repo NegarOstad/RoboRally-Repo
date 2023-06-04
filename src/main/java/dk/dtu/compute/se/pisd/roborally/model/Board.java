@@ -54,9 +54,9 @@ public class Board extends Subject implements Serializable {
 
     private Player current;
 
-    private Phase phase = INITIALISATION;
+    private Phase phase;
 
-    private int step = 0;
+    private int step;
 
     private boolean stepMode;
 
@@ -75,6 +75,8 @@ public class Board extends Subject implements Serializable {
             }
         }
         this.stepMode = false;
+        phase = INITIALISATION;
+        step = 0;
     }
 
     public Board(int width, int height, @NotNull String boardName, SpaceTemplate[][] spaceTemplates) {

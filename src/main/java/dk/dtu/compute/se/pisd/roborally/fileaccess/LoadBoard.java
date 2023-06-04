@@ -79,22 +79,15 @@ public class LoadBoard {
                 Space newPlayerSpace = newBoard.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
                 newPlayer.setSpace(newPlayerSpace, newBoard);
                 newBoard.getPlayers().add(newPlayer);
+                if(p.name.equals(boardTemplate.currentTemplate.name))
+                    newBoard.setCurrentPlayer(newPlayer);
 
             }
+            newBoard.setPhase(boardTemplate.phase);
+            newBoard.setStep(boardTemplate.step);
+            newBoard.setWinnerStatus(boardTemplate.winnerIsFound);
+            newBoard.setStepMode(boardTemplate.stepMode);
 
-           /* for (int i = 0; i < newBoard.width; i++) {
-                for(int j = 0 ; j < newBoard.height; j++){
-                    Space space = new Space(spaceTemplates[i][j].x, spaceTemplates[i][j].y);
-
-
-                    if (space != null) {
-                            space.setBoardElement(spaceTemplates[i][j].boardElement);
-
-                    }
-                }
-
-            }*/
-            System.out.println();
 			reader.close();
 			return newBoard;
 		} catch (IOException e1) {
