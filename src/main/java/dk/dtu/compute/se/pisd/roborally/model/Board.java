@@ -271,7 +271,7 @@ public class Board extends Subject implements Serializable {
             return "Phase: " + getPhase().name() +
                     ", Player = " + getCurrentPlayer().getName() +
                     ", Step: " + getStep() +
-                    "Token count: " + getCurrentPlayer().getTokenCount();
+                    ", Token count: " + getCurrentPlayer().getTokenCount();
         }
     }
 
