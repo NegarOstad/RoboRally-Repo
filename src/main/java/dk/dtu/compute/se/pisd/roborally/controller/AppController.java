@@ -28,6 +28,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.fileaccess.IOUtil;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.ElementType;
@@ -58,6 +59,8 @@ public class AppController implements Observer {
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
     private List<String> gameFiles = Arrays.asList("mygame", "lalala");
+    String filename = "src/main/resources/boards/";
+    final private List<String> LOAD_GAME = Arrays.asList();
     private String gameName ;
 
     final private RoboRally roboRally;
@@ -150,10 +153,10 @@ public class AppController implements Observer {
         // for now, we just create a new game
         if (gameController == null) {
            // newGame(LoadBoard.loadBoard("mygame"));
-                  String filename = "src/main/resources/boards/";
-            ChoiceDialog  dialog = new ChoiceDialog(gameFiles.get(0), gameFiles);
-            //ChoiceDialog<String> dialog = new ChoiceDialog<>();
-            //dialog.getItems().addAll(LOAD_GAME);
+            String filename = "src/main/resources/boards/";
+            //ChoiceDialog  dialog = new ChoiceDialog(gameFiles.get(0), gameFiles);
+            ChoiceDialog<String> dialog = new ChoiceDialog<>();
+            dialog.getItems().addAll(LOAD_GAME);
             dialog.setTitle("Load Game");
             dialog.setHeaderText("Which game do you want to continue?");
             dialog.setContentText("Saved Games:");
