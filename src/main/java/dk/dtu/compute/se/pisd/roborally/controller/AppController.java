@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
@@ -28,7 +29,6 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
-import dk.dtu.compute.se.pisd.roborally.fileaccess.IOUtil;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.ElementType;
@@ -58,9 +58,7 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
-    private List<String> gameFiles = Arrays.asList("mygame", "lalala");
-    String filename = "src/main/resources/boards/";
-    final private List<String> LOAD_GAME = Arrays.asList();
+    private List<String> gameFiles = new ArrayList<>();
     private String gameName ;
 
     final private RoboRally roboRally;
@@ -149,14 +147,15 @@ public class AppController implements Observer {
     }
 
     public void loadGame()  {
+
         // XXX needs to be implemented eventually
         // for now, we just create a new game
         if (gameController == null) {
            // newGame(LoadBoard.loadBoard("mygame"));
-            String filename = "src/main/resources/boards/";
-            //ChoiceDialog  dialog = new ChoiceDialog(gameFiles.get(0), gameFiles);
-            ChoiceDialog<String> dialog = new ChoiceDialog<>();
-            dialog.getItems().addAll(LOAD_GAME);
+            setFileNames();
+            ChoiceDialog  dialog = new ChoiceDialog(gameFiles.get(0), gameFiles);
+            //ChoiceDialog<String> dialog = new ChoiceDialog<>();
+            //dialog.getItems().addAll(LOAD_GAME);
             dialog.setTitle("Load Game");
             dialog.setHeaderText("Which game do you want to continue?");
             dialog.setContentText("Saved Games:");
@@ -168,6 +167,22 @@ public class AppController implements Observer {
             System.out.println(result);
             newGame(LoadBoard.loadBoard(result));
 
+        }
+    }
+
+    /***
+     * Getting a list of all the files in the resource folder
+     * Based on a solution found on Stackoverflow (https://stackoverflow.com/questions/5694385/getting-the-filenames-of-all-files-in-a-folder)
+     * used together with a solution from  Baeldung (https://www.baeldung.com/java-filename-without-extension)
+     */
+    private void setFileNames(){
+        File resources = new File("src/main/resources/boards/");
+        File[] listOfFiles = resources.listFiles();
+        for(int i = 0 ; i < listOfFiles.length ; i++){
+            if(listOfFiles[i].isFile()) {
+                String filename = Files.getNameWithoutExtension(listOfFiles[i].getName());
+                gameFiles.add(filename);
+            }
         }
     }
 
