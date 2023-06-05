@@ -57,6 +57,7 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
+    private List<String> gameFiles = Arrays.asList("mygame", "lalala");
     private String gameName ;
 
     final private RoboRally roboRally;
@@ -148,7 +149,21 @@ public class AppController implements Observer {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
         if (gameController == null) {
-            newGame(LoadBoard.loadBoard("mygame"));
+           // newGame(LoadBoard.loadBoard("mygame"));
+                  String filename = "src/main/resources/boards/";
+            ChoiceDialog  dialog = new ChoiceDialog(gameFiles.get(0), gameFiles);
+            //ChoiceDialog<String> dialog = new ChoiceDialog<>();
+            //dialog.getItems().addAll(LOAD_GAME);
+            dialog.setTitle("Load Game");
+            dialog.setHeaderText("Which game do you want to continue?");
+            dialog.setContentText("Saved Games:");
+            Optional<String> userChoice = dialog.showAndWait();
+            String result = userChoice.orElse("");
+            //Optional result = dialog.showAndWait();
+            //String fullpath = filename+result.toString();
+            System.out.println(userChoice);
+            System.out.println(result);
+            newGame(LoadBoard.loadBoard(result));
 
         }
     }
