@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
@@ -57,7 +58,7 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
-    private List<String> gameFiles = Arrays.asList("mygame", "lalala");
+    private List<String> gameFiles = new ArrayList<>();
     private String gameName ;
 
     final private RoboRally roboRally;
@@ -146,11 +147,12 @@ public class AppController implements Observer {
     }
 
     public void loadGame()  {
+
         // XXX needs to be implemented eventually
         // for now, we just create a new game
         if (gameController == null) {
            // newGame(LoadBoard.loadBoard("mygame"));
-                  String filename = "src/main/resources/boards/";
+            setFileNames();
             ChoiceDialog  dialog = new ChoiceDialog(gameFiles.get(0), gameFiles);
             //ChoiceDialog<String> dialog = new ChoiceDialog<>();
             //dialog.getItems().addAll(LOAD_GAME);
@@ -165,6 +167,17 @@ public class AppController implements Observer {
             System.out.println(result);
             newGame(LoadBoard.loadBoard(result));
 
+        }
+    }
+
+    private void setFileNames(){
+        File resources = new File("src/main/resources/boards/");
+        File[] listOfFiles = resources.listFiles();
+        for(int i = 0 ; i < listOfFiles.length ; i++){
+            if(listOfFiles[i].isFile()) {
+                String filename = Files.getNameWithoutExtension(listOfFiles[i].getName());
+                gameFiles.add(filename);
+            }
         }
     }
 
