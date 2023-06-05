@@ -8,6 +8,23 @@ public class PlayerTemplate {
     public SpaceTemplate spaceTemplate;
 
     public Heading heading;
+
+    public CommandFieldTemplate[] getCommandTemplate() {
+        return commandTemplate;
+    }
+
+    public void setCommandTemplate(CommandFieldTemplate[] commandTemplate) {
+        this.commandTemplate = commandTemplate;
+    }
+
+    public CommandCardField[] getCards() {
+        return cards;
+    }
+
+    public void setCards(CommandCardField[] cards) {
+        this.cards = cards;
+    }
+
     public CommandFieldTemplate[] commandTemplate;
     public CommandCardField[] cards;
     public int tokenCount = 0;

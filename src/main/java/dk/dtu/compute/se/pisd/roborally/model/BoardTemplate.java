@@ -51,7 +51,7 @@ public class BoardTemplate extends Subject {
             CommandFieldTemplate[] temp = new CommandFieldTemplate[current.getCards().length];
             int i = 0;
             for(CommandCardField c : current.getCards()){
-                temp[i].setCard(current.getCards()[i]);
+                temp[i].setCards(current.getCards());
             }
             PlayerTemplate newPlayer = new PlayerTemplate(p.getName(), p.getColor(), spaceTemplates[spaceX][spaceY], p.getHeading(), temp, p.getTokenCount(), p.getRegisterStatus());
             playerTemplates.add(newPlayer);

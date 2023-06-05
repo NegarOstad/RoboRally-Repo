@@ -4,11 +4,26 @@ public class CommandFieldTemplate {
 
     private CommandCard card;
 
-    //private Player player;
-    public boolean isVisible=true;
+    public CommandFieldTemplate[] getCommandTemplate() {
+        return commandTemplate;
+    }
+
+    public void setCommandTemplate(CommandFieldTemplate[] commandTemplate) {
+        this.commandTemplate = commandTemplate;
+    }
+
+     public CommandCardField[] getCards() {
+        return cards;
+    }
+
+    public void setCards(CommandCardField[] cards) {
+        this.cards = cards;
+    }
+
+    public CommandFieldTemplate[] commandTemplate;
+    public CommandCardField[] cards;
      public CommandFieldTemplate(CommandCard card){
          this.card=card;
-       //  this.player=player;
-         this.isVisible= isVisible;
+
      }
     }
