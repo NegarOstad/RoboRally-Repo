@@ -170,6 +170,11 @@ public class AppController implements Observer {
         }
     }
 
+    /***
+     * Getting a list of all the files in the resource folder
+     * Based on a solution found on Stackoverflow (https://stackoverflow.com/questions/5694385/getting-the-filenames-of-all-files-in-a-folder)
+     * used together with a solution from  Baeldung (https://www.baeldung.com/java-filename-without-extension)
+     */
     private void setFileNames(){
         File resources = new File("src/main/resources/boards/");
         File[] listOfFiles = resources.listFiles();
