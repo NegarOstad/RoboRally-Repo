@@ -80,6 +80,8 @@ public class LoadBoard {
                 newPlayer.setSpace(newPlayerSpace, newBoard);
                 newBoard.getPlayers().add(newPlayer);
 
+
+
             }
 
            /* for (int i = 0; i < newBoard.width; i++) {
