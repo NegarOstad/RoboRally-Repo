@@ -41,8 +41,11 @@ public class GameController {
      final public Board board;
     int x = 0;
     int y = 0;
+    int counter = 0;
 
     List<Player> calcClosestPlayers;
+
+    List<Player> priorityList;
 
     public GameController(@NotNull Board board) {
         this.board = board;
@@ -139,10 +142,12 @@ public class GameController {
     }
 
     // XXX: V2
-    private void continuePrograms() {;
-        calcClosestPlayers =  board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
-        board.setCurrentPlayer(calcClosestPlayers.get(0));
+    private void continuePrograms() {
+        priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
+        //calcClosestPlayers =  board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
+        board.setCurrentPlayer(priorityList.get(0));
         board.setOutOfBounds(false);
+
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
@@ -152,9 +157,8 @@ public class GameController {
     // XXX: V2
     public void executeNextStep() {
         //int nextPlayerIndex;
-        int counter = 0;
-        List<Player> priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
-        Player currentPlayer = priorityList.get(0);
+        System.out.println("Counter : " + counter + "Current priority player: " + priorityList.get(counter));
+        Player currentPlayer = board.getCurrentPlayer();
 
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -172,13 +176,14 @@ public class GameController {
                         currentPlayer.getSpace().getBoardElement().doAction(currentPlayer);
                     currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
-                // = board.getPlayerNumber(currentPlayer) + 1;
+
                 if (counter < board.getPlayerCount()) { // DOES THIS IF THERE IS A NEXT PLAYER
                     counter ++;
                    // board.setCurrentPlayer(board.getPlayer());
                     board.setCurrentPlayer(priorityList.get(counter));
 
-                } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
+                } else {
+                    priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());// ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
                     step++;
 
                     if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
