@@ -92,13 +92,11 @@ public class AppController implements Observer {
 
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
-            Board board = new Board(8,8);
+            /*Board board = new Board(8,8);
             String bordNum = boardResult.get();
             switch (bordNum) {
                 case "Board 1":
-            /* board.setSpaceType(1,3, ElementType.Gear);
-            board.setSpaceType(4,4, ElementType.Gear);
-            board.setSpaceType(6,6, ElementType.Gear);*/
+
                     board.getSpace(2, 7).setTypeGear(Heading.WEST);
                     board.getSpace(4, 4).setTypeGear(Heading.EAST);
                     board.getSpace(1, 3).setTypeGear(Heading.EAST);
@@ -106,8 +104,8 @@ public class AppController implements Observer {
                     board.getSpace(5, 0).setTypeCheckpoint(1, board, true);
                     //board.getSpace(6,3).setTypeCheckpoint(1);
                     //board.getSpace(1,5).setTypeCheckpoint(2);
-                    board.getSpace(2, 1).setTypeConveyor(board.getSpace(6, 1), 2, 1);
-                    board.getSpace(1, 6).setTypeConveyor(board.getSpace(3, 3), 1, 6);
+                    board.getSpace(2, 1).setTypeConveyor(6, 1, 2, 1);
+                    board.getSpace(1, 6).setTypeConveyor(3,3 , 1, 6);
                     board.getSpace(7, 6).setTypeConveyor(board.getSpace(5, 6), 7, 6);
                     board.setTypePriorityAntenna(7, 7);
                     //add priority antenna and walls
@@ -130,7 +128,7 @@ public class AppController implements Observer {
                     board.getSpace(4, 3).setTypeWall();
                     board.getSpace(7, 5).setTypeWall();
             }
-
+*/
 
             Board board = setupBaseBoard();
             gameController = new GameController(board);
