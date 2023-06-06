@@ -9,12 +9,28 @@ public class PlayerTemplate {
 
     public Heading heading;
 
-    public CommandFieldTemplate[] getCommandTemplate() {
-        return commandTemplate;
+    public CommandCard[] getCommandCards() {
+        return commandCards;
     }
 
-    public void setCommandTemplate(CommandFieldTemplate[] commandTemplate) {
-        this.commandTemplate = commandTemplate;
+    public void setCommandCards(CommandCardField[] commandCardFields) {
+        commandCards = new CommandCard[commandCardFields.length];
+        for (int i = 0; i < commandCardFields.length; i++) {
+            commandCards[i] = commandCardFields[i].getCard();
+
+        }
+
+    }
+
+    public CommandCard[] commandCards;
+
+    /*public CommandFieldTemplate[] commandFieldTemplates;
+    public CommandFieldTemplate[] commandFieldTemplates() {
+        return commandFieldTemplates;
+    }
+
+    public void setCommandTemplate(CommandFieldTemplate[] commandFieldTemplates) {
+        this.commandFieldTemplates = commandFieldTemplates;
     }
 
     public CommandCardField[] getCards() {
@@ -27,15 +43,17 @@ public class PlayerTemplate {
 
     public CommandFieldTemplate[] commandTemplate;
     public CommandCardField[] cards;
+
+     */
     public int tokenCount = 0;
     public boolean registerIsEmpty = false;
-    public PlayerTemplate(String name, String color, SpaceTemplate spaceTemplate, Heading heading,
-                         CommandFieldTemplate[] commandTemplate,int tokenCount, boolean registerIsEmpty){
+    public PlayerTemplate(String name, String color, SpaceTemplate spaceTemplate, Heading heading
+            , int tokenCount, boolean registerIsEmpty){
         this.name = name;
         this.color = color;
         this.spaceTemplate = spaceTemplate;
         this.heading = heading;
-        this.commandTemplate=commandTemplate;
+       // this.commandTemplate=commandTemplate;
         this.tokenCount = tokenCount;
         this.registerIsEmpty = registerIsEmpty;
     }
