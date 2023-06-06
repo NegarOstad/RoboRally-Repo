@@ -80,6 +80,7 @@ public class LoadBoard {
                 newPlayer.setSpace(newPlayerSpace, newBoard);
                 newPlayer.setTokenCount(p.tokenCount);
                 newPlayer.setHeading(p.heading);
+                newPlayer.setCards(p.getCommandCards());
                 newBoard.getPlayers().add(newPlayer);
                 if(p.name.equals(boardTemplate.currentTemplate.name))
                     newBoard.setCurrentPlayer(newPlayer);

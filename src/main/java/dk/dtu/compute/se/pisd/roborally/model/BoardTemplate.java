@@ -13,6 +13,7 @@ public class BoardTemplate extends Subject {
 
 
     public SpaceTemplate[][] spaceTemplates;
+    //public CommandFieldTemplate commandTemplate;
 
     public List<PlayerTemplate> playerTemplates = new ArrayList<>();
     public PlayerTemplate currentTemplate;
@@ -51,8 +52,12 @@ public class BoardTemplate extends Subject {
         for(Player p : players){
             int spaceX = p.getSpace().x;
             int spaceY = p.getSpace().y;
+
+               // CommandFieldTemplate[] temp = new CommandFieldTemplate[current.getCards().length];
+
             PlayerTemplate newPlayer = new PlayerTemplate(p.getName(), p.getColor(), spaceTemplates[spaceX][spaceY], p.getHeading(), p.getTokenCount(), p.getRegisterStatus());
             playerTemplates.add(newPlayer);
+            newPlayer.setCommandCards(p.getCards());
             if(p.equals(current)){
                 currentTemplate = newPlayer;
             }
