@@ -114,7 +114,7 @@ public class Board extends Subject {
         spaces[x][y].setType(inputType);
     }*/
 
-    public int getPlayersNumber() {
+    public int getPlayerCount() {
         return players.size();
     }
 

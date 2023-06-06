@@ -26,8 +26,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
-import static dk.dtu.compute.se.pisd.roborally.model.Command.FAST_FORWARD;
-
 
 /**
  * ...
@@ -73,7 +71,7 @@ public class GameController {
         board.setCurrentPlayer(board.getPlayer(0));
         board.setStep(0);
 
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getPlayerCount(); i++) {
             Player player = board.getPlayer(i);
             if (player != null) {
                 for (int j = 0; j < Player.NO_REGISTERS; j++) {
@@ -109,7 +107,7 @@ public class GameController {
     // XXX: V2
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
-            for (int i = 0; i < board.getPlayersNumber(); i++) {
+            for (int i = 0; i < board.getPlayerCount(); i++) {
                 Player player = board.getPlayer(i);
                 CommandCardField field = player.getProgramField(register);
                 field.setVisible(true);
@@ -119,7 +117,7 @@ public class GameController {
 
     // XXX: V2
     private void makeProgramFieldsInvisible() {
-        for (int i = 0; i < board.getPlayersNumber(); i++) {
+        for (int i = 0; i < board.getPlayerCount(); i++) {
             Player player = board.getPlayer(i);
             for (int j = 0; j < Player.NO_REGISTERS; j++) {
                 CommandCardField field = player.getProgramField(j);
@@ -175,7 +173,7 @@ public class GameController {
                     currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
                 // = board.getPlayerNumber(currentPlayer) + 1;
-                if (counter < board.getPlayersNumber()) { // DOES THIS IF THERE IS A NEXT PLAYER
+                if (counter < board.getPlayerCount()) { // DOES THIS IF THERE IS A NEXT PLAYER
                     counter ++;
                    // board.setCurrentPlayer(board.getPlayer());
                     board.setCurrentPlayer(priorityList.get(counter));
