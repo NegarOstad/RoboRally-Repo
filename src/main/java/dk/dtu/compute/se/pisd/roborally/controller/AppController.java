@@ -63,7 +63,7 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    final private List<String> BOARD_NUMBER = Arrays.asList("Board 1" , "Board 2");
+    final private List<Integer> BOARD_NUMBER = Arrays.asList(1 ,2);
     final private RoboRally roboRally;
     HttpClient httpClient =
             HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
@@ -82,10 +82,10 @@ public class AppController implements Observer {
         Optional<Integer> result = dialog.showAndWait();
 
         //// Add new Board
-        ChoiceDialog<String> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
+        ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
         boardDialog.setTitle("Boards");
         boardDialog.setHeaderText("Choose one board");
-        Optional<String> boardResult = boardDialog.showAndWait();
+        Optional<Integer> boardResult = boardDialog.showAndWait();
 
         if (result.isPresent()) {
             if (gameController != null) {
@@ -97,9 +97,9 @@ public class AppController implements Observer {
             }
 
             HttpRequest httpRequest =
-                    HttpRequest.newBuilder().GET().uri(URI.create("http://192.38.81.6:8080/new/"+result + "/" + boardResult))
+                    HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/new/"+result.get() + "/" + boardResult.get()))
                     .build();
-            httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
+              httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
 
 
 
@@ -107,9 +107,9 @@ public class AppController implements Observer {
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
             Board board = new Board(8,8);
-            String bordNum = boardResult.get();
+            int bordNum = boardResult.get();
             switch (bordNum) {
-                case "Board 1":
+                case 1:
             /* board.setSpaceType(1,3, ElementType.Gear);
             board.setSpaceType(4,4, ElementType.Gear);
             board.setSpaceType(6,6, ElementType.Gear);*/
@@ -127,7 +127,7 @@ public class AppController implements Observer {
                     //add priority antenna and walls
                     board.getSpace(0, 5).setTypeWall();
                     board.getSpace(5, 3).setTypeWall();
-                case "Board 2":
+                case 2:
                     board.getSpace(3, 7).setTypeGear(Heading.WEST);
                     board.getSpace(5, 4).setTypeGear(Heading.EAST);
                     board.getSpace(1, 6).setTypeGear(Heading.EAST);
