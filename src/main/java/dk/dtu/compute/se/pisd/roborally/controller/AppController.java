@@ -192,6 +192,7 @@ public class AppController implements Observer {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
         if (gameController == null) {
+
             newGame(LoadBoard.loadBoard("mygame"));
 
         }
