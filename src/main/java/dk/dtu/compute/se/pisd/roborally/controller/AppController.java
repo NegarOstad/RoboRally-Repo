@@ -139,11 +139,18 @@ public class AppController implements Observer {
         textInputDialog.setContentText("Enter a name for your game:");
         textInputDialog.showAndWait();
         String result = textInputDialog.getResult();
-        LoadBoard.saveBoard(gameController.board, result);
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Game is saved.");
-        alert.showAndWait();
-        exit();
+        System.out.println(result);
+
+        if(result != null ){
+            LoadBoard.saveBoard(gameController.board, result);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("Game is saved.");
+            alert.showAndWait();
+            exit();
+        }
+        if(result == null ){
+            textInputDialog.close();
+        }
     }
 
     public void loadGame()  {
