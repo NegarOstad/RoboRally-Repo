@@ -45,19 +45,19 @@ public class Board extends Subject {
 
     private Integer gameId;
 
-    private final Space[][] spaces;
+    private Space[][] spaces;
 
     private final List<Player> players = new ArrayList<>();
 
     private Player current;
 
-    private Phase phase = INITIALISATION;
+    private Phase phase;
 
-    private int step = 0;
+    private int step;
 
     private boolean stepMode;
 
-    boolean winnerIsFound = false;
+    private boolean winnerIsFound = false;
 
     private boolean OutOfBounds;
 
@@ -68,15 +68,65 @@ public class Board extends Subject {
         this.width = width;
         this.height = height;
         spaces = new Space[width][height];
+
         for (int x = 0; x < width; x++) {
             for(int y = 0; y < height; y++) {
-                Space space = new Space(this, x, y);
+                Space space = new Space(x, y);
                 spaces[x][y] = space;
+
             }
         }
         this.stepMode = false;
         this.OutOfBounds = false;
+        phase = INITIALISATION;
+        step = 0;
     }
+
+    public Board(int width, int height, @NotNull String boardName, SpaceTemplate[][] spaceTemplates) {
+        this.boardName = boardName;
+        this.width = width;
+        this.height = height;
+        spaces = new Space[width][height];
+        setSpaces(spaceTemplates);
+
+    }
+
+    private void setSpaces(SpaceTemplate[][] spaceTemplates) {
+        for (int x = 0; x < width; x++) {
+            for (int y = 0; y < height; y++) {
+                int spaceX = spaceTemplates[x][y].x;
+                int spaceY = spaceTemplates[x][y].y;
+                Space space = new Space(spaceX, spaceY);
+                spaces[x][y] = space;
+                setSpaceType(spaceTemplates[x][y].type, spaces[x][y], spaceTemplates[x][y]);
+
+            }
+        }
+    }
+
+    private void setSpaceType(ElementType type, Space space, SpaceTemplate spaceTemplate){
+        switch(type) {
+                case Gear:
+                    Gear gear = (Gear)spaceTemplate.sa;
+                    space.setTypeGear(gear.getHeading());
+                    break;
+                case Checkpoint:
+                    Checkpoint checkpoint = (Checkpoint)spaceTemplate.sa;
+                    space.setTypeCheckpoint(checkpoint.getIndex(), checkpoint.isLastCheckpoint());
+                    break;
+
+                case Wall:
+                    space.setTypeWall();
+                    break;
+
+                case ConveyorBelt:
+                    ConveyorBelt conveyorBelt = (ConveyorBelt)spaceTemplate.sa;
+                    space.setTypeConveyor(conveyorBelt.endX, conveyorBelt.endY);
+                    break;
+        }
+    }
+
+
 
     public Board(int width, int height) {
         this(width, height, "defaultboard");
@@ -110,6 +160,14 @@ public class Board extends Subject {
         }
     }
 
+    public Space[][] getSpaces() {
+        return spaces;
+    }
+
+   /* public SpaceTemplate[][] getSpaceTemplates() {
+        return spaceTemplates;
+    }*/
+
     /*public void setSpaceType(int x, int y, ElementType inputType){
         spaces[x][y].setType(inputType);
     }*/
@@ -119,7 +177,7 @@ public class Board extends Subject {
     }
 
     public void addPlayer(@NotNull Player player) {
-        if (player.board == this && !players.contains(player)) {
+        if (!players.contains(player)) {
             players.add(player);
             notifyChange();
         }
@@ -187,11 +245,8 @@ public class Board extends Subject {
     }
 
     public int getPlayerNumber(@NotNull Player player) {
-        if (player.board == this) {
             return players.indexOf(player);
-        } else {
-            return -1;
-        }
+
     }
 
     /**
@@ -234,12 +289,8 @@ public class Board extends Subject {
             return "Phase: " + getPhase().name() +
                     ", Player = " + getCurrentPlayer().getName() +
                     ", Step: " + getStep() +
-                    "Token count: " + getCurrentPlayer().getTokenCount();
+                    ", Token count: " + getCurrentPlayer().getTokenCount();
         }
-       /* if(getCurrentPlayer().getSpace().x < 0 || getCurrentPlayer().getSpace().x>7 ){
-            return "movement out of bounds";
-
-        }*/
     }
 
     public void setWinnerStatus(boolean winnerIsFound) {
@@ -260,6 +311,13 @@ public class Board extends Subject {
 
 
 
+    public boolean getWinnerStatus(){
+        return winnerIsFound;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
 
    /* public void setSpaceType(int x, int y, ElementType inputType) {
         switch (inputType){

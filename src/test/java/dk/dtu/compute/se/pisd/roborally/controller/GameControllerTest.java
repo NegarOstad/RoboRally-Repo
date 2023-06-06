@@ -5,9 +5,6 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.testng.Converter;
-
-import java.net.Socket;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,14 +24,14 @@ class GameControllerTest {
         Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
         gameController = new GameController(board);
         for (int i = 0; i < 1; i++) {
-            Player player = new Player(board, null, "Player " + i);
+            Player player = new Player(null,"Player " + i);
             board.addPlayer(player);
-            player.setSpace(board.getSpace(i, i));
+            player.setSpace(board.getSpace(i, i), board);
             player.setHeading(Heading.values()[i % Heading.values().length]);
         }
         board.setCurrentPlayer(board.getPlayer(0));
-        board.getSpace(0, 3).setTypeCheckpoint(0, board, false);
-        board.getSpace(5, 0).setTypeCheckpoint(1, board, true);
+        board.getSpace(0,3).setTypeCheckpoint(0, false);
+        board.getSpace(5,0).setTypeCheckpoint(1, true);
         /*checkpoints[0] = new Checkpoint(board.getSpace(0,3));
         checkpoints[0].setIndex(0);
         checkpoints[1] = new Checkpoint(board.getSpace(5, 0));
@@ -63,7 +60,7 @@ class GameControllerTest {
     void moveAwayAndBackToStartPosition() {
         Board board = gameController.board;
         Player player1 = board.getCurrentPlayer();
-        player1.setTestRegister(3);
+        player1.setTestRegister(3, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
         Assertions.assertEquals(player1, board.getSpace(0, 0).getPlayer(), "Player " + player1.getName() + " should beSpace (0,0)!");
@@ -112,9 +109,9 @@ class GameControllerTest {
         Player current = board.getCurrentPlayer();
         Space endSpace = gameController.board.getSpace(0, 5);
 
-        ConveyorBelt TestConveyorBelt = new ConveyorBelt(endSpace);
+        ConveyorBelt TestConveyorBelt= new ConveyorBelt(0, 5);
 
-        TestConveyorBelt.movePlayer(current);
+        TestConveyorBelt.doAction(current, board);
 
         Assertions.assertEquals(endSpace, current.getSpace());
 
@@ -127,9 +124,9 @@ class GameControllerTest {
         Player current = board.getCurrentPlayer();
         Heading EndDirection = Heading.NORTH;
 
-        Gear TestGear = new Gear(Heading.NORTH);
-        TestGear.turnPlayer(current);
-        Assertions.assertEquals(Heading.NORTH, current.getHeading());
+        Gear TestGear= new Gear(Heading.NORTH);
+        TestGear.doAction(current, board);
+        Assertions.assertEquals(Heading.NORTH,current.getHeading());
 
 
     }
@@ -178,7 +175,7 @@ class GameControllerTest {
         Board board = gameController.board;
         Player current = board.getCurrentPlayer();
 
-        current.setTestRegister(1);
+        current.setTestRegister(1, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
@@ -191,11 +188,11 @@ class GameControllerTest {
         Board board = gameController.board;
         Player player1 = board.getCurrentPlayer();
 
-        player1.setTestRegister(2);
+        player1.setTestRegister(2, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
-        player1.setTestRegister(1);
+        player1.setTestRegister(1, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
         //Assertions.assertEquals(true, player1.getSpace().hasACheckpoint());
@@ -233,19 +230,19 @@ class GameControllerTest {
         Board board = gameController.board;
         Player player1 = board.getCurrentPlayer();
 
-        player1.setTestRegister(1);
+        player1.setTestRegister(1, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
-        player1.setTestRegister(2);
+        player1.setTestRegister(2, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
-        player1.setTestRegister(3);
+        player1.setTestRegister(3, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
         Assertions.assertEquals(true, ((Checkpoint
-                ) player1.getSpace().getBoardElement()).isLastCheckpoint());
+                )player1.getSpace().getBoardElement()).isLastCheckpoint());
     }
 
 }
