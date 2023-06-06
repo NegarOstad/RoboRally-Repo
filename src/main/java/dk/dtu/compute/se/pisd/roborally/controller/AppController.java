@@ -170,6 +170,7 @@ public class AppController implements Observer {
         board.getSpace(7,6).fillConveyorBelt(5, 6, 7, 6 , board);
         board.getSpace(0,5).setTypeWall();
         board.getSpace(5,3).setTypeWall();
+        board.setTypePriorityAntenna(7, 7);
 
         return  board;
     }
