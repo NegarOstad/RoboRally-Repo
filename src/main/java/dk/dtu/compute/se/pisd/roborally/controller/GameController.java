@@ -162,6 +162,7 @@ public class GameController {
         //Player currentPlayer = board.getCurrentPlayer();
         System.out.println("Counter : " + counter + ", Current step: " + board.getStep() + ", Current priority player: " + priorityList.get(counter).getName());
         Player currentPlayer = priorityList.get(counter);
+        board.setCurrentPlayer(currentPlayer);
 
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -187,13 +188,12 @@ public class GameController {
                 } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
                     step++;
                     counter = 0;
-                    System.out.println("The current step is: " + board.getStep());
                     priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
 
                     if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
-                        board.setCurrentPlayer(board.getPlayer(0));
+                       // board.setCurrentPlayer(board.getPlayer(0));
 
                     } else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
                         startProgrammingPhase();
@@ -227,7 +227,7 @@ public class GameController {
                             executeCommand(currentPlayer, Command.RIGHT);
                             break;
                     }
-                executeNextStep();
+                //executeNextStep();
                 /*
                 step++;
                 if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO

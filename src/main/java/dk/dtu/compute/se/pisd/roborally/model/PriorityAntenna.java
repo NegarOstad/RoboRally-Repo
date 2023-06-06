@@ -47,6 +47,10 @@ public class PriorityAntenna extends SpaceAction {
             sortedPlayers.add(currentClosest);
             tempPlayersList.remove(currentClosest);
         }
+        for(Player p : sortedPlayers){
+            System.out.print(p.getName() + ", ");
+        }
+        System.out.println();
         return sortedPlayers;
     }
 
