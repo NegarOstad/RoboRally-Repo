@@ -57,8 +57,10 @@ public class Player extends Subject {
         return cards;
     }
 
-    public void setCards(CommandCardField[] cards) {
-        this.cards = cards;
+    public void setCards(CommandCard[] commandCards) {
+        for (int i = 0; i < cards.length; i++) {
+            cards[i].setCard(commandCards[i]);
+        }
     }
 
     public Player(/*@NotNull Board board,*/ String color, @NotNull String name) {

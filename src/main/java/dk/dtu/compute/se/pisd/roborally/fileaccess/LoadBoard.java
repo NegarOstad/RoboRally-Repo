@@ -78,6 +78,7 @@ public class LoadBoard {
                 Player newPlayer = new Player(p.color, p.name);
                 Space newPlayerSpace = newBoard.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
                 newPlayer.setSpace(newPlayerSpace, newBoard);
+                newPlayer.setCards(p.getCommandCards());
                 newBoard.getPlayers().add(newPlayer);
 
             }
