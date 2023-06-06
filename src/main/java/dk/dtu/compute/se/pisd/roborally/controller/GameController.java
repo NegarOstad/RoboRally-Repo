@@ -148,8 +148,8 @@ public class GameController {
 
     // XXX: V2
     private void continuePrograms() {;
-        calcClosestPlayers =  board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
-        board.setCurrentPlayer(calcClosestPlayers.get(0));
+       /* calcClosestPlayers =  board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
+        board.setCurrentPlayer(calcClosestPlayers.get(0));*/
         board.setOutOfBounds(false);
         do {
             executeNextStep();
@@ -158,12 +158,8 @@ public class GameController {
 
 
     // XXX: V2
-    public void executeNextStep() {
-        //int nextPlayerIndex;
-        int counter = 0;
-        List<Player> priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
-        Player currentPlayer = priorityList.get(0);
-
+    private void executeNextStep() {
+        Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
 
@@ -180,19 +176,17 @@ public class GameController {
                         currentPlayer.getSpace().getBoardElement().doAction(currentPlayer, board);
                     currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
-                // = board.getPlayerNumber(currentPlayer) + 1;
-                if (counter < board.getPlayersNumber()) { // DOES THIS IF THERE IS A NEXT PLAYER
-                    counter ++;
-                   // board.setCurrentPlayer(board.getPlayer());
-                    board.setCurrentPlayer(priorityList.get(counter));
+
+                int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
+                if (nextPlayerNumber < board.getPlayersNumber()) { // DOES THIS IF THERE IS A NEXT PLAYER
+                    board.setCurrentPlayer(board.getPlayer(nextPlayerNumber));
 
                 } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
                     step++;
-
                     if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
-                        //board.setCurrentPlayer(board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList()).get(0));
+                        board.setCurrentPlayer(board.getPlayer(0));
 
                     }
                     else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
