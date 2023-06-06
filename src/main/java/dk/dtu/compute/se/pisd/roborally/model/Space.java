@@ -96,7 +96,7 @@ public class Space extends Subject {
 
     public SpaceAction setTypePriorityAntenna(){
         type = ElementType.PriorityAntenna;
-        SpaceAction = new PriorityAntenna(7,7);
+        spaceAction = new PriorityAntenna(7,7);
         return spaceAction;
         //board.setTypePriorityAntenna();
     }

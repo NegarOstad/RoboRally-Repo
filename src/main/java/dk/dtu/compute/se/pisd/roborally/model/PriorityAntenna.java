@@ -3,14 +3,14 @@ package dk.dtu.compute.se.pisd.roborally.model;
         import java.util.ArrayList;
         import java.util.List;
 
-public class PriorityAntenna extends BoardElement {
+public class PriorityAntenna extends SpaceAction {
     public int x;
     public int y;
 
 
 
     @Override
-    public void doAction(Player currentPlayer) {
+    public void doAction(Player currentPlayer, Board board) {
 
     }
 

@@ -36,7 +36,7 @@ import static dk.dtu.compute.se.pisd.roborally.model.Command.FAST_FORWARD;
  *
  */
 public class GameController {
-    public BoardElement priorityAntenna;
+    public SpaceAction priorityAntenna;
 
     public int getNextPlayerNumber;
 
@@ -290,10 +290,10 @@ public class GameController {
                 newY = player.getSpace().y + 1;
                 if(newY > 0 && newY < board.height) {
                     if (!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(x, newY));
+                        player.setSpace(board.getSpace(x, newY), board);
                     else {
                         board.setOutOfBounds(true);
-                        player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                        player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y), board);
                     }
                 }
 
@@ -302,10 +302,10 @@ public class GameController {
                 newY = player.getSpace().y - 1;
                 if(newY > 0 && newY < board.height) {
                     if (!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(x, newY));
+                        player.setSpace(board.getSpace(x, newY), board);
                     else {
                         board.setOutOfBounds(true);
-                        player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                        player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y), board);
                     }
                 }
                 break;
@@ -314,12 +314,12 @@ public class GameController {
                 newX = player.getSpace().x  - 1 ;
                 if(newX > 0 && newX < board.width) {
                     if (!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(newX, y));
+                        player.setSpace(board.getSpace(newX, y), board);
 
                     //if(newX<0 || newX>7) {
                 } else{
                     board.setOutOfBounds(true);
-                    player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                    player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y), board);
                 }
                 break;
 
@@ -327,10 +327,10 @@ public class GameController {
                 newX = player.getSpace().x  + 1 ;
                 if(newX > 0 && newX < board.width) {
                     if (!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall)))
-                        player.setSpace(board.getSpace(newX, y));
+                        player.setSpace(board.getSpace(newX, y), board);
                     else{
                         board.setOutOfBounds(true);
-                        player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                        player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y), board);
                     }
                 }
                 break;
@@ -360,10 +360,10 @@ public class GameController {
                     newY++;
                     if(newY > 0 && newY < board.height){
                         if(!(board.getSpace(player.getSpace().x, y + 1).getType().equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY));
+                            player.setSpace(board.getSpace(newX, newY), board);
                              else{
                                 board.setOutOfBounds(true);
-                                player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                                player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y), board);
                             }
                         }
                     break;
@@ -372,10 +372,10 @@ public class GameController {
                     newY--;
                     if(newY > 0 && newY < board.height) {
                         if (!(board.getSpace(player.getSpace().x, y - 1).getType().equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY));
+                            player.setSpace(board.getSpace(newX, newY), board);
                         else {
                             board.setOutOfBounds(true);
-                            player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                            player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y), board);
                         }
                     }
                     break;
@@ -384,10 +384,10 @@ public class GameController {
                     newX--;
                     if(newX > 0 && newX < board.width) {
                         if (!(board.getSpace(x - 1, player.getSpace().y).getType().equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY));
+                            player.setSpace(board.getSpace(newX, newY), board);
                         else {
                             board.setOutOfBounds(true);
-                            player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                            player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y), board);
                         }
                     }
                     break;
@@ -396,10 +396,10 @@ public class GameController {
                     newX++;
                     if(newX > 0 && newX < board.width) {
                         if (!(board.getSpace(x + 1, player.getSpace().y).getType().equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY));
+                            player.setSpace(board.getSpace(newX, newY), board);
                         else {
                             board.setOutOfBounds(true);
-                            player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y));
+                            player.setSpace(board.getSpace(player.getSpace().x, player.getSpace().y), board);
                         }
                     }
                     break;
