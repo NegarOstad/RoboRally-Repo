@@ -28,13 +28,14 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
+import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.ElementType;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
-import javafx.scene.control.Alert;
+import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
@@ -43,10 +44,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 /**
  * ...
@@ -59,6 +57,9 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<String> BOARD_NUMBER = Arrays.asList("Board 1" , "Board 2");
+    final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
+    private String gameName ;
+
     final private RoboRally roboRally;
 
     private GameController gameController;
@@ -66,6 +67,7 @@ public class AppController implements Observer {
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
+
 
     public void newGame()  {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
@@ -130,31 +132,69 @@ public class AppController implements Observer {
             }
 
 
+            Board board = setupBaseBoard();
             gameController = new GameController(board);
+
+
             int no = result.get();
             for (int i = 0; i < no; i++) {
-                Player player = new Player(board, PLAYER_COLORS.get(i), "Player " + (i + 1));
+                Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
                 board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i));
-            }
+                player.setSpace(board.getSpace(i % board.width, i), board);
 
-            // XXX: V2
-            // board.setCurrentPlayer(board.getPlayer(0));
+            }
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
         }
     }
 
+    public void newGame(Board board){
+        gameController = new GameController(board);
+        gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
+        roboRally.createBoardView(gameController);
+
+    }
+
+
+
+    private Board setupBaseBoard(){
+        Board board = new Board(8,8);
+        board.getSpace(1,3).setTypeGear(Heading.NORTH);
+        board.getSpace(4,4).setTypeGear(Heading.EAST);
+        board.getSpace(1,3).setTypeGear(Heading.SOUTH);
+        board.getSpace(4,0).setTypeCheckpoint(0, false);
+        board.getSpace(5,0).setTypeCheckpoint(1,true);
+        board.getSpace(2,1).fillConveyorBelt(6, 1, 2, 1 , board);
+        board.getSpace(1,6).setTypeConveyor(3, 3);
+        board.getSpace(1,6).fillConveyorBelt(3, 3, 1, 6 , board);
+        board.getSpace(7,6).setTypeConveyor(5, 6);
+        board.getSpace(7,6).fillConveyorBelt(5, 6, 7, 6 , board);
+        board.getSpace(0,5).setTypeWall();
+        board.getSpace(5,3).setTypeWall();
+
+        return  board;
+    }
+
     public void saveGame() {
-        // XXX needs to be implemented eventually
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setHeaderText("Save Game");
+        textInputDialog.setContentText("Enter a name for your game:");
+        textInputDialog.showAndWait();
+        String result = textInputDialog.getResult();
+        LoadBoard.saveBoard(gameController.board, result);
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Game is saved.");
+        alert.showAndWait();
+        exit();
     }
 
     public void loadGame()  {
         // XXX needs to be implemented eventually
         // for now, we just create a new game
         if (gameController == null) {
-            newGame();
+            newGame(LoadBoard.loadBoard("mygame"));
+
         }
     }
 
@@ -171,8 +211,8 @@ public class AppController implements Observer {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
-            saveGame();
-
+            //saveGame();
+//saveGame();
             gameController = null;
             roboRally.createBoardView(null);
             return true;
@@ -184,7 +224,7 @@ public class AppController implements Observer {
         if (gameController != null) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Exit RoboRally?");
-            alert.setContentText("Are you sure you want to exit RoboRally?");
+            alert.setContentText("Do you want to exit RoboRally?");
             Optional<ButtonType> result = alert.showAndWait();
 
             if (!result.isPresent() || result.get() != ButtonType.OK) {

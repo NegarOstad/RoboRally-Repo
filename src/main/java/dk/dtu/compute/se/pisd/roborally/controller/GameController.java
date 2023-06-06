@@ -66,6 +66,12 @@ public class GameController {
         //     if the player is moved
 
     }
+    public void reinitializeBoard(Phase phase, Player current, int step){
+        board.setPhase(phase);
+        board.setCurrentPlayer(current);
+        board.setStep(step);
+
+    }
 
     // XXX: V2
     public void startProgrammingPhase() {
@@ -171,7 +177,7 @@ public class GameController {
                     Command command = card.command;
                     executeCommand(currentPlayer, command);
                     if(currentPlayer.getSpace().getBoardElement() != null)
-                        currentPlayer.getSpace().getBoardElement().doAction(currentPlayer);
+                        currentPlayer.getSpace().getBoardElement().doAction(currentPlayer, board);
                     currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
                 // = board.getPlayerNumber(currentPlayer) + 1;
@@ -241,7 +247,7 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-        if (player != null && player.board == board && command != null) {
+        if (player != null && /*player.board == board &&*/ command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
             //     their execution. This should eventually be done in a more elegant way
             //     (this concerns the way cards are modelled as well as the way they are executed).
@@ -276,8 +282,8 @@ public class GameController {
     // TODO Assignment V2
     public void moveForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
-        int newY;
-        int newX;
+        int newX = player.getSpace().x;
+        int newY = player.getSpace().y;
 
         switch (currentHeading){
             case SOUTH:
