@@ -23,28 +23,6 @@ public class PlayerTemplate {
     }
 
     public CommandCard[] commandCards;
-
-    /*public CommandFieldTemplate[] commandFieldTemplates;
-    public CommandFieldTemplate[] commandFieldTemplates() {
-        return commandFieldTemplates;
-    }
-
-    public void setCommandTemplate(CommandFieldTemplate[] commandFieldTemplates) {
-        this.commandFieldTemplates = commandFieldTemplates;
-    }
-
-    public CommandCardField[] getCards() {
-        return cards;
-    }
-
-    public void setCards(CommandCardField[] cards) {
-        this.cards = cards;
-    }
-
-    public CommandFieldTemplate[] commandTemplate;
-    public CommandCardField[] cards;
-
-     */
     public int tokenCount = 0;
     public boolean registerIsEmpty = false;
     public PlayerTemplate(String name, String color, SpaceTemplate spaceTemplate, Heading heading
