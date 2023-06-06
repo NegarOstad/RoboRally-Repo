@@ -162,8 +162,7 @@ public class GameController {
     private void executeNextStep() {
         //Player currentPlayer = board.getCurrentPlayer();
         System.out.println("Counter : " + counter + "Current priority player: " + priorityList.get(counter));
-        Player currentPlayer = board.getCurrentPlayer();
-        ;
+        Player currentPlayer = priorityList.get(counter);
 
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -182,7 +181,7 @@ public class GameController {
                     currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
 
-                if (counter < board.getPlayerCount()) { // DOES THIS IF THERE IS A NEXT PLAYER
+                if (counter < board.getPlayerCount() - 1) { // DOES THIS IF THERE IS A NEXT PLAYER
                     counter++;
                     // board.setCurrentPlayer(board.getPlayer());
                     //board.setCurrentPlayer(priorityList.get(counter));
