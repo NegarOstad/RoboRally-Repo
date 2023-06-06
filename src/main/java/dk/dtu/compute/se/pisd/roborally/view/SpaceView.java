@@ -75,7 +75,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         //String fullPath = path + "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\";
         String fullPath = "file:" + path + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + "dk" + File.separator + "dtu" + File.separator + "compute" + File.separator + "se" + File.separator + "pisd" + File.separator + "roborally" + File.separator + "view" + File.separator + "Images" + File.separator;
 
-         System.out.println(fullPath);
+         //System.out.println(fullPath);
 
         int i;
         for (i = space.x; i <= space.x; i++)

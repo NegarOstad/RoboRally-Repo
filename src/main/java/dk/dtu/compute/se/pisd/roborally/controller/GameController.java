@@ -180,11 +180,11 @@ public class GameController {
                 if (counter < board.getPlayerCount()) { // DOES THIS IF THERE IS A NEXT PLAYER
                     counter ++;
                    // board.setCurrentPlayer(board.getPlayer());
-                    board.setCurrentPlayer(priorityList.get(counter));
+                    //board.setCurrentPlayer(priorityList.get(counter));
 
                 } else {
-                    priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());// ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
                     step++;
+                    priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());// ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
 
                     if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
                         makeProgramFieldsVisible(step);
