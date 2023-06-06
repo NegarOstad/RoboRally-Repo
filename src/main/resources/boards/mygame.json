@@ -475,33 +475,22 @@
       "name": "Player 1",
       "color": "red",
       "spaceTemplate": {
-        "type": "Checkpoint",
-        "x": 4,
-        "y": 0,
-        "sa": {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
-          "INSTANCE": {
-            "index": 0,
-            "isLastCheckpoint": false
-          }
-        }
+        "type": "Normal",
+        "x": 2,
+        "y": 0
       },
       "heading": "EAST",
       "commandCards": [
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
         {
           "command": "FAST_FORWARD",
           "observers": []
         },
         {
-          "command": "FORWARD",
-          "observers": []
-        },
-        {
-          "command": "LEFT_RIGHT",
-          "observers": []
-        },
-        {
-          "command": "FORWARD",
+          "command": "RIGHT",
           "observers": []
         },
         {
@@ -517,43 +506,29 @@
           "observers": []
         },
         {
-          "command": "LEFT",
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
           "observers": []
         }
       ],
-      "tokenCount": 1,
+      "tokenCount": 0,
       "registerIsEmpty": true
     },
     {
       "name": "Player 2",
       "color": "green",
       "spaceTemplate": {
-        "type": "Gear",
+        "type": "Normal",
         "x": 1,
-        "y": 3,
-        "sa": {
-          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Gear",
-          "INSTANCE": {
-            "EndDirection": "SOUTH"
-          }
-        }
+        "y": 5
       },
       "heading": "SOUTH",
       "commandCards": [
         {
-          "command": "LEFT",
-          "observers": []
-        },
-        {
           "command": "RIGHT",
-          "observers": []
-        },
-        {
-          "command": "FAST_FORWARD",
-          "observers": []
-        },
-        {
-          "command": "FAST_FORWARD",
           "observers": []
         },
         {
@@ -561,11 +536,23 @@
           "observers": []
         },
         {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "FAST_FORWARD",
+          "observers": []
+        },
+        {
           "command": "LEFT",
           "observers": []
         },
         {
-          "command": "RIGHT",
+          "command": "FORWARD",
+          "observers": []
+        },
+        {
+          "command": "FORWARD",
           "observers": []
         },
         {
@@ -574,40 +561,128 @@
         }
       ],
       "tokenCount": 0,
-      "registerIsEmpty": false
+      "registerIsEmpty": true
+    },
+    {
+      "name": "Player 3",
+      "color": "blue",
+      "spaceTemplate": {
+        "type": "Normal",
+        "x": 3,
+        "y": 2
+      },
+      "heading": "EAST",
+      "commandCards": [
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "LEFT_RIGHT",
+          "observers": []
+        },
+        {
+          "command": "LEFT",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "FORWARD",
+          "observers": []
+        },
+        {
+          "command": "FAST_FORWARD",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "FAST_FORWARD",
+          "observers": []
+        }
+      ],
+      "tokenCount": 0,
+      "registerIsEmpty": true
+    },
+    {
+      "name": "Player 4",
+      "color": "orange",
+      "spaceTemplate": {
+        "type": "ConveyorBelt",
+        "x": 3,
+        "y": 3,
+        "sa": {
+          "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.ConveyorBelt",
+          "INSTANCE": {
+            "endX": 3,
+            "endY": 3
+          }
+        }
+      },
+      "heading": "WEST",
+      "commandCards": [
+        {
+          "command": "LEFT",
+          "observers": []
+        },
+        {
+          "command": "LEFT_RIGHT",
+          "observers": []
+        },
+        {
+          "command": "FORWARD",
+          "observers": []
+        },
+        {
+          "command": "FORWARD",
+          "observers": []
+        },
+        {
+          "command": "FORWARD",
+          "observers": []
+        },
+        {
+          "command": "FORWARD",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "LEFT_RIGHT",
+          "observers": []
+        }
+      ],
+      "tokenCount": 0,
+      "registerIsEmpty": true
     }
   ],
   "currentTemplate": {
     "name": "Player 1",
     "color": "red",
     "spaceTemplate": {
-      "type": "Checkpoint",
-      "x": 4,
-      "y": 0,
-      "sa": {
-        "CLASSNAME": "dk.dtu.compute.se.pisd.roborally.model.Checkpoint",
-        "INSTANCE": {
-          "index": 0,
-          "isLastCheckpoint": false
-        }
-      }
+      "type": "Normal",
+      "x": 2,
+      "y": 0
     },
     "heading": "EAST",
     "commandCards": [
+      {
+        "command": "RIGHT",
+        "observers": []
+      },
       {
         "command": "FAST_FORWARD",
         "observers": []
       },
       {
-        "command": "FORWARD",
-        "observers": []
-      },
-      {
-        "command": "LEFT_RIGHT",
-        "observers": []
-      },
-      {
-        "command": "FORWARD",
+        "command": "RIGHT",
         "observers": []
       },
       {
@@ -623,11 +698,15 @@
         "observers": []
       },
       {
-        "command": "LEFT",
+        "command": "RIGHT",
+        "observers": []
+      },
+      {
+        "command": "RIGHT",
         "observers": []
       }
     ],
-    "tokenCount": 1,
+    "tokenCount": 0,
     "registerIsEmpty": true
   },
   "phase": "PROGRAMMING",

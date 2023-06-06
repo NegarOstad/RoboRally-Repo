@@ -33,9 +33,6 @@ import java.util.List;
  *
  */
 public class GameController {
-    public SpaceAction priorityAntenna;
-
-    public int getNextPlayerNumber;
 
      final public Board board;
     int x = 0;
@@ -148,7 +145,6 @@ public class GameController {
     // XXX: V2
     private void continuePrograms() {;
         priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
-        //calcClosestPlayers =  board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
         board.setCurrentPlayer(priorityList.get(0));
         board.setOutOfBounds(false);
         do {
@@ -159,7 +155,6 @@ public class GameController {
 
     // XXX: V2
     private void executeNextStep() {
-        //Player currentPlayer = board.getCurrentPlayer();
         System.out.println("Counter : " + counter + ", Current step: " + board.getStep() + ", Current priority player: " + priorityList.get(counter).getName());
         Player currentPlayer = priorityList.get(counter);
         board.setCurrentPlayer(currentPlayer);
@@ -193,7 +188,6 @@ public class GameController {
                     if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
-                       // board.setCurrentPlayer(board.getPlayer(0));
 
                     } else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
                         startProgrammingPhase();
@@ -213,7 +207,7 @@ public class GameController {
         Player currentPlayer = board.getCurrentPlayer();
             int step = board.getStep();
 
-                CommandCard card = currentPlayer.getProgramField(step).getCard();
+                //CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if(step != Player.NO_REGISTERS-1)
                     if(currentPlayer.getProgramField(step+1).getCard() == null)
                         currentPlayer.setEndOfRegister(true);
@@ -227,19 +221,6 @@ public class GameController {
                             executeCommand(currentPlayer, Command.RIGHT);
                             break;
                     }
-                //executeNextStep();
-                /*
-                step++;
-                if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
-                    makeProgramFieldsVisible(step);
-                    board.setStep(step);
-                    board.setCurrentPlayer(board.getPlayer(0));
-
-                }
-                else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
-                    startProgrammingPhase();
-                }
-                */
 
     }
 
