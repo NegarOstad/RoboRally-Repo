@@ -43,6 +43,11 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.time.Duration;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -60,6 +65,9 @@ public class AppController implements Observer {
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<String> BOARD_NUMBER = Arrays.asList("Board 1" , "Board 2");
     final private RoboRally roboRally;
+    HttpClient httpClient =
+            HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20)).build();
 
     private GameController gameController;
 
@@ -87,6 +95,14 @@ public class AppController implements Observer {
                     return;
                 }
             }
+
+            HttpRequest httpRequest =
+                    HttpRequest.newBuilder().GET().uri(URI.create("http://192.38.81.6:8080/new/"+result + "/" + boardResult))
+                    .build();
+            httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+
+
 
             // XXX the board should eventually be created programmatically or loaded from a file
             //     here we just create an empty board with the required number of players.
