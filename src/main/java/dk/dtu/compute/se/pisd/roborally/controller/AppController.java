@@ -187,7 +187,6 @@ public class AppController implements Observer {
         board.getSpace(0,5).setTypeWall();
         board.getSpace(5,3).setTypeWall();
         board.setTypePriorityAntenna(7, 7);
-
         return  board;
     }
 
@@ -218,7 +217,8 @@ public class AppController implements Observer {
         if (gameController == null) {
             // newGame(LoadBoard.loadBoard("mygame"));
             gameFiles = LoadBoard.getBoardList();
-            ChoiceDialog  dialog = new ChoiceDialog(gameFiles[0], gameFiles);
+            ChoiceDialog dialog = new ChoiceDialog(gameFiles[0], gameFiles);
+
             //ChoiceDialog<String> dialog = new ChoiceDialog<>();
             //dialog.getItems().addAll(LOAD_GAME);
             dialog.setTitle("Load Game");
