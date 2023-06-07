@@ -35,6 +35,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.Duration;
 
@@ -132,35 +133,26 @@ public class LoadBoard {
         String filename = "src/main/resources/boards/"+name+".json";
 
         GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>()).
-                setPrettyPrinting();
+                registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>())
+                .disableHtmlEscaping()
+                //.setPrettyPrinting()
+        ;
         Gson gson = simpleBuilder.create();
 
+        //FileWriter fileWriter = null;
+        //JsonWriter writer = null;
+        //fileWriter = new FileWriter(filename);
+        //writer = gson.newJsonWriter(fileWriter);
+       String jsonString = gson.toJson(template, template.getClass()/*, writer*/);
         HttpRequest httpRequest =
-                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/save/")).build();
+                HttpRequest.newBuilder()
+                            .POST(HttpRequest.BodyPublishers.ofString(jsonString, StandardCharsets.UTF_8))
+                            .uri(URI.create("http://10.209.204.5:8080/saveGame/"+name))
+                            .build();
+
         httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
 
-        //FileWriter fileWriter = null;
-        JsonWriter writer = null;
-        try {
-            //fileWriter = new FileWriter(filename);
-            writer = gson.newJsonWriter(fileWriter);
-            gson.toJson(template, template.getClass(), writer);
-            writer.close();
-
-        } catch (IOException e1) {
-            if (writer != null) {
-                try {
-                    writer.close();
-                    fileWriter = null;
-                } catch (IOException e2) {}
-            }
-            if (fileWriter != null) {
-                try {
-                    fileWriter.close();
-                } catch (IOException e2) {}
-            }
-        }
+        //writer.close();
 
 
     }
