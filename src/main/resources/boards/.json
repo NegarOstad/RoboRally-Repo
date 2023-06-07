@@ -472,9 +472,43 @@
         "x": 0,
         "y": 0
       },
-      "heading": "WEST",
+      "heading": "SOUTH",
+      "commandCards": [
+        {
+          "command": "FAST_FORWARD",
+          "observers": []
+        },
+        {
+          "command": "FAST_FORWARD",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "FORWARD",
+          "observers": []
+        },
+        {
+          "command": "FORWARD",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "FAST_FORWARD",
+          "observers": []
+        },
+        {
+          "command": "LEFT_RIGHT",
+          "observers": []
+        }
+      ],
       "tokenCount": 0,
-      "registerIsEmpty": true
+      "registerIsEmpty": false
     },
     {
       "name": "Player 2",
@@ -485,8 +519,42 @@
         "y": 1
       },
       "heading": "SOUTH",
+      "commandCards": [
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "FORWARD",
+          "observers": []
+        },
+        {
+          "command": "LEFT",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "LEFT",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "FAST_FORWARD",
+          "observers": []
+        },
+        {
+          "command": "LEFT_RIGHT",
+          "observers": []
+        }
+      ],
       "tokenCount": 0,
-      "registerIsEmpty": true
+      "registerIsEmpty": false
     }
   ],
   "currentTemplate": {
@@ -497,11 +565,45 @@
       "x": 0,
       "y": 0
     },
-    "heading": "WEST",
+    "heading": "SOUTH",
+    "commandCards": [
+      {
+        "command": "FAST_FORWARD",
+        "observers": []
+      },
+      {
+        "command": "FAST_FORWARD",
+        "observers": []
+      },
+      {
+        "command": "RIGHT",
+        "observers": []
+      },
+      {
+        "command": "FORWARD",
+        "observers": []
+      },
+      {
+        "command": "FORWARD",
+        "observers": []
+      },
+      {
+        "command": "RIGHT",
+        "observers": []
+      },
+      {
+        "command": "FAST_FORWARD",
+        "observers": []
+      },
+      {
+        "command": "LEFT_RIGHT",
+        "observers": []
+      }
+    ],
     "tokenCount": 0,
-    "registerIsEmpty": true
+    "registerIsEmpty": false
   },
-  "phase": "INITIALISATION",
+  "phase": "PROGRAMMING",
   "step": 0,
   "stepMode": false,
   "winnerIsFound": false,
