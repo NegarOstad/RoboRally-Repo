@@ -44,6 +44,8 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.http.HttpClient;
+import java.time.Duration;
 import java.util.*;
 
 /**
@@ -56,13 +58,17 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    final private List<String> BOARD_NUMBER = Arrays.asList("Board 1" , "Board 2");
+    final private List<Integer> BOARD_NUMBER = Arrays.asList(1,2);
     final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
     private String gameName ;
 
     final private RoboRally roboRally;
+    HttpClient httpClient =
+            HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20)).build();
 
     private GameController gameController;
+
 
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
@@ -76,10 +82,10 @@ public class AppController implements Observer {
         Optional<Integer> result = dialog.showAndWait();
 
         //// Add new Board
-        ChoiceDialog<String> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
+        ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
         boardDialog.setTitle("Boards");
         boardDialog.setHeaderText("Choose one board");
-        Optional<String> boardResult = boardDialog.showAndWait();
+        Optional<Integer> boardResult = boardDialog.showAndWait();
 
         if (result.isPresent()) {
             if (gameController != null) {
