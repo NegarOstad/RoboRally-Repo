@@ -38,6 +38,8 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * ...
@@ -53,17 +55,31 @@ public class LoadBoard {
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
+    public static String[] getBoardList() throws IOException, InterruptedException {
+        HttpRequest httpRequest =
+                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/savedGame"))
+                        .build();
+        HttpResponse responseList = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        System.out.println(responseList.body());
+        String[] arrayOfOptions = responseList.body().toString().split(",");
+        for(String s : arrayOfOptions){
+            System.out.println(s);
+        }
+
+        return arrayOfOptions;
+    }
     public static Board loadBoard(String boardname) throws IOException, InterruptedException {
         if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
 
-        HttpRequest httpRequest =
-                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/loadGame/"))
-                        .build();
+
+       // HttpRequest httpRequestList =
+         //       HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/loadGame/123"))
+           //             .build();
         //httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
-        HttpResponse response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
-        System.out.println(response.body());
+       // HttpResponse response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        //System.out.println(response.body());
 
 
         // In simple cases, we can create a Gson object with new Gson():

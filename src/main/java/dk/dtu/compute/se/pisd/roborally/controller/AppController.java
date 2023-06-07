@@ -64,7 +64,7 @@ public class AppController implements Observer {
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<Integer> BOARD_NUMBER = Arrays.asList(1,2);
     final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
-    final  private List<String> gameFiles = new ArrayList<>();
+    private String[] gameFiles;
     private String gameName ;
 
     final private RoboRally roboRally;
@@ -217,8 +217,8 @@ public class AppController implements Observer {
         // for now, we just create a new game
         if (gameController == null) {
             // newGame(LoadBoard.loadBoard("mygame"));
-            setFileNames();
-            ChoiceDialog  dialog = new ChoiceDialog(gameFiles.get(0), gameFiles);
+            gameFiles = LoadBoard.getBoardList();
+            ChoiceDialog  dialog = new ChoiceDialog(gameFiles[0], gameFiles);
             //ChoiceDialog<String> dialog = new ChoiceDialog<>();
             //dialog.getItems().addAll(LOAD_GAME);
             dialog.setTitle("Load Game");
@@ -240,7 +240,7 @@ public class AppController implements Observer {
      * Based on a solution found on Stackoverflow (https://stackoverflow.com/questions/5694385/getting-the-filenames-of-all-files-in-a-folder)
      * used together with a solution from  Baeldung (https://www.baeldung.com/java-filename-without-extension)
      */
-    private void setFileNames(){
+    /*private void setFileNames(){
         File resources = new File("src/main/resources/boards/");
         File[] listOfFiles = resources.listFiles();
         for(int i = 0 ; i < listOfFiles.length ; i++){
@@ -249,7 +249,7 @@ public class AppController implements Observer {
                 gameFiles.add(filename);
             }
         }
-    }
+    }*/
 
     /**
      * Stop playing the current game, giving the user the option to save
