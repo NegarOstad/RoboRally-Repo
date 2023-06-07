@@ -65,10 +65,8 @@ public class AppController implements Observer {
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<Integer> BOARD_NUMBER = Arrays.asList(1 ,2);
     final private RoboRally roboRally;
-    HttpClient httpClient =
-            HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
-                    .connectTimeout(Duration.ofSeconds(20)).build();
 
+    private ServerClient serverClient=new ServerClient();
     private GameController gameController;
 
     public AppController(@NotNull RoboRally roboRally) {
@@ -87,6 +85,8 @@ public class AppController implements Observer {
         boardDialog.setHeaderText("Choose one board");
         Optional<Integer> boardResult = boardDialog.showAndWait();
 
+
+
         if (result.isPresent()) {
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
@@ -95,13 +95,7 @@ public class AppController implements Observer {
                     return;
                 }
             }
-
-            HttpRequest httpRequest =
-                    HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/new/"+result.get() + "/" + boardResult.get()))
-                    .build();
-              httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
-
-
+            serverClient.newGame(result.get(),boardResult.get());
 
 
             // XXX the board should eventually be created programmatically or loaded from a file
