@@ -211,7 +211,7 @@ public class AppController implements Observer {
         }
     }
 
-    public void loadGame()  {
+    public void loadGame() throws IOException, InterruptedException {
 
         // XXX needs to be implemented eventually
         // for now, we just create a new game

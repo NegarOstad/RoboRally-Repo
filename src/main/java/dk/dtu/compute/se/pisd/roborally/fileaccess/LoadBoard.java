@@ -53,19 +53,20 @@ public class LoadBoard {
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
-    public static Board loadBoard(String boardname) {
+    public static Board loadBoard(String boardname) throws IOException, InterruptedException {
         if (boardname == null) {
             boardname = DEFAULTBOARD;
         }
 
-       ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        InputStream inputStream = classLoader.getResourceAsStream(BOARDSFOLDER + "/" + boardname + "." + JSON_EXT);
-        if (inputStream == null) {
-            // TODO these constants should be defined somewhere
-            return new Board(8,8);
-        }
+        HttpRequest httpRequest =
+                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/loadGame/"))
+                        .build();
+        //httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
+        HttpResponse response = httpClient.send(httpRequest, HttpResponse.BodyHandlers.ofString());
+        System.out.println(response.body());
 
-		// In simple cases, we can create a Gson object with new Gson():
+
+        // In simple cases, we can create a Gson object with new Gson():
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>());
         Gson gson = simpleBuilder.create();
@@ -77,7 +78,7 @@ public class LoadBoard {
             //String filename = "src/main/java/dk/dtu/compute/se/pisd/roborally/fileaccess/savefiles/"+boardname+".json";
             //fileReader = new FileReader(filename);
             //reader = gson.newJsonReader(fileReader);
-			reader = gson.newJsonReader(new InputStreamReader(inputStream));
+			//reader = gson.newJsonReader(new InputStreamReader(inputStream));
             BoardTemplate boardTemplate = gson.fromJson(reader, BoardTemplate.class);
 			// Genopstil board
             newBoard = new Board(boardTemplate.width, boardTemplate.height, boardname, boardTemplate.spaceTemplates);
