@@ -31,7 +31,12 @@ import com.google.gson.stream.JsonWriter;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.io.*;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.file.Path;
+import java.time.Duration;
 
 /**
  * ...
@@ -39,6 +44,9 @@ import java.nio.file.Path;
  * @author Ekkart Kindler, ekki@dtu.dk
  */
 public class LoadBoard {
+    private static final HttpClient httpClient =
+            HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
+                    .connectTimeout(Duration.ofSeconds(20)).build();
 
     private static final String BOARDSFOLDER = "boards";
     private static final String DEFAULTBOARD = "defaultboard";
@@ -128,10 +136,14 @@ public class LoadBoard {
                 setPrettyPrinting();
         Gson gson = simpleBuilder.create();
 
-        FileWriter fileWriter = null;
+        HttpRequest httpRequest =
+                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/save/")).build();
+        httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
+
+        //FileWriter fileWriter = null;
         JsonWriter writer = null;
         try {
-            fileWriter = new FileWriter(filename);
+            //fileWriter = new FileWriter(filename);
             writer = gson.newJsonWriter(fileWriter);
             gson.toJson(template, template.getClass(), writer);
             writer.close();
