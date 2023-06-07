@@ -44,7 +44,10 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
 import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.*;
 
@@ -87,6 +90,10 @@ public class AppController implements Observer {
         boardDialog.setHeaderText("Choose one board");
         Optional<Integer> boardResult = boardDialog.showAndWait();
 
+        HttpRequest httpRequest =
+                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/new/"+result.get() + "/" + boardResult.get()))
+                        .build();
+        httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
         if (result.isPresent()) {
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
