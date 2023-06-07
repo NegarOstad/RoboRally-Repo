@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
+import com.google.common.io.Files;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
@@ -63,6 +64,7 @@ public class AppController implements Observer {
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<Integer> BOARD_NUMBER = Arrays.asList(1,2);
     final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
+    final  private List<String> gameFiles = new ArrayList<>();
     private String gameName ;
 
     final private RoboRally roboRally;
@@ -195,6 +197,106 @@ public class AppController implements Observer {
         textInputDialog.setContentText("Enter a name for your game:");
         textInputDialog.showAndWait();
         String result = textInputDialog.getResult();
+        System.out.println(result);
+
+        if(result != null ){
+            LoadBoard.saveBoard(gameController.board, result);
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setContentText("Game is saved.");
+            alert.showAndWait();
+            exit();
+        }
+        if(result == null ){
+            textInputDialog.close();
+        }
+    }
+
+    public void loadGame()  {
+
+        // XXX needs to be implemented eventually
+        // for now, we just create a new game
+        if (gameController == null) {
+            // newGame(LoadBoard.loadBoard("mygame"));
+            setFileNames();
+            ChoiceDialog  dialog = new ChoiceDialog(gameFiles.get(0), gameFiles);
+            //ChoiceDialog<String> dialog = new ChoiceDialog<>();
+            //dialog.getItems().addAll(LOAD_GAME);
+            dialog.setTitle("Load Game");
+            dialog.setHeaderText("Which game do you want to continue?");
+            dialog.setContentText("Saved Games:");
+            Optional<String> userChoice = dialog.showAndWait();
+            String result = userChoice.orElse("");
+            //Optional result = dialog.showAndWait();
+            //String fullpath = filename+result.toString();
+            System.out.println(userChoice);
+            System.out.println(result);
+            newGame(LoadBoard.loadBoard(result));
+
+        }
+    }
+
+    /***
+     * Getting a list of all the files in the resource folder
+     * Based on a solution found on Stackoverflow (https://stackoverflow.com/questions/5694385/getting-the-filenames-of-all-files-in-a-folder)
+     * used together with a solution from  Baeldung (https://www.baeldung.com/java-filename-without-extension)
+     */
+    private void setFileNames(){
+        File resources = new File("src/main/resources/boards/");
+        File[] listOfFiles = resources.listFiles();
+        for(int i = 0 ; i < listOfFiles.length ; i++){
+            if(listOfFiles[i].isFile()) {
+                String filename = Files.getNameWithoutExtension(listOfFiles[i].getName());
+                gameFiles.add(filename);
+            }
+        }
+    }
+
+    /**
+     * Stop playing the current game, giving the user the option to save
+     * the game or to cancel stopping the game. The method returns true
+     * if the game was successfully stopped (with or without saving the
+     * game); returns false, if the current game was not stopped. In case
+     * there is no current game, false is returned.
+     *
+     * @return true if the current game was stopped, false otherwise
+     */
+    public boolean stopGame()  {
+        if (gameController != null) {
+
+            // here we save the game (without asking the user).
+            //saveGame();
+//saveGame();
+            gameController = null;
+            roboRally.createBoardView(null);
+            return true;
+        }
+        return false;
+    }
+
+    public void exit()  {
+        if (gameController != null) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Exit RoboRally?");
+            alert.setContentText("Do you want to exit RoboRally?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (!result.isPresent() || result.get() != ButtonType.OK) {
+                return; // return without exiting the application
+            }
+        }
+
+        // If the user did not cancel, the RoboRally application will exit
+        // after the option to save the game
+        if (gameController == null || stopGame()) {
+            Platform.exit();
+        }
+    }
+  /*  public void saveGame() {
+        TextInputDialog textInputDialog = new TextInputDialog();
+        textInputDialog.setHeaderText("Save Game");
+        textInputDialog.setContentText("Enter a name for your game:");
+        textInputDialog.showAndWait();
+        String result = textInputDialog.getResult();
         LoadBoard.saveBoard(gameController.board, result);
         Alert alert = new Alert(AlertType.INFORMATION);
         alert.setContentText("Game is saved.");
@@ -221,7 +323,7 @@ public class AppController implements Observer {
      *
      * @return true if the current game was stopped, false otherwise
      */
-    public boolean stopGame()  {
+   /* public boolean stopGame()  {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
@@ -254,7 +356,7 @@ public class AppController implements Observer {
         if (gameController == null || stopGame()) {
             Platform.exit();
         }
-    }
+    }*/
 
     public boolean isGameRunning() {
         return gameController != null;
