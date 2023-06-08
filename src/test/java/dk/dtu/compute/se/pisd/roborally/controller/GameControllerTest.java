@@ -146,7 +146,7 @@ class GameControllerTest {
         //  space.setTypeWall();
         Player currentPlayer = board.getCurrentPlayer();
         System.out.println("Player x is " + currentPlayer.getSpace().x + " player y is " + currentPlayer.getSpace().y + " player heading is " + currentPlayer.getHeading());
-        currentPlayer.setTestRegister(1);
+        currentPlayer.setTestRegister(1,board);
         board.setPhase(Phase.ACTIVATION);
 
         gameController.executePrograms();
@@ -206,15 +206,15 @@ class GameControllerTest {
         Board board = gameController.board;
         Player player1 = board.getCurrentPlayer();
 
-        player1.setTestRegister(1);
+        player1.setTestRegister(1,board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
-        player1.setTestRegister(2);
+        player1.setTestRegister(2,board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
-        player1.setTestRegister(3);
+        player1.setTestRegister(3,board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 

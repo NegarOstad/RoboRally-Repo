@@ -27,6 +27,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.api.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -62,7 +63,7 @@ public class AppController implements Observer {
     private String[] gameFiles;
     private String gameName ;
 
-    private String gameID;
+    Repository repository = Repository.getInstance();
 
     private boolean isGameSaved = false;
 
@@ -79,22 +80,25 @@ public class AppController implements Observer {
     }
 
 
-    public void newGame() throws IOException, InterruptedException {
+    public void newGame()  {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
-        Optional<Integer> userChoice = dialog.showAndWait();
-        int result = userChoice.orElse(0);
+        Optional<Integer> result = dialog.showAndWait();
 
         //// Add new Board
-        ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0), BOARD_NUMBER);
+        ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
         boardDialog.setTitle("Boards");
         boardDialog.setHeaderText("Choose one board");
         Optional<Integer> boardResult = boardDialog.showAndWait();
-        int resultBoardNum = boardResult.orElse(0);
-        createGame(LoadBoard.newGame(result, resultBoardNum));
 
-        if (userChoice.isPresent()) {
+
+        HttpRequest httpRequest =
+                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/new/"+result.get() + "/" + boardResult.get()))
+                        .build();
+        httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
+
+        if (result.isPresent()) {
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
                 // give the user the option to save the game or abort this operation!
@@ -103,11 +107,83 @@ public class AppController implements Observer {
                 }
             }
 
-            //createGame();
+            // XXX the board should eventually be created programmatically or loaded from a file
+            //     here we just create an empty board with the required number of players.
+            /*Board board = new Board(8,8);
+            String bordNum = boardResult.get();
+            switch (bordNum) {
+                case "Board 1":
+
+                    board.getSpace(2, 7).setTypeGear(Heading.WEST);
+                    board.getSpace(4, 4).setTypeGear(Heading.EAST);
+                    board.getSpace(1, 3).setTypeGear(Heading.EAST);
+                    board.getSpace(4, 0).setTypeCheckpoint(0, board, false);
+                    board.getSpace(5, 0).setTypeCheckpoint(1, board, true);
+                    //board.getSpace(6,3).setTypeCheckpoint(1);
+                    //board.getSpace(1,5).setTypeCheckpoint(2);
+                    board.getSpace(2, 1).setTypeConveyor(6, 1, 2, 1);
+                    board.getSpace(1, 6).setTypeConveyor(3,3 , 1, 6);
+                    board.getSpace(7, 6).setTypeConveyor(board.getSpace(5, 6), 7, 6);
+                    board.setTypePriorityAntenna(7, 7);
+                    //add priority antenna and walls
+                    board.getSpace(0, 5).setTypeWall();
+                    board.getSpace(5, 3).setTypeWall();
+                case "Board 2":
+                    board.getSpace(3, 7).setTypeGear(Heading.WEST);
+                    board.getSpace(5, 4).setTypeGear(Heading.EAST);
+                    board.getSpace(1, 6).setTypeGear(Heading.EAST);
+                    board.getSpace(4, 0).setTypeCheckpoint(0, board, false);
+                    board.getSpace(6, 6).setTypeCheckpoint(1, board, true);
+                    //board.getSpace(6,3).setTypeCheckpoint(1);
+                    //board.getSpace(1,5).setTypeCheckpoint(2);
+                    board.getSpace(2, 1).setTypeConveyor(board.getSpace(6, 1), 2, 1);
+                    board.getSpace(1, 2).setTypeConveyor(board.getSpace(3, 3), 1, 6);
+                    board.getSpace(7, 6).setTypeConveyor(board.getSpace(5, 6), 7, 6);
+                    board.setTypePriorityAntenna(7, 7);
+                    //add priority antenna and walls
+                    board.getSpace(0, 2).setTypeWall();
+                    board.getSpace(4, 3).setTypeWall();
+                    board.getSpace(7, 5).setTypeWall();
+            }
+*/
+
+            Board board = setupBaseBoard();
+            gameController = new GameController(board);
+
+
+            int no = result.get();
+            for (int i = 0; i < no; i++) {
+                Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
+                board.addPlayer(player);
+                player.setSpace(board.getSpace(i % board.width, i), board);
+
+            }
+            gameController.startProgrammingPhase();
+
+            roboRally.createBoardView(gameController);
         }
     }
 
-    private void createGame(Board board){
+    public void joinGame() throws IOException, InterruptedException {
+
+        if (gameController == null) {
+            List<String> availableGames = List.of(LoadBoard.getList());
+            ChoiceDialog dialog = new ChoiceDialog(availableGames.get(0), availableGames);
+
+            dialog.setTitle("Join Game");
+            dialog.setHeaderText("Which game of the following games do you wish to join?");
+            dialog.setContentText("Available Games:");
+            Optional<String> userChoice = dialog.showAndWait();
+            String outcome = userChoice.orElse("");
+
+            System.out.println(userChoice);
+            System.out.println(outcome);
+            //joinGame(LoadBoard.loadBoard(outcome));
+
+
+        }
+    }
+    public void newGame(Board board){
         gameController = new GameController(board);
         gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
         roboRally.createBoardView(gameController);
@@ -143,7 +219,7 @@ public class AppController implements Observer {
         System.out.println(result);
 
         if(result != null ){
-            LoadBoard.saveBoard(gameController.board, result);
+            repository.saveBoard(gameController.board, result);
             isGameSaved = true;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setContentText("Game is saved.");
@@ -175,7 +251,13 @@ public class AppController implements Observer {
             //String fullpath = filename+result.toString();
             System.out.println(userChoice);
             System.out.println(result);
-            createGame(LoadBoard.loadBoard(result));
+            try {
+                Board board = repository.loadBoard(result);
+                newGame(board);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
 
         }
     }
@@ -215,7 +297,7 @@ public class AppController implements Observer {
 
             // here we save the game (without asking the user).
             saveGame();
-
+            
             gameController = null;
             roboRally.createBoardView(null);
             return true;
