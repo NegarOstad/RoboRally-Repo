@@ -60,7 +60,11 @@ public class RoboRallyMenuBar extends MenuBar {
 
         newGame = new MenuItem("New Game");
         newGame.setOnAction( e -> {
-            this.appController.newGame();
+            try {
+                this.appController.newGame();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         });
         controlMenu.getItems().add(newGame);
 
