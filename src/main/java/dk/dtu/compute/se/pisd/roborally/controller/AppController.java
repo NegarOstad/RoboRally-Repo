@@ -40,10 +40,7 @@ import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
-import java.net.URI;
 import java.net.http.HttpClient;
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.*;
 
@@ -129,12 +126,6 @@ public class AppController implements Observer {
 
         }
     }
-    public void newGame(Board board){
-        gameController = new GameController(board);
-        gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
-        roboRally.createBoardView(gameController);
-
-    }
 
     private void setUpPlayers(int noPlayers, Board board ){
 
@@ -205,7 +196,7 @@ public class AppController implements Observer {
             System.out.println(result);
             try {
                 Board board = repository.loadBoard(result);
-                newGame(board);
+                startLoadedGame(board);
 
             } catch (Exception e) {
                 throw new RuntimeException(e);
@@ -213,6 +204,13 @@ public class AppController implements Observer {
 
 
         }
+    }
+
+    private void startLoadedGame(Board board){
+        gameController = new GameController(board);
+        gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
+        roboRally.createBoardView(gameController);
+
     }
 
     /**

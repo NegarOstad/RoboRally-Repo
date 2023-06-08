@@ -104,7 +104,11 @@ public class GameController {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
         board.setPhase(Phase.ACTIVATION);
-        board.setCurrentPlayer(board.getPlayer(0));
+        //board.setCurrentPlayer(board.getPlayer(0));
+        priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
+        board.setCurrentPlayer(priorityList.get(0));
+        board.setOutOfBounds(false); // ????
+
         board.setStep(0);
     }
 
@@ -143,10 +147,7 @@ public class GameController {
     }
 
     // XXX: V2
-    private void continuePrograms() {;
-        priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
-        board.setCurrentPlayer(priorityList.get(0));
-        board.setOutOfBounds(false);
+    private void continuePrograms() {
         do {
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
