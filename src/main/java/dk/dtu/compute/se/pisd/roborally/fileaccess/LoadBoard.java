@@ -24,7 +24,6 @@ package dk.dtu.compute.se.pisd.roborally.fileaccess;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 //import dk.dtu.compute.se.pisd.roborally.model.BoardElement;
 //import dk.dtu.compute.se.pisd.roborally.fileaccess.model.BoardTemplate;
 //import dk.dtu.compute.se.pisd.roborally.fileaccess.model.SpaceTemplate;
@@ -36,10 +35,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * ...
@@ -55,7 +51,7 @@ public class LoadBoard {
     private static final String DEFAULTBOARD = "defaultboard";
     private static final String JSON_EXT = "json";
 
-    public static String[] getBoardList() throws IOException, InterruptedException {
+    public static String[] getList() throws IOException, InterruptedException {
         HttpRequest httpRequestList =
                 HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/sendList"))
                         .build();
@@ -118,10 +114,6 @@ public class LoadBoard {
 
         //reader.close();
         return newBoard;
-    }
-
-    public static void getGameList(){
-
     }
 
     public static void joinGame(){
