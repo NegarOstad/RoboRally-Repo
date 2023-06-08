@@ -63,8 +63,7 @@ public class Player extends Subject {
         }
     }
 
-    public Player(/*@NotNull Board board,*/ String color, @NotNull String name) {
-       // this.board = board;
+    public Player(String color, @NotNull String name) {
         this.name = name;
         this.color = color;
 

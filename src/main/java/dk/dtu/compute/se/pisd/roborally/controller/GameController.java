@@ -229,10 +229,7 @@ public class GameController {
 
     // XXX: V2
     private void executeCommand(@NotNull Player player, Command command) {
-        if (player != null && /*player.board == board &&*/ command != null) {
-            // XXX This is a very simplistic way of dealing with some basic cards and
-            //     their execution. This should eventually be done in a more elegant way
-            //     (this concerns the way cards are modelled as well as the way they are executed).
+        if (player != null && command != null) {
 
             switch (command) {
                 case FORWARD:
@@ -306,13 +303,6 @@ public class GameController {
             default:
                 //DO NOTHING
         }
-
-  /*  if(y < 0 || x < 0) {
-        System.out.println("Position out of bounds! The command will be skipped >__<");
-    } else {
-       // System.out.println(player.getName() + " will be moved to space (" + x + ", " + y + ")");
-        player.setSpace(board.getSpace(x, y));
-    }*/
 
     }
 
@@ -394,15 +384,6 @@ public class GameController {
         } else {
             return false;
         }
-    }
-
-    /**
-     * A method called when no corresponding controller operation is implemented yet. This
-     * should eventually be removed.
-     */
-    public void notImplemented() {
-        // XXX just for now to indicate that the actual method is not yet implemented
-        assert false;
     }
 
 }
