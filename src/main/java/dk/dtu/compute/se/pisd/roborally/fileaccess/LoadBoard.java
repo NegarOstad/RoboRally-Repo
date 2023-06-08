@@ -116,8 +116,13 @@ public class LoadBoard {
         return newBoard;
     }
 
-    public static void joinGame(){
-
+    public static String joinGame() throws IOException, InterruptedException {
+        HttpRequest httpRequestJoin =
+                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/sendList"))
+                        .build();
+        HttpResponse responseGameID = httpClient.send(httpRequestJoin, HttpResponse.BodyHandlers.ofString());
+        System.out.println(responseGameID.body());
+        return responseGameID.body().toString();
 
     }
     public static void saveBoard(Board board, String name) {
