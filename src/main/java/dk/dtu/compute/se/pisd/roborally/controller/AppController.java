@@ -46,6 +46,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.*;
 
+
 /**
  * ...
  *
@@ -159,10 +160,24 @@ public class AppController implements Observer {
         }
     }
 
-    public void joinGame(){
+    public void joinGame() throws IOException, InterruptedException {
 
-       // gamesAvail = loadboard.getList();
+        if (gameController == null) {
+            List<String> availableGames = List.of(LoadBoard.getList());
+            ChoiceDialog dialog = new ChoiceDialog(availableGames.get(0), availableGames);
 
+            dialog.setTitle("Join Game");
+            dialog.setHeaderText("Which game of the following games do you wish to join?");
+            dialog.setContentText("Available Games:");
+            Optional<String> userChoice = dialog.showAndWait();
+            String outcome = userChoice.orElse("");
+
+            System.out.println(userChoice);
+            System.out.println(outcome);
+            //joinGame(LoadBoard.loadBoard(outcome));
+
+
+        }
     }
     public void newGame(Board board){
         gameController = new GameController(board);
