@@ -67,6 +67,8 @@ public class AppController implements Observer {
     private String[] gameFiles;
     private String gameName ;
 
+    private boolean isGameSaved = false;
+
     final private RoboRally roboRally;
     HttpClient httpClient =
             HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
@@ -200,6 +202,7 @@ public class AppController implements Observer {
 
         if(result != null ){
             LoadBoard.saveBoard(gameController.board, result);
+            isGameSaved = true;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setContentText("Game is saved.");
             alert.showAndWait();
@@ -260,6 +263,11 @@ public class AppController implements Observer {
      *
      * @return true if the current game was stopped, false otherwise
      */
+
+    /*
+
+
+     */
     public boolean stopGame()  {
         if (gameController != null) {
 
@@ -272,9 +280,35 @@ public class AppController implements Observer {
         return false;
     }
 
-    public void exit()  {
-        saveGame();
+    public void exit() {
         if (gameController != null) {
+            if (!isGameSaved) {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Do you want to exit and save the game?");
+                alert.setContentText("Do you want to save the game before leaving?");
+                Optional<ButtonType> userOption = alert.showAndWait();
+
+                if (userOption.isPresent() && userOption.get() == ButtonType.OK) {
+                    saveGame();
+                }
+            }
+             // If the user did not cancel, the RoboRally application will exit after the option to save the game
+            // Exits the game when saved, aswell as when game is not saved
+            if (stopGame()) {
+                Platform.exit();
+            }
+        } else {
+            Platform.exit();
+        }
+    }
+
+
+    /*public void exit()  {
+        if (gameController != null) {
+            if (!isGameSaved) {
+                saveGame();
+            }
+
             Alert alert = new Alert(AlertType.CONFIRMATION);
             alert.setTitle("Exit RoboRally?");
             alert.setContentText("Do you want to exit RoboRally?");
