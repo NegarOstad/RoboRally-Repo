@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/class-diagram
+left to right direction
+package view{
+class SpaceView {
++<<final>> space: Space
+}
+}
+
+package model{
+class Player {
+-space: Space
++setSpace(space: Space, board: Board) : void
+}
+class Space{
+-player: Player
+}
+
+class Board{
+-players: List<Player>
+-currentPlayer: Player
+-spaces: Space[][]
+
+}
+}
+
+package controller{
+class AppController{
+-gameController: GameController
+}
+
+class GameController{
++board: Board
++moveForward(player: Player): void
++fastForward(player: Player): void
+}
+}
+
+Space-right->Board
+Player-right->Board
+
+Player-->Space
+Space-->Player
+GameController -right-> AppController
+Board -right-> GameController
+Space-right->SpaceView
+
+@enduml
