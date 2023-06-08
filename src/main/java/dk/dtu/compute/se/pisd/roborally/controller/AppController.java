@@ -165,6 +165,11 @@ public class AppController implements Observer {
         }
     }
 
+    public void joinGame(){
+
+       // gamesAvail = loadboard.getList();
+
+    }
     public void newGame(Board board){
         gameController = new GameController(board);
         gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
@@ -272,7 +277,8 @@ public class AppController implements Observer {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
-
+            saveGame();
+            
             gameController = null;
             roboRally.createBoardView(null);
             return true;
