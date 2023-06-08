@@ -190,6 +190,19 @@ public class AppController implements Observer {
 
     }
 
+    private void setUpPlayers(int noPlayers, Board board ){
+
+        for (int i = 0; i < noPlayers; i++) {
+            Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
+            board.addPlayer(player);
+            player.setSpace(board.getSpace(i % board.width, i), board);
+
+        }
+        gameController.startProgrammingPhase();
+
+        roboRally.createBoardView(gameController);
+    }
+
 
 
     private Board setupBaseBoard(){
@@ -231,13 +244,13 @@ public class AppController implements Observer {
         }
     }
 
-    public void loadGame() throws IOException, InterruptedException {
+    public void loadGame() throws Exception {
 
         // XXX needs to be implemented eventually
         // for now, we just create a new game
         if (gameController == null) {
             // newGame(LoadBoard.loadBoard("mygame"));
-            gameFiles = LoadBoard.getList();
+            gameFiles = repository.getList();
             ChoiceDialog dialog = new ChoiceDialog(gameFiles[0], gameFiles);
 
             //ChoiceDialog<String> dialog = new ChoiceDialog<>();

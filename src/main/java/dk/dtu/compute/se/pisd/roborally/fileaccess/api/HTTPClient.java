@@ -44,7 +44,6 @@ public class HTTPClient {
 
     public HttpResponse<String> makeGetRequest(String path) throws Exception{
 
-
         HttpRequest httpRequestBoard = HttpRequest.newBuilder().GET().uri(URI.create(URL+path)).build();
         httpClient.sendAsync(httpRequestBoard, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
         HttpResponse<String> response = httpClient.send(httpRequestBoard, HttpResponse.BodyHandlers.ofString());

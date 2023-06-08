@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
@@ -47,12 +48,28 @@ public class Repository {
 
         return gson.toJson(template, template.getClass()/*, writer*/);
     }
+    public String[] getList() throws Exception {
+      HttpResponse<String> response = client.makeGetRequest("sendList");
+        /*HttpRequest httpRequestList =
+                HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/sendList"))
+                        .build();
+        HttpResponse responseList = httpClient.send(httpRequestList, HttpResponse.BodyHandlers.ofString());*/
+        System.out.println(response.body());
+        String[] arrayOfOptions = response.body().toString().split(",");
+        for(String s : arrayOfOptions){
+            System.out.println(s);
+        }
+
+        return arrayOfOptions;
+    }
+
+
     public Board loadBoard(String boardname) throws Exception {
 
             HttpResponse<String> response = client.makeGetRequest("loadGame/"+boardname);
 
             BoardTemplate template = returnBoardTemplate(response);
-            Board board = new Board(template.width, template.height, boardname, template.spaceTemplates);
+            Board board = new Board(template.width, template.height, template.spaceTemplates);
             for(PlayerTemplate p : template.playerTemplates){
                 Player newPlayer = new Player(p.color, p.name);
                 Space newPlayerSpace = board.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
@@ -73,6 +90,7 @@ public class Repository {
 
     }
 
+
     private BoardTemplate returnBoardTemplate(HttpResponse<String>  response){
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>());
@@ -81,4 +99,6 @@ public class Repository {
         return boardTemplate;
 
     }
+
+
 }

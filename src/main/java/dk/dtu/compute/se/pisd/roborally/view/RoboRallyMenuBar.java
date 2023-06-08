@@ -60,13 +60,7 @@ public class RoboRallyMenuBar extends MenuBar {
 
         newGame = new MenuItem("New Game");
         newGame.setOnAction( e -> {
-            try {
-                this.appController.newGame();
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            } catch (InterruptedException ex) {
-                throw new RuntimeException(ex);
-            }
+            this.appController.newGame();
         });
         controlMenu.getItems().add(newGame);
 
@@ -95,8 +89,10 @@ public class RoboRallyMenuBar extends MenuBar {
             try {
                 this.appController.loadGame();
             } catch (IOException ex) {
+                System.out.println("This is the error");
                 throw new RuntimeException(ex);
-            } catch (InterruptedException ex) {
+            } catch (Exception ex) {
+
                 throw new RuntimeException(ex);
             }
         });
