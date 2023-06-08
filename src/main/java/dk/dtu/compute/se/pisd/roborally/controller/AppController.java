@@ -95,6 +95,7 @@ public class AppController implements Observer {
         int boardNum = num.orElse(0);
 
         Board board = repository.newGame(playerCount, boardNum);
+        gameController = new GameController(board);
         //repository.newGame();
         /*HttpRequest httpRequest =
                 HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/new/"+result.get() + "/" + boardResult.get()))
