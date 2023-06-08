@@ -120,6 +120,13 @@ public class LoadBoard {
         return newBoard;
     }
 
+    public static void getGameList(){
+
+    }
+
+    public static void joinGame(){
+
+    }
     public static void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate(board, board.getSpaces(), board.getPlayers(), board.getCurrentPlayer());
 
