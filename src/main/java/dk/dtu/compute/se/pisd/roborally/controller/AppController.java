@@ -46,6 +46,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.*;
 
+
 /**
  * ...
  *
@@ -213,6 +214,7 @@ public class AppController implements Observer {
         if (gameController != null) {
 
             // here we save the game (without asking the user).
+            saveGame();
 
             gameController = null;
             roboRally.createBoardView(null);
