@@ -78,32 +78,27 @@ public class AppController implements Observer {
 
 
     public void newGame() throws Exception {
+        //// Ask to choose how many players can play in this game
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
         Optional<Integer> count = dialog.showAndWait();
         int playerCount = count.orElse(0);
 
-        //// Add new Board
+        //// Add new Board ask to choose board
         ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
         boardDialog.setTitle("Boards");
         boardDialog.setHeaderText("Choose one board");
         Optional<Integer> num = boardDialog.showAndWait();
         int boardNum = num.orElse(0);
 
+        //// Create chosen board with chosen amount of players
         Board board = repository.newGame(playerCount, boardNum);
+        setUpPlayers(playerCount, board);
+
         gameController = new GameController(board);
-
-
-            for (int i = 0; i < playerCount; i++) {
-                Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
-                board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i), board);
-
-            }
-            gameController.startProgrammingPhase();
-
-            roboRally.createBoardView(gameController);
+        gameController.startProgrammingPhase();
+        roboRally.createBoardView(gameController);
         }
 
 
@@ -135,9 +130,7 @@ public class AppController implements Observer {
             player.setSpace(board.getSpace(i % board.width, i), board);
 
         }
-        gameController.startProgrammingPhase();
 
-        roboRally.createBoardView(gameController);
     }
 
 
