@@ -84,14 +84,14 @@ public class AppController implements Observer {
         dialog.setHeaderText("Select number of players");
         Optional<Integer> userChoice = dialog.showAndWait();
         int result = userChoice.orElse(0);
-        LoadBoard.newGame(result);
 
         //// Add new Board
-        ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
+        ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0), BOARD_NUMBER);
         boardDialog.setTitle("Boards");
         boardDialog.setHeaderText("Choose one board");
         Optional<Integer> boardResult = boardDialog.showAndWait();
-
+        int resultBoardNum = boardResult.orElse(0);
+        createGame(LoadBoard.newGame(result, resultBoardNum));
 
         if (userChoice.isPresent()) {
             if (gameController != null) {

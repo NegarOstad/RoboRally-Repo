@@ -41,7 +41,7 @@ public class Board extends Subject {
 
     public final int height;
 
-    public final String boardName;
+   // public final String boardName;
 
     private Integer gameId;
 
@@ -63,8 +63,8 @@ public class Board extends Subject {
 
     PriorityAntenna priorityAntenna;
 
-    public Board(int width, int height, @NotNull String boardName) {
-        this.boardName = boardName;
+    public Board(int width, int height/*, @NotNull String boardName*/) {
+        //this.boardName = boardName;
         this.width = width;
         this.height = height;
         spaces = new Space[width][height];
@@ -82,8 +82,8 @@ public class Board extends Subject {
         step = 0;
     }
 
-    public Board(int width, int height, @NotNull String boardName, SpaceTemplate[][] spaceTemplates) {
-        this.boardName = boardName;
+    public Board(int width, int height, SpaceTemplate[][] spaceTemplates) {
+       // this.boardName = boardName;
         this.width = width;
         this.height = height;
         spaces = new Space[width][height];
@@ -124,12 +124,6 @@ public class Board extends Subject {
                     space.setTypeConveyor(conveyorBelt.endX, conveyorBelt.endY);
                     break;
         }
-    }
-
-
-
-    public Board(int width, int height) {
-        this(width, height, "defaultboard");
     }
 
     public Integer getGameId() {

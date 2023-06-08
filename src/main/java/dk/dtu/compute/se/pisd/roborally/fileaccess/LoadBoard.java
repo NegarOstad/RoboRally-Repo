@@ -73,19 +73,28 @@ public class LoadBoard {
                 HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/loadGame/" + boardname))
                        .build();
         httpClient.sendAsync(httpRequestBoard, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
-        HttpResponse response = httpClient.send(httpRequestBoard, HttpResponse.BodyHandlers.ofString());
-        System.out.println("LoadBoard response: " + response.body());
-        Board newBoard = setUpBoard(response.body().toString(), boardname);
+        HttpResponse responseLoadBoard = httpClient.send(httpRequestBoard, HttpResponse.BodyHandlers.ofString());
+        System.out.println("LoadBoard response: " + responseLoadBoard.body());
+        Board newBoard = setUpBoard(responseLoadBoard.body().toString());
 
         //reader.close();
         return newBoard;
     }
 
-    public static void newGame(int result) {
+    public static Board newGame(int playerCount, int boardNum) throws IOException, InterruptedException {
 
+        HttpRequest httpRequestBoard =
+                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/new/" + playerCount + boardNum))
+                        .build();
+        httpClient.sendAsync(httpRequestBoard, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
+        HttpResponse response = httpClient.send(httpRequestBoard, HttpResponse.BodyHandlers.ofString());
+        System.out.println("LoadBoard response: " + response.body());
+        Board newBoard = setUpBoard(response.body().toString());
+        return newBoard;
     }
 
-    private static Board setUpBoard(String jsonBoard, String boardname){
+
+    private static Board setUpBoard(String jsonBoard){
 
         // In simple cases, we can create a Gson object with new Gson():
         GsonBuilder simpleBuilder = new GsonBuilder().
@@ -95,7 +104,7 @@ public class LoadBoard {
         Board tempNewBoard;
         BoardTemplate boardTemplate = gson.fromJson(jsonBoard, BoardTemplate.class);
         // Genopstil board
-        tempNewBoard = new Board(boardTemplate.width, boardTemplate.height, boardname, boardTemplate.spaceTemplates);
+        tempNewBoard = new Board(boardTemplate.width, boardTemplate.height, boardTemplate.spaceTemplates);
 
         // Genopstil spillerne
         for(PlayerTemplate p : boardTemplate.playerTemplates){
