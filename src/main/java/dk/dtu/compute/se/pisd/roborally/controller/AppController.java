@@ -65,9 +65,6 @@ public class AppController implements Observer {
     private boolean isGameSaved = false;
 
     final private RoboRally roboRally;
-    HttpClient httpClient =
-            HttpClient.newBuilder().version(HttpClient.Version.HTTP_1_1)
-                    .connectTimeout(Duration.ofSeconds(20)).build();
 
     private GameController gameController;
 
