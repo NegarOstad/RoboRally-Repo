@@ -53,7 +53,7 @@ public class LoadBoard {
 
     public static String[] getList() throws IOException, InterruptedException {
         HttpRequest httpRequestList =
-                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/sendList"))
+                HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/sendList"))
                         .build();
         HttpResponse responseList = httpClient.send(httpRequestList, HttpResponse.BodyHandlers.ofString());
         System.out.println(responseList.body());
@@ -64,99 +64,12 @@ public class LoadBoard {
 
         return arrayOfOptions;
     }
-    public static Board loadBoard(String boardname) throws IOException, InterruptedException {
-        if (boardname == null) {
-            boardname = DEFAULTBOARD;
-        }
-        System.out.println("Board name before load board request: " + boardname);
 
-        HttpRequest httpRequestBoard =
-                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/loadGame/" + boardname))
-                       .build();
-        httpClient.sendAsync(httpRequestBoard, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
-        HttpResponse response = httpClient.send(httpRequestBoard, HttpResponse.BodyHandlers.ofString());
-        System.out.println("LoadBoard response: " + response.body());
-
-
-        // In simple cases, we can create a Gson object with new Gson():
-        GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>());
-        Gson gson = simpleBuilder.create();
-
-		Board newBoard;
-		 //FileReader fileReader = null;
-        JsonReader reader = null;
-        //String filename = "src/main/java/dk/dtu/compute/se/pisd/roborally/fileaccess/savefiles/"+boardname+".json";
-        //fileReader = new FileReader(filename);
-        //reader = gson.newJsonReader(fileReader);
-        //reader = gson.newJsonReader(new InputStreamReader(inputStream));
-        BoardTemplate boardTemplate = gson.fromJson(response.body().toString(), BoardTemplate.class);
-        // Genopstil board
-        newBoard = new Board(boardTemplate.width, boardTemplate.height, boardname, boardTemplate.spaceTemplates);
-
-        // Genopstil spillerne
-        for(PlayerTemplate p : boardTemplate.playerTemplates){
-            Player newPlayer = new Player(p.color, p.name);
-            Space newPlayerSpace = newBoard.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
-            newPlayer.setSpace(newPlayerSpace, newBoard);
-            newPlayer.setTokenCount(p.tokenCount);
-            newPlayer.setHeading(p.heading);
-            newPlayer.setCards(p.getCommandCards());
-            newBoard.getPlayers().add(newPlayer);
-            if(p.name.equals(boardTemplate.currentTemplate.name))
-                newBoard.setCurrentPlayer(newPlayer);
-
-        }
-        newBoard.setPhase(boardTemplate.phase);
-        newBoard.setStep(boardTemplate.step);
-        newBoard.setWinnerStatus(boardTemplate.winnerIsFound);
-        newBoard.setStepMode(boardTemplate.stepMode);
-
-        //reader.close();
-        return newBoard;
-    }
 
     public static void joinGame(){
 
 
     }
-    public static void saveBoard(Board board, String name) {
-        BoardTemplate template = new BoardTemplate(board, board.getSpaces(), board.getPlayers(), board.getCurrentPlayer());
 
-        //ClassLoader classLoader = LoadBoard.class.getClassLoader();
-        // TODO: this is not very defensive, and will result in a NullPointerException
-        //       when the folder "resources" does not exist! But, it does not need
-        //       the file "simpleCards.json" to exist!
-        //String filename =classLoader.getResource("boards").getPath() + "/" + name + "." + JSON_EXT;
-
-//     System.out.println("this is my file name: " + filename);
-       //String filename = "src/defaultname.json";
-
-        String filename = "src/main/resources/boards/"+name+".json";
-
-        GsonBuilder simpleBuilder = new GsonBuilder().
-                registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>())
-                .disableHtmlEscaping()
-                //.setPrettyPrinting()
-        ;
-        Gson gson = simpleBuilder.create();
-
-        //FileWriter fileWriter = null;
-        //JsonWriter writer = null;
-        //fileWriter = new FileWriter(filename);
-        //writer = gson.newJsonWriter(fileWriter);
-       String jsonString = gson.toJson(template, template.getClass()/*, writer*/);
-        HttpRequest httpRequestSave =
-                HttpRequest.newBuilder()
-                            .POST(HttpRequest.BodyPublishers.ofString(jsonString, StandardCharsets.UTF_8))
-                            .uri(URI.create("http://10.209.204.5:8080/saveGame/"+name))
-                            .build();
-
-        httpClient.sendAsync(httpRequestSave, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
-
-        //writer.close();
-
-
-    }
 
 }

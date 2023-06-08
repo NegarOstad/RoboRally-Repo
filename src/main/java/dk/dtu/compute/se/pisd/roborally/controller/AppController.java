@@ -27,6 +27,7 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.api.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
@@ -62,6 +63,8 @@ public class AppController implements Observer {
     private String[] gameFiles;
     private String gameName ;
 
+    Repository repository = Repository.getInstance();
+
     private boolean isGameSaved = false;
 
     final private RoboRally roboRally;
@@ -88,6 +91,7 @@ public class AppController implements Observer {
         boardDialog.setTitle("Boards");
         boardDialog.setHeaderText("Choose one board");
         Optional<Integer> boardResult = boardDialog.showAndWait();
+
 
         HttpRequest httpRequest =
                 HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/new/"+result.get() + "/" + boardResult.get()))
@@ -215,7 +219,7 @@ public class AppController implements Observer {
         System.out.println(result);
 
         if(result != null ){
-            LoadBoard.saveBoard(gameController.board, result);
+            repository.saveBoard(gameController.board, result);
             isGameSaved = true;
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setContentText("Game is saved.");
@@ -247,7 +251,13 @@ public class AppController implements Observer {
             //String fullpath = filename+result.toString();
             System.out.println(userChoice);
             System.out.println(result);
-            newGame(LoadBoard.loadBoard(result));
+            try {
+                Board board = repository.loadBoard(result);
+                newGame(board);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
 
         }
     }
