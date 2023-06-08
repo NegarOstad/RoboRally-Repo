@@ -11,6 +11,8 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 
+import static java.lang.Integer.parseInt;
+
 public class Repository {
 
     private static Repository instance;
@@ -104,6 +106,11 @@ public class Repository {
         BoardTemplate template = returnBoardTemplate(response);
         Board board = new Board(template.width, template.height, template.spaceTemplates);
         return board;
+    }
+
+    public int getGameID() throws Exception {
+        HttpResponse<String> response = client.makeGetRequest("gameID");
+        return parseInt(response.body());
     }
 
 

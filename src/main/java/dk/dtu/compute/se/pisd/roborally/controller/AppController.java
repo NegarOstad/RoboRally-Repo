@@ -59,6 +59,7 @@ public class AppController implements Observer {
     final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
     private String[] gameFiles;
     private String gameName ;
+    private int gameId;
 
     Repository repository = Repository.getInstance();
 
@@ -91,6 +92,8 @@ public class AppController implements Observer {
 
         //// Create chosen board with chosen amount of players
         Board board = repository.newGame(playerCount, boardNum);
+        gameId = repository.getGameID();
+        System.out.println("GameID: " + gameId);
         setUpPlayers(playerCount, board);
 
         gameController = new GameController(board);
