@@ -123,6 +123,11 @@ public class Board extends Subject {
                     ConveyorBelt conveyorBelt = (ConveyorBelt)spaceTemplate.sa;
                     space.setTypeConveyor(conveyorBelt.endX, conveyorBelt.endY);
                     break;
+
+            case PriorityAntenna:
+                priorityAntenna = (PriorityAntenna) spaceTemplate.sa;
+                space.setTypePriorityAntenna();
+                break;
         }
     }
 
