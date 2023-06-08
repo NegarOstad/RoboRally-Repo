@@ -21,9 +21,6 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 
-import com.google.common.io.Files;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Observer;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
@@ -31,7 +28,6 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.ElementType;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
@@ -42,8 +38,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -224,7 +218,7 @@ public class AppController implements Observer {
         // for now, we just create a new game
         if (gameController == null) {
             // newGame(LoadBoard.loadBoard("mygame"));
-            gameFiles = LoadBoard.getBoardList();
+            gameFiles = LoadBoard.getList();
             ChoiceDialog dialog = new ChoiceDialog(gameFiles[0], gameFiles);
 
             //ChoiceDialog<String> dialog = new ChoiceDialog<>();
