@@ -96,12 +96,6 @@ public class AppController implements Observer {
 
         Board board = repository.newGame(playerCount, boardNum);
         gameController = new GameController(board);
-        //repository.newGame();
-        /*HttpRequest httpRequest =
-                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/new/"+result.get() + "/" + boardResult.get()))
-                        .build();
-        httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
-*/
 
 
             for (int i = 0; i < playerCount; i++) {
@@ -198,22 +192,15 @@ public class AppController implements Observer {
 
     public void loadGame() throws Exception {
 
-        // XXX needs to be implemented eventually
-        // for now, we just create a new game
         if (gameController == null) {
-            // newGame(LoadBoard.loadBoard("mygame"));
             gameFiles = repository.getList();
             ChoiceDialog dialog = new ChoiceDialog(gameFiles[0], gameFiles);
 
-            //ChoiceDialog<String> dialog = new ChoiceDialog<>();
-            //dialog.getItems().addAll(LOAD_GAME);
             dialog.setTitle("Load Game");
             dialog.setHeaderText("Which game do you want to continue?");
             dialog.setContentText("Saved Games:");
             Optional<String> userChoice = dialog.showAndWait();
             String result = userChoice.orElse("");
-            //Optional result = dialog.showAndWait();
-            //String fullpath = filename+result.toString();
             System.out.println(userChoice);
             System.out.println(result);
             try {
@@ -228,22 +215,6 @@ public class AppController implements Observer {
         }
     }
 
-    /***
-     * Getting a list of all the files in the resource folder
-     * Based on a solution found on Stackoverflow (https://stackoverflow.com/questions/5694385/getting-the-filenames-of-all-files-in-a-folder)
-     * used together with a solution from  Baeldung (https://www.baeldung.com/java-filename-without-extension)
-     */
-    /*private void setFileNames(){
-        File resources = new File("src/main/resources/boards/");
-        File[] listOfFiles = resources.listFiles();
-        for(int i = 0 ; i < listOfFiles.length ; i++){
-            if(listOfFiles[i].isFile()) {
-                String filename = Files.getNameWithoutExtension(listOfFiles[i].getName());
-                gameFiles.add(filename);
-            }
-        }
-    }*/
-
     /**
      * Stop playing the current game, giving the user the option to save
      * the game or to cancel stopping the game. The method returns true
@@ -254,10 +225,6 @@ public class AppController implements Observer {
      * @return true if the current game was stopped, false otherwise
      */
 
-    /*
-
-
-     */
     public boolean stopGame()  {
         if (gameController != null) {
 
