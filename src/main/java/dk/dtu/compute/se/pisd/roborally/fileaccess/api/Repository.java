@@ -5,13 +5,10 @@ import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 
 import static java.lang.Integer.parseInt;
+import static java.lang.Integer.valueOf;
 
 public class Repository {
 
@@ -99,13 +96,11 @@ public class Repository {
 
     }
 
-    public Board newGame(int playerCount, String boardNum) throws Exception {
+    public int newGameId(int playerCount, String boardNum) throws Exception {
         HttpResponse<String> response = client.makeGetRequest("new/" + playerCount + "/" + boardNum);
         System.out.println("New get request:" + response.body());
         System.out.println("new/" + playerCount + "/" + boardNum);
-        BoardTemplate template = returnBoardTemplate(response);
-        Board board = new Board(template.width, template.height, template.spaceTemplates);
-        return board;
+        return valueOf(response.body());
     }
 
     public int getGameID() throws Exception {
@@ -114,4 +109,12 @@ public class Repository {
     }
 
 
+    public Board getBoard(String folder, String filename) throws Exception {
+        String path = folder+"/"+filename;
+        HttpResponse<String> boardString = client.makeGetRequest("sendBoard/" + path);
+        BoardTemplate template = returnBoardTemplate(boardString);
+        Board board = new Board(template.width, template.height, template.spaceTemplates);
+        return board;
+
+    }
 }

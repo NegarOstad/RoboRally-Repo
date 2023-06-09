@@ -26,7 +26,6 @@ import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
-import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.api.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
@@ -39,9 +38,6 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
-import java.net.http.HttpClient;
-import java.time.Duration;
 import java.util.*;
 
 
@@ -85,8 +81,6 @@ public class AppController implements Observer {
 
         //// Add new Board ask to choose board
         List<String> boardOptions = List.of(repository.getList("boardOptions"));
-        ChoiceDialog boardChoice = new ChoiceDialog(boardOptions.get(0), boardOptions);
-
         ChoiceDialog<String> boardDialog = new ChoiceDialog<>(boardOptions.get(0) ,boardOptions);
         boardDialog.setTitle("Boards");
         boardDialog.setHeaderText("Choose one board");
@@ -94,8 +88,8 @@ public class AppController implements Observer {
         String boardNum = num.orElse("");
 
         //// Create chosen board with chosen amount of players
-        Board board = repository.newGame(playerCount, boardNum);
-        gameId = repository.getGameID();
+        gameId = repository.newGameId(playerCount, boardNum);
+        Board board = repository.getBoard("boardOptions", boardNum);
         System.out.println("GameID: " + gameId);
         setUpPlayers(playerCount, board);
 
@@ -180,7 +174,7 @@ public class AppController implements Observer {
     public void loadGame() throws Exception {
 
         if (gameController == null) {
-            gameFiles = repository.getList("sendList");
+            gameFiles = repository.getList("templates");
             ChoiceDialog dialog = new ChoiceDialog(gameFiles[0], gameFiles);
 
             dialog.setTitle("Load Game");
