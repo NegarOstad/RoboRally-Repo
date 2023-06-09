@@ -114,7 +114,7 @@ public class Repository {
 
     }
     public String[] availableGamesList() throws Exception {
-        HttpResponse<String> response = client.makeGetRequest("/availableGames");
+        HttpResponse<String> response = client.makeGetRequest("availableGames");
         System.out.println(response.body());
         String[] arrayOfOptions = response.body().toString().split(",");
         for(String s : arrayOfOptions){
