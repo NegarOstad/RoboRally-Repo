@@ -48,8 +48,8 @@ public class Repository {
 
         return gson.toJson(template, template.getClass()/*, writer*/);
     }
-    public String[] getList() throws Exception {
-      HttpResponse<String> response = client.makeGetRequest("sendList");
+    public String[] getList(String path) throws Exception {
+      HttpResponse<String> response = client.makeGetRequest("sendList/"+path);
         /*HttpRequest httpRequestList =
                 HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/sendList"))
                         .build();
@@ -67,7 +67,6 @@ public class Repository {
     public Board loadBoard(String boardname) throws Exception {
 
             HttpResponse<String> response = client.makeGetRequest("loadGame/"+boardname);
-
             BoardTemplate template = returnBoardTemplate(response);
             Board board = new Board(template.width, template.height, template.spaceTemplates);
             for(PlayerTemplate p : template.playerTemplates){
@@ -91,7 +90,7 @@ public class Repository {
     }
 
 
-    private BoardTemplate returnBoardTemplate(HttpResponse<String>  response){
+    private BoardTemplate returnBoardTemplate(HttpResponse<String> response){
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>());
         Gson gson = simpleBuilder.create();
@@ -100,7 +99,7 @@ public class Repository {
 
     }
 
-    public Board newGame(int playerCount, int boardNum) throws Exception {
+    public Board newGame(int playerCount, String boardNum) throws Exception {
         HttpResponse<String> response = client.makeGetRequest("new/" + playerCount + "/" + boardNum);
         System.out.println("new/" + playerCount + "/" + boardNum);
         BoardTemplate template = returnBoardTemplate(response);

@@ -84,6 +84,8 @@ public class RoboRallyMenuBar extends MenuBar {
                 throw  new RuntimeException(ex);
             } catch (InterruptedException ex){
                 throw new RuntimeException(ex);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
             }
         });
         controlMenu.getItems().add(joinGame);

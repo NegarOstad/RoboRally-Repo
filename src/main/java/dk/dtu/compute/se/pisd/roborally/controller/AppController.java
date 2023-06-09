@@ -84,11 +84,14 @@ public class AppController implements Observer {
         int playerCount = count.orElse(0);
 
         //// Add new Board ask to choose board
-        ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
+        List<String> boardOptions = List.of(repository.getList("boardOptions"));
+        ChoiceDialog boardChoice = new ChoiceDialog(boardOptions.get(0), boardOptions);
+
+        ChoiceDialog<String> boardDialog = new ChoiceDialog<>(boardOptions.get(0) ,boardOptions);
         boardDialog.setTitle("Boards");
         boardDialog.setHeaderText("Choose one board");
-        Optional<Integer> num = boardDialog.showAndWait();
-        int boardNum = num.orElse(0);
+        Optional<String> num = boardDialog.showAndWait();
+        String boardNum = num.orElse("");
 
         //// Create chosen board with chosen amount of players
         Board board = repository.newGame(playerCount, boardNum);
@@ -102,14 +105,14 @@ public class AppController implements Observer {
         }
 
 
-    public void joinGame() throws IOException, InterruptedException {
+    public void joinGame() throws Exception {
 
         if (gameController == null) {
-            List<String> availableGames = List.of(LoadBoard.getList());
+            List<String> availableGames = List.of(repository.getList("templates"));
             ChoiceDialog dialog = new ChoiceDialog(availableGames.get(0), availableGames);
 
             dialog.setTitle("Join Game");
-            dialog.setHeaderText("Which game of the following games do you wish to join?");
+            dialog.setHeaderText("Which of the following games do you wish to join?");
             dialog.setContentText("Available Games:");
             Optional<String> userChoice = dialog.showAndWait();
             String outcome = userChoice.orElse("");
@@ -177,7 +180,7 @@ public class AppController implements Observer {
     public void loadGame() throws Exception {
 
         if (gameController == null) {
-            gameFiles = repository.getList();
+            gameFiles = repository.getList("sendList");
             ChoiceDialog dialog = new ChoiceDialog(gameFiles[0], gameFiles);
 
             dialog.setTitle("Load Game");
