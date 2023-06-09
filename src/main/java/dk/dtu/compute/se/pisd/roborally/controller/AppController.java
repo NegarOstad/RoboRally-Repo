@@ -194,15 +194,20 @@ public class AppController implements Observer {
             dialog.setContentText("Saved Games:");
             Optional<String> userChoice = dialog.showAndWait();
             String result = userChoice.orElse("");
-            System.out.println(userChoice);
-            System.out.println(result);
-            try {
-                Board board = repository.loadBoard(result);
-                startLoadedGame(board);
+            if(!(result.isEmpty())){
+                System.out.println(userChoice);
+                System.out.println(result);
+                try {
+                    Board board = repository.loadBoard(result);
+                    startLoadedGame(board);
 
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }else {
+                dialog.close();
             }
+
 
 
         }
