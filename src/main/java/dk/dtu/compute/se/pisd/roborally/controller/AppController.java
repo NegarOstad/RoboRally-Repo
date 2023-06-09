@@ -61,7 +61,7 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    final private List<Integer> BOARD_NUMBER = Arrays.asList(1, 2);
+    final private List<Integer> BOARD_NUMBER = Arrays.asList(1);
     final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes", "N0");
     private String gameName;
 
@@ -98,8 +98,6 @@ public class AppController implements Observer {
 
             Board board = setupBaseBoard();
             gameController = new GameController(board);
-            gameController.startProgrammingPhase();
-            roboRally.createBoardView(gameController);
 
             int no = result.get();
             for (int i = 0; i < no; i++) {
@@ -108,6 +106,7 @@ public class AppController implements Observer {
                 player.setSpace(board.getSpace(i % board.width, i), board);
 
             }
+
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);

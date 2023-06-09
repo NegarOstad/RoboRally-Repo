@@ -35,7 +35,8 @@ public class BoardTemplate extends Subject {
             for(int y = 0; y < height; y++) {
                 ElementType type = spaces[x][y].getType();
                 SpaceAction sa = spaces[x][y].getBoardElement();
-                SpaceTemplate spaceTemplate = new SpaceTemplate(x, y, type, sa);
+                Heading heading = spaces[x][y].getHeading();
+                SpaceTemplate spaceTemplate = new SpaceTemplate(x, y, type, sa, heading);
                 spaceTemplates[x][y] = spaceTemplate;
             }
         }
