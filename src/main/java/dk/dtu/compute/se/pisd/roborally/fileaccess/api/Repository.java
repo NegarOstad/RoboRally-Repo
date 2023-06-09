@@ -107,6 +107,11 @@ public class Repository {
         HttpResponse<String> response = client.makeGetRequest("gameID");
         return parseInt(response.body());
     }
+    public int joinGame(int gameID) throws Exception {
+    HttpResponse<String> response = client.makeGetRequest("/join" + gameID);
+        return parseInt(response.body());
+
+    }
 
 
     public Board getBoard(String folder, String filename) throws Exception {

@@ -110,12 +110,11 @@ public class AppController implements Observer {
             dialog.setContentText("Available Games:");
             Optional<String> userChoice = dialog.showAndWait();
             String outcome = userChoice.orElse("");
-
+            Board board = repository.loadBoard(outcome);
+            startLoadedGame(board);
             System.out.println(userChoice);
             System.out.println(outcome);
             //joinGame(LoadBoard.loadBoard(outcome));
-
-
         }
     }
 
