@@ -63,7 +63,7 @@ public class Repository {
 
     public Board loadBoard(String boardname) throws Exception {
 
-            HttpResponse<String> response = client.makeGetRequest("loadGame/"+boardname);
+            HttpResponse<String> response = client.makeGetRequest("sendBoard/templates/"+boardname);
             BoardTemplate template = returnBoardTemplate(response);
             Board board = new Board(template.width, template.height, template.spaceTemplates);
             for(PlayerTemplate p : template.playerTemplates){
