@@ -87,8 +87,13 @@ public class AppController implements Observer {
         Optional<String> num = boardDialog.showAndWait();
         String boardNum = num.orElse("");
 
+
         //// Create chosen board with chosen amount of players
         gameId = repository.newGameId(playerCount, boardNum);
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Your game ID is: " + gameId);
+        alert.showAndWait();
+        System.out.println("GameID: " + gameId);
         Board board = repository.getBoard("boardOptions", boardNum);
         System.out.println("GameID: " + gameId);
         setUpPlayers(playerCount, board);
@@ -102,7 +107,7 @@ public class AppController implements Observer {
     public void joinGame() throws Exception {
 
         if (gameController == null) {
-            List<String> availableGames = List.of(repository.getList("templates"));
+            List<String> availableGames = List.of(repository.availableGamesList());
             ChoiceDialog dialog = new ChoiceDialog(availableGames.get(0), availableGames);
 
             dialog.setTitle("Join Game");
@@ -110,10 +115,12 @@ public class AppController implements Observer {
             dialog.setContentText("Available Games:");
             Optional<String> userChoice = dialog.showAndWait();
             String outcome = userChoice.orElse("");
+            joinGame();
             Board board = repository.loadBoard(outcome);
             startLoadedGame(board);
             System.out.println(userChoice);
             System.out.println(outcome);
+
             //joinGame(LoadBoard.loadBoard(outcome));
         }
     }
