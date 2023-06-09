@@ -133,4 +133,15 @@ public class Repository {
         return board;
 
     }
+
+    public boolean gameIsReady() throws Exception {
+        boolean gameIsReady;
+        HttpResponse<String> response = client.makeGetRequest("gameReady");
+        if(response.equals("1"))
+            gameIsReady = true;
+        else
+            gameIsReady = false;
+
+        return gameIsReady;
+    }
 }
