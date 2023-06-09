@@ -5,11 +5,7 @@ import com.google.gson.GsonBuilder;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
-import java.io.IOException;
-import java.net.URI;
-import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 
 import static java.lang.Integer.parseInt;
 
@@ -111,6 +107,11 @@ public class Repository {
     public int getGameID() throws Exception {
         HttpResponse<String> response = client.makeGetRequest("gameID");
         return parseInt(response.body());
+    }
+    public int joinGame(int gameID) throws Exception {
+    HttpResponse<String> response = client.makeGetRequest("/join" + gameID);
+        return parseInt(response.body());
+
     }
 
 
