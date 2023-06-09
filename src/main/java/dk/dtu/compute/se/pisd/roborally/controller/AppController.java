@@ -93,6 +93,10 @@ public class AppController implements Observer {
 
         //// Create chosen board with chosen amount of players
         gameId = repository.newGameId(playerCount, boardNum);
+        Alert alert = new Alert(AlertType.INFORMATION);
+        alert.setContentText("Your game ID is: " + gameId);
+        alert.showAndWait();
+        System.out.println("GameID: " + gameId);
 
     }
 
@@ -109,9 +113,9 @@ public class AppController implements Observer {
 
 
     public void joinGame() throws Exception {
-        String boardChoice = " ";
+
         if (gameController == null) {
-            List<String> availableGames = List.of(repository.getList("templates"));
+            List<String> availableGames = List.of(repository.availableGamesList());
             ChoiceDialog dialog = new ChoiceDialog(availableGames.get(0), availableGames);
 
             dialog.setTitle("Join Game");
@@ -120,8 +124,8 @@ public class AppController implements Observer {
             Optional<String> userChoice = dialog.showAndWait();
             boardNum = userChoice.orElse("");
             System.out.println(userChoice);
-            System.out.println(boardChoice);
 
+            //joinGame(LoadBoard.loadBoard(outcome));
         }
 
         Dialog<Void> dialogUpdate = new Dialog<>();

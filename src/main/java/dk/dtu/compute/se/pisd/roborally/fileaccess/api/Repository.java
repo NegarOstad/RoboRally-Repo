@@ -6,6 +6,7 @@ import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.net.http.HttpResponse;
+import java.util.List;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.valueOf;
@@ -111,6 +112,16 @@ public class Repository {
     HttpResponse<String> response = client.makeGetRequest("/join" + gameID);
         return parseInt(response.body());
 
+    }
+    public String[] availableGamesList() throws Exception {
+        HttpResponse<String> response = client.makeGetRequest("availableGames");
+        System.out.println(response.body());
+        String[] arrayOfOptions = response.body().toString().split(",");
+        for(String s : arrayOfOptions){
+            System.out.println(s);
+        }
+
+        return arrayOfOptions;
     }
 
 
