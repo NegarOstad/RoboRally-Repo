@@ -33,6 +33,7 @@ public class Space extends Subject {
 
     //public final Board board;
     ElementType type;
+    Heading heading = null;
     public final int x;
     public final int y;
     private Player player;
@@ -71,22 +72,28 @@ public class Space extends Subject {
             if (x == endX) {
                 if(y > endY){
                     y--;
+                    this.heading = Heading.SOUTH;
                     board.getSpace(x, y).fillConveyorBelt(endX,  endY, x, y, board);
                 } else if(y < endY){
                     y++;
+                    this.heading = Heading.NORTH;
                     board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y, board);
                 }
             } else if (x > endX) {
                 x--;
+                this.heading = Heading.WEST;
                 board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board);
             } else {
                 x++;
+                this.heading = Heading.EAST;
                 board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board);
             }
 
         }
 
-
+    public Heading getHeading() {
+        return heading;
+    }
 
     public void setTypeGear(Heading heading){
         type = ElementType.Gear;
