@@ -1,0 +1,30 @@
+@startuml
+'https://plantuml.com/class-diagram
+
+class AppController{
+
+-PLAYER_NUMBER_OPTIONS : List<Integer>
+-PLAYER_COLORS : List<String>
+-BOARD_NUMBER : List<Integer>
+-gameFiles : String[]
+-gameName : String
+repository : Repository
+-isGameSaves : boolean
+-roboRally : RoboRally
+-gameController : GameController
+
+newGame() : void
+joinGame() : void
+loadGame() : void
+setUpPlayers() : void
+startLoadedGame() : void
+saveGame() : void
+stopGame() : void
+isGameSaved() : boolean
+exit() : void
+}
+
+
+
+
+@enduml
