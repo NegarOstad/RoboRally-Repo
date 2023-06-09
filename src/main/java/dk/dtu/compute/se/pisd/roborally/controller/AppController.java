@@ -109,7 +109,7 @@ public class AppController implements Observer {
 
 
     public void joinGame() throws Exception {
-
+        String boardChoice = " ";
         if (gameController == null) {
             List<String> availableGames = List.of(repository.getList("templates"));
             ChoiceDialog dialog = new ChoiceDialog(availableGames.get(0), availableGames);
@@ -118,11 +118,9 @@ public class AppController implements Observer {
             dialog.setHeaderText("Which of the following games do you wish to join?");
             dialog.setContentText("Available Games:");
             Optional<String> userChoice = dialog.showAndWait();
-            String outcome = userChoice.orElse("");
-            Board board = repository.loadBoard(outcome);
-            startLoadedGame(board);
+            boardNum = userChoice.orElse("");
             System.out.println(userChoice);
-            System.out.println(outcome);
+            System.out.println(boardChoice);
 
         }
 
@@ -138,7 +136,11 @@ public class AppController implements Observer {
         dialogUpdate.setResultConverter(dialogButton -> {
             if (dialogButton == updateButton) {
                 // Call your method here
-                performUpdate();
+                try {
+                    updateGameState(boardNum);
+                } catch (Exception e) {
+                    throw new RuntimeException(e); // Make exception more specific9???
+                }
             }
             return null;
         });
@@ -146,11 +148,14 @@ public class AppController implements Observer {
         // Show the dialog and wait for user interaction
         Optional<Void> result = dialogUpdate.showAndWait();
 
+    }
 
-}
 
-    private void performUpdate() {
+    private void updateGameState(String boardChoice) throws Exception {
         System.out.println("Update performed!");
+
+        Board board = repository.loadBoard(boardChoice);
+        startLoadedGame(board);
     }
 
     private void setUpPlayers(int noPlayers, Board board ){
