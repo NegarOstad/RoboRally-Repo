@@ -78,29 +78,40 @@ public class AppController implements Observer {
         dialog.setHeaderText("Select number of players");
         Optional<Integer> count = dialog.showAndWait();
         int playerCount = count.orElse(0);
+        if (!(count.isEmpty())){
+            //// Add new Board ask to choose board
+            List<String> boardOptions = List.of(repository.getList("boardOptions"));
+            ChoiceDialog<String> boardDialog = new ChoiceDialog<>(boardOptions.get(0) ,boardOptions);
+            boardDialog.setTitle("Boards");
+            boardDialog.setHeaderText("Choose one board");
+            Optional<String> num = boardDialog.showAndWait();
+            String boardNum = num.orElse("");
+            if(!(num.isEmpty())){
+                //// Create chosen board with chosen amount of players
+                gameId = repository.newGameId(playerCount, boardNum);
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setContentText("Your game ID is: " + gameId);
+                alert.showAndWait();
+                //// Here should implements after press ok
+                System.out.println("GameID: " + gameId);
+                Board board = repository.getBoard("boardOptions", boardNum);
+                System.out.println("GameID: " + gameId);
+                setUpPlayers(playerCount, board);
 
-        //// Add new Board ask to choose board
-        List<String> boardOptions = List.of(repository.getList("boardOptions"));
-        ChoiceDialog<String> boardDialog = new ChoiceDialog<>(boardOptions.get(0) ,boardOptions);
-        boardDialog.setTitle("Boards");
-        boardDialog.setHeaderText("Choose one board");
-        Optional<String> num = boardDialog.showAndWait();
-        String boardNum = num.orElse("");
+                gameController = new GameController(board);
+                gameController.startProgrammingPhase();
+                roboRally.createBoardView(gameController);
+            }
+           else {
+               boardDialog.close();
+            }
+
+        }
+        else {
+            dialog.close();
+        }
 
 
-        //// Create chosen board with chosen amount of players
-        gameId = repository.newGameId(playerCount, boardNum);
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Your game ID is: " + gameId);
-        alert.showAndWait();
-        System.out.println("GameID: " + gameId);
-        Board board = repository.getBoard("boardOptions", boardNum);
-        System.out.println("GameID: " + gameId);
-        setUpPlayers(playerCount, board);
-
-        gameController = new GameController(board);
-        gameController.startProgrammingPhase();
-        roboRally.createBoardView(gameController);
         }
 
 
