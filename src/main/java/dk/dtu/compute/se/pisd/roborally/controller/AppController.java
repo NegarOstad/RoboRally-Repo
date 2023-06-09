@@ -61,9 +61,9 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    final private List<Integer> BOARD_NUMBER = Arrays.asList(1,2);
-    final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
-    private String gameName ;
+    final private List<Integer> BOARD_NUMBER = Arrays.asList(1, 2);
+    final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes", "N0");
+    private String gameName;
 
     final private RoboRally roboRally;
     HttpClient httpClient =
@@ -77,23 +77,59 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
+    public void newGame() {
+        ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
+        dialog.setTitle("Player number");
+        dialog.setHeaderText("Select number of players");
+        Optional<Integer> result = dialog.showAndWait();
 
-    public void newGame()  {
+
+        //ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>();
+        //boardDialog.setTitle("Boards");
+        //boardDialog.setHeaderText("Choose board");
+        //Optional<Integer> boardResult = boardDialog.showAndWait();
+
+        if (result.isPresent()) {
+            if (gameController != null) {
+                if (!stopGame()) {
+                    return;
+                }
+            }
+
+            Board board = setupBaseBoard();
+            gameController = new GameController(board);
+            gameController.startProgrammingPhase();
+            roboRally.createBoardView(gameController);
+
+            int no = result.get();
+            for (int i = 0; i < no; i++) {
+                Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
+                board.addPlayer(player);
+                player.setSpace(board.getSpace(i % board.width, i), board);
+
+            }
+            gameController.startProgrammingPhase();
+
+            roboRally.createBoardView(gameController);
+        }
+    }
+
+    /*public void newGame()  {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
         Optional<Integer> result = dialog.showAndWait();
 
         //// Add new Board
-        ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
+       ChoiceDialog<Integer> boardDialog = new ChoiceDialog<>(BOARD_NUMBER.get(0) ,BOARD_NUMBER );
         boardDialog.setTitle("Boards");
         boardDialog.setHeaderText("Choose one board");
         Optional<Integer> boardResult = boardDialog.showAndWait();
 
-        HttpRequest httpRequest =
-                HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/new/"+result.get() + "/" + boardResult.get()))
-                        .build();
-        httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
+
+       // HttpRequest httpRequest =
+                //HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/new/"+result.get() + "/" + boardResult.get())).build();
+        //httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
         if (result.isPresent()) {
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
@@ -143,22 +179,7 @@ public class AppController implements Observer {
             }
 */
 
-            Board board = setupBaseBoard();
-            gameController = new GameController(board);
 
-
-            int no = result.get();
-            for (int i = 0; i < no; i++) {
-                Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
-                board.addPlayer(player);
-                player.setSpace(board.getSpace(i % board.width, i), board);
-
-            }
-            gameController.startProgrammingPhase();
-
-            roboRally.createBoardView(gameController);
-        }
-    }
 
     public void newGame(Board board){
         gameController = new GameController(board);
@@ -206,7 +227,7 @@ public class AppController implements Observer {
         // for now, we just create a new game
         if (gameController == null) {
 
-            newGame(LoadBoard.loadBoard("mygame"));
+           // newGame(LoadBoard.loadBoard("mygame"));
 
         }
     }
