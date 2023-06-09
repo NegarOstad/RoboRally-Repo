@@ -101,6 +101,7 @@ public class Repository {
 
     public Board newGame(int playerCount, String boardNum) throws Exception {
         HttpResponse<String> response = client.makeGetRequest("new/" + playerCount + "/" + boardNum);
+        System.out.println("New get request:" + response.body());
         System.out.println("new/" + playerCount + "/" + boardNum);
         BoardTemplate template = returnBoardTemplate(response);
         Board board = new Board(template.width, template.height, template.spaceTemplates);

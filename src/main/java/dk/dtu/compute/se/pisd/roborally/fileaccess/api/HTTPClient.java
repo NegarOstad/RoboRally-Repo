@@ -13,8 +13,8 @@ public class HTTPClient {
 
     HttpClient httpClient;
 
-    //private final String URL = "http://localhost:8080/";
-    private final String URL = "http://10.209.204.5:8080/";
+    private final String URL = "http://localhost:8080/";
+    //private final String URL = "http://10.209.204.5:8080/";
 
     // Private constructor to prevent instantiation from outside the class
     private HTTPClient() {
