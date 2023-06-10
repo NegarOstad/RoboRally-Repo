@@ -150,11 +150,11 @@ public class AppController implements Observer {
         dialogUpdate.setTitle("Update Dialog");
         dialogUpdate.setHeaderText("Click the 'Update' button to perform the update.");
 
-// Create an 'Update' button
+        // Create an 'Update' button
         ButtonType updateButton = new ButtonType("Update", ButtonType.OK.getButtonData());
         dialogUpdate.getDialogPane().getButtonTypes().add(updateButton);
 
-// Handle button click event
+        // Handle button click event
         dialogUpdate.setResultConverter(dialogButton -> {
             if (dialogButton == updateButton) {
                 // Call your method here
@@ -173,13 +173,15 @@ public class AppController implements Observer {
 
     private void updateGameState(String boardChoice) throws Exception {
         System.out.println("Update performed!");
+        if(repository.gameIsReady(gameId)){
+            Board board = repository.getBoard("boardOptions", boardChoice);
+            startGame(board, "new");
+        }
 
-        Board board = repository.loadGame(boardChoice);
-        startGame(board, "new");
     }
 
 
-    public void startNewGame() throws Exception {
+  /*  public void startNewGame() throws Exception {
         Board board = repository.getBoard("boardOptions", chosenGame);
         System.out.println("GameID: " + gameId);
         setUpPlayers(playerCount, board);
@@ -187,7 +189,7 @@ public class AppController implements Observer {
         gameController = new GameController(board);
         gameController.startProgrammingPhase();
         roboRally.createBoardView(gameController);
-    }
+    }*/
 
 
 

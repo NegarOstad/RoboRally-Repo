@@ -133,10 +133,10 @@ public class Repository {
 
     }
 
-    public boolean gameIsReady() throws Exception {
+    public boolean gameIsReady(int gameId) throws Exception {
         boolean gameIsReady;
-        HttpResponse<String> response = client.makeGetRequest("gameReady");
-        if(response.body().equals("1"))
+        HttpResponse<String> response = client.makeGetRequest("gameFull/" + gameId);
+        if(response.body().equals("true"))
             gameIsReady = true;
         else
             gameIsReady = false;
