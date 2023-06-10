@@ -6,7 +6,6 @@ import dk.dtu.compute.se.pisd.roborally.fileaccess.Adapter;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 
 import java.net.http.HttpResponse;
-import java.util.List;
 
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.valueOf;
@@ -62,7 +61,7 @@ public class Repository {
     }
 
 
-    public Board loadBoard(String boardname) throws Exception {
+    public Board loadGame(String boardname) throws Exception {
 
             HttpResponse<String> response = client.makeGetRequest("sendBoard/templates/"+boardname);
             BoardTemplate template = returnBoardTemplate(response);
@@ -108,9 +107,9 @@ public class Repository {
         HttpResponse<String> response = client.makeGetRequest("gameID");
         return parseInt(response.body());
     }*/
-    public Integer joinGameWithID(Integer gameID) throws Exception {
+    public String joinGameWithID(Integer gameID) throws Exception {
     HttpResponse<String> response = client.makeGetRequest("/join" + gameID);
-        return parseInt(response.body());
+        return response.body();
 
     }
     public String[] availableGamesList() throws Exception {
@@ -137,11 +136,16 @@ public class Repository {
     public boolean gameIsReady() throws Exception {
         boolean gameIsReady;
         HttpResponse<String> response = client.makeGetRequest("gameReady");
-        if(response.equals("1"))
+        if(response.body().equals("1"))
             gameIsReady = true;
         else
             gameIsReady = false;
 
         return gameIsReady;
+    }
+
+    public int getPlayerCount() throws Exception {
+        HttpResponse<String> response = client.makeGetRequest("playerCount");
+        return Integer.valueOf(response.body());
     }
 }

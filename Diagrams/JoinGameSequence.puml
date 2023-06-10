@@ -1,0 +1,27 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Client -> Server: get list of available games (/availableGames)
+Server --> Client: comma seperated string of ID's
+Client -> Server: ask to join specific game (/join/{gameId})
+Server --> Server: increment player counter
+alt gameIsNowFull
+Server--> Server: remove game from available list and set to readyToStart
+end else
+Server --> Client: client's player number
+
+loop gameIsNotFull
+Client -> Server: update button: is game full ? (/gameFull)
+Server-->Client: false
+end loop
+Server--> Client: true (gameIsFull)
+Client-> Server: get chosen game's board (/sendBoard/boardOptions)
+Server-->Client: json string of board
+Client-->Client: startNewGame()
+
+
+
+
+@enduml
