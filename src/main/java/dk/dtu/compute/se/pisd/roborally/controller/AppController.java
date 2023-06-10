@@ -40,6 +40,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
+import static java.lang.Integer.parseInt;
+
 
 /**
  * ...
@@ -127,13 +129,12 @@ public class AppController implements Observer {
             chosenGame = userChoice.orElse("");
 
             if (!(chosenGame.isEmpty())){
-                int userChoiceInt = Integer.parseInt(chosenGame);
+                int userChoiceInt = parseInt(chosenGame);
                 String[] joinInfo = repository.joinGameWithID(userChoiceInt).split(",");
-                gameId = Integer.valueOf(chosenGame);
-                playerNum = Integer.valueOf(joinInfo[0]);
-                playerCount =  Integer.valueOf(joinInfo[1]);
-                System.out.println(userChoice);
-                System.out.println(chosenGame);
+                gameId = parseInt(chosenGame);
+                playerNum = parseInt(joinInfo[0]);
+                playerCount =  parseInt(joinInfo[1]);
+                System.out.println("Gameid: " + gameId + ", Player num: " + playerNum + ", PlayerCount : " + playerCount);
                 goToWaitingRoom();
             }
             else {
@@ -175,6 +176,7 @@ public class AppController implements Observer {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
             Board board = repository.getBoard("boardOptions", boardChoice);
+            setUpPlayers(playerCount, board);
             startGame(board, "new");
         } else {
             goToWaitingRoom();

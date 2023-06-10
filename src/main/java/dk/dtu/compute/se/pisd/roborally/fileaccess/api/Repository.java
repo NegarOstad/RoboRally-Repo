@@ -108,7 +108,7 @@ public class Repository {
         return parseInt(response.body());
     }*/
     public String joinGameWithID(Integer gameID) throws Exception {
-    HttpResponse<String> response = client.makeGetRequest("/join" + gameID);
+    HttpResponse<String> response = client.makeGetRequest("join/" + gameID);
         return response.body();
 
     }
