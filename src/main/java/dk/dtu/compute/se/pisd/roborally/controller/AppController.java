@@ -147,8 +147,8 @@ public class AppController implements Observer {
 
     private void goToWaitingRoom(){
         Dialog<Void> dialogUpdate = new Dialog<>();
-        dialogUpdate.setTitle("Update Dialog");
-        dialogUpdate.setHeaderText("Click the 'Update' button to perform the update.");
+        dialogUpdate.setTitle("You are in the waiting room.");
+        dialogUpdate.setHeaderText("Click the 'Update' button to see if the required amount of players have joined.");
 
         // Create an 'Update' button
         ButtonType updateButton = new ButtonType("Update", ButtonType.OK.getButtonData());
@@ -176,6 +176,8 @@ public class AppController implements Observer {
         if(repository.gameIsReady(gameId)){
             Board board = repository.getBoard("boardOptions", boardChoice);
             startGame(board, "new");
+        } else {
+            goToWaitingRoom();
         }
 
     }
