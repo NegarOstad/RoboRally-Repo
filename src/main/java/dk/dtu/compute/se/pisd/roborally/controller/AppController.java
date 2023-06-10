@@ -51,10 +51,10 @@ public class AppController implements Observer {
 
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
-    final private List<Integer> BOARD_NUMBER = Arrays.asList(1, 2);
-    final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes", "N0");
+    final private List<Integer> BOARD_NUMBER = Arrays.asList(1,2);
+    final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
     private String[] gameFiles;
-    private String gameName;
+    private String gameName ;
     private int gameId;
 
     Repository repository = Repository.getInstance();
@@ -64,10 +64,6 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
 
     private GameController gameController;
-
-    String boardNum;
-
-    int playerCount;
 
 
     public AppController(@NotNull RoboRally roboRally) {
@@ -81,35 +77,42 @@ public class AppController implements Observer {
         dialog.setTitle("Player number");
         dialog.setHeaderText("Select number of players");
         Optional<Integer> count = dialog.showAndWait();
-        playerCount = count.orElse(0);
+        int playerCount = count.orElse(0);
+        if (!(count.isEmpty())){
+            //// Add new Board ask to choose board
+            List<String> boardOptions = List.of(repository.getList("boardOptions"));
+            ChoiceDialog<String> boardDialog = new ChoiceDialog<>(boardOptions.get(0) ,boardOptions);
+            boardDialog.setTitle("Boards");
+            boardDialog.setHeaderText("Choose one board");
+            Optional<String> num = boardDialog.showAndWait();
+            String boardNum = num.orElse("");
+            if(!(num.isEmpty())){
+                //// Create chosen board with chosen amount of players
+                gameId = repository.newGameId(playerCount, boardNum);
+                Alert alert = new Alert(AlertType.INFORMATION);
+                alert.setContentText("Your game ID is: " + gameId);
+                alert.showAndWait();
+                //// Here should implements after press ok
+                System.out.println("GameID: " + gameId);
+                Board board = repository.getBoard("boardOptions", boardNum);
+                System.out.println("GameID: " + gameId);
+                setUpPlayers(playerCount, board);
 
-        //// Add new Board ask to choose board
-        List<String> boardOptions = List.of(repository.getList("boardOptions"));
-        ChoiceDialog<String> boardDialog = new ChoiceDialog<>(boardOptions.get(0), boardOptions);
-        boardDialog.setTitle("Boards");
-        boardDialog.setHeaderText("Choose one board");
-        Optional<String> num = boardDialog.showAndWait();
-        boardNum = num.orElse("");
+                gameController = new GameController(board);
+                gameController.startProgrammingPhase();
+                roboRally.createBoardView(gameController);
+            }
+           else {
+               boardDialog.close();
+            }
 
-        //// Create chosen board with chosen amount of players
-        gameId = repository.newGameId(playerCount, boardNum);
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Your game ID is: " + gameId);
-        alert.showAndWait();
-        System.out.println("GameID: " + gameId);
+        }
+        else {
+            dialog.close();
+        }
 
-    }
 
-    public void startNewGame() throws Exception {
-        Board board = repository.getBoard("boardOptions", boardNum);
-        System.out.println("GameID: " + gameId);
-        setUpPlayers(playerCount, board);
-
-        gameController = new GameController(board);
-        gameController.startProgrammingPhase();
-        roboRally.createBoardView(gameController);
-
-    }
+        }
 
 
     public void joinGame() throws Exception {
@@ -122,44 +125,21 @@ public class AppController implements Observer {
             dialog.setHeaderText("Which of the following games do you wish to join?");
             dialog.setContentText("Available Games:");
             Optional<String> userChoice = dialog.showAndWait();
-            boardNum = userChoice.orElse("");
-            System.out.println(userChoice);
+            String outcome = userChoice.orElse("");
 
+            if (!(outcome.isEmpty())){
+                Board board = repository.loadBoard(outcome);
+                int userChoiceInt = Integer.parseInt(outcome);
+                repository.joinGameWithID(userChoiceInt);
+                startLoadedGame(board);
+                System.out.println(userChoice);
+                System.out.println(outcome);
+            }
+            else {
+                dialog.close();
+            }
             //joinGame(LoadBoard.loadBoard(outcome));
         }
-
-        Dialog<Void> dialogUpdate = new Dialog<>();
-        dialogUpdate.setTitle("Update Dialog");
-        dialogUpdate.setHeaderText("Click the 'Update' button to perform the update.");
-
-        // Create an 'Update' button
-        ButtonType updateButton = new ButtonType("Update", ButtonType.OK.getButtonData());
-        dialogUpdate.getDialogPane().getButtonTypes().add(updateButton);
-
-        // Handle button click event
-        dialogUpdate.setResultConverter(dialogButton -> {
-            if (dialogButton == updateButton) {
-                // Call your method here
-                try {
-                    updateGameState(boardNum);
-                } catch (Exception e) {
-                    throw new RuntimeException(e); // Make exception more specific9???
-                }
-            }
-            return null;
-        });
-
-        // Show the dialog and wait for user interaction
-        Optional<Void> result = dialogUpdate.showAndWait();
-
-    }
-
-
-    private void updateGameState(String boardChoice) throws Exception {
-        System.out.println("Update performed!");
-
-        Board board = repository.loadBoard(boardChoice);
-        startLoadedGame(board);
     }
 
     private void setUpPlayers(int noPlayers, Board board ){
@@ -225,14 +205,18 @@ public class AppController implements Observer {
             dialog.setContentText("Saved Games:");
             Optional<String> userChoice = dialog.showAndWait();
             String result = userChoice.orElse("");
-            System.out.println(userChoice);
-            System.out.println(result);
-            try {
-                Board board = repository.loadBoard(result);
-                startLoadedGame(board);
+            if(!(result.isEmpty())){
+                System.out.println(userChoice);
+                System.out.println(result);
+                try {
+                    Board board = repository.loadBoard(result);
+                    startLoadedGame(board);
 
-            } catch (Exception e) {
-                throw new RuntimeException(e);
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }else {
+                dialog.close();
             }
 
 

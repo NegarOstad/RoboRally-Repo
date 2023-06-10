@@ -104,11 +104,11 @@ public class Repository {
         return valueOf(response.body());
     }
 
-    public int getGameID() throws Exception {
+   /* public int getGameID() throws Exception {
         HttpResponse<String> response = client.makeGetRequest("gameID");
         return parseInt(response.body());
-    }
-    public int joinGame(int gameID) throws Exception {
+    }*/
+    public Integer joinGameWithID(Integer gameID) throws Exception {
     HttpResponse<String> response = client.makeGetRequest("/join" + gameID);
         return parseInt(response.body());
 
