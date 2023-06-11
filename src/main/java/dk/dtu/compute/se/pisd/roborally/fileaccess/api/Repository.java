@@ -144,8 +144,9 @@ public class Repository {
         return gameIsReady;
     }
 
-    public int getPlayerCount() throws Exception {
-        HttpResponse<String> response = client.makeGetRequest("playerCount");
+    public int getPlayerCount(int gameId) throws Exception {
+        HttpResponse<String> response = client.makeGetRequest("playerCount/" + gameId);
+        System.out.println(Integer.valueOf(response.body()));
         return Integer.valueOf(response.body());
     }
 }
