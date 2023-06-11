@@ -94,6 +94,7 @@ public class AppController implements Observer {
             String boardNum = num.orElse("");
             if(!(num.isEmpty())){
                 gameId = repository.newGameId(playerCount, boardNum);
+                playerNum = 1;
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setContentText("Your game ID is: " + gameId);
                 alert.showAndWait();
