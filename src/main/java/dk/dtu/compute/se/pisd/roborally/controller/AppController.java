@@ -148,7 +148,7 @@ public class AppController implements Observer {
 
     }
 
-    private void goToWaitingRoom(){
+    private void goToWaitingRoom() throws Exception {
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("You are in the waiting room!");
         dialog.setHeaderText("Click the 'Update' button to check if the required amount of players have joined.");
@@ -166,7 +166,7 @@ public class AppController implements Observer {
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == updateButton) {
                 // Call your method here
-                dialogUpdate.close();
+                dialog.close();
                 try {
                     updateGameState();
                 } catch (Exception e) {
