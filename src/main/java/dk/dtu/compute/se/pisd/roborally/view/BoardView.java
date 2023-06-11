@@ -63,6 +63,7 @@ public class BoardView extends VBox implements ViewObserver {
 
 
  */
+
     public BoardView(@NotNull GameController gameController)  {
         board = gameController.board;
        /* ImageHolder imageHolder = new ImageHolder();
