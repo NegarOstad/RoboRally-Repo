@@ -64,7 +64,7 @@ public class PlayerView extends Tab implements ViewObserver {
 
     private GameController gameController;
 
-    public PlayerView(@NotNull GameController gameController, @NotNull Player player) {
+    public PlayerView(@NotNull GameController gameController, @NotNull Player player, boolean isLocal) {
         super(player.getName());
         this.setStyle("-fx-text-base-color: " + player.getColor() + ";");
 
@@ -84,7 +84,8 @@ public class PlayerView extends Tab implements ViewObserver {
             CommandCardField cardField = player.getProgramField(i);
             if (cardField != null) {
                 programCardViews[i] = new CardFieldView(gameController, cardField);
-                programPane.add(programCardViews[i], i, 0);
+                if(isLocal)
+                    programPane.add(programCardViews[i], i, 0);
             }
         }
 

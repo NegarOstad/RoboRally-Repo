@@ -23,10 +23,7 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.ElementType;
-import dk.dtu.compute.se.pisd.roborally.model.Phase;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.image.Image;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
@@ -53,7 +50,6 @@ public class BoardView extends VBox implements ViewObserver {
     private SpaceView[][] spaces;
 
     private PlayersView playersView;
-
     private Label statusLabel;
     private SpaceEventHandler spaceEventHandler;
 /*
@@ -98,6 +94,14 @@ public class BoardView extends VBox implements ViewObserver {
 
         board.attach(this);
         update(board);
+    }
+
+    private Player findThisPlayer() {
+        for(Player p : board.getPlayers()){
+            if (p.isLocal())
+                return p;
+        }
+        return null;
     }
 
 
