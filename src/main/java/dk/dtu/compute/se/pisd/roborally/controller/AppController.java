@@ -172,7 +172,7 @@ public class AppController implements Observer {
     private void updateGameState() throws Exception {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
-            Board board = repository.getBoard("boardOptions", "1.json");
+            Board board = repository.getBoard(String.valueOf(gameId), "boardOptions");
             setUpPlayers(playerCount, board);
             startGame(board, "new");
         } else {

@@ -123,9 +123,8 @@ public class Repository {
     }
 
 
-    public Board getBoard(String folder, String filename) throws Exception {
-        String path = folder+"/"+filename;
-        HttpResponse<String> boardString = client.makeGetRequest("sendBoard/" + path);
+    public Board getBoard(String gameId, String folder) throws Exception {
+        HttpResponse<String> boardString = client.makeGetRequest("sendBoard/" + gameId + "/" + folder);
         BoardTemplate template = returnBoardTemplate(boardString);
         Board board = new Board(template.width, template.height, template.spaceTemplates);
         return board;
