@@ -202,6 +202,8 @@ public class AppController implements Observer {
 
         for (int i = 0; i < noPlayers; i++) {
             Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
+            if(playerNum == i+1)
+                player.setLocal(true);
             board.addPlayer(player);
             player.setSpace(board.getSpace(i % board.width, i), board);
 

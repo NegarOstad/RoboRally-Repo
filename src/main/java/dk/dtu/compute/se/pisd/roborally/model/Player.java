@@ -52,6 +52,7 @@ public class Player extends Subject {
 
     private boolean registerIsEmpty = false;
 
+    private boolean isLocal;
 
     public CommandCardField[] getCards() {
         return cards;
@@ -79,6 +80,15 @@ public class Player extends Subject {
             cards[i] = new CommandCardField(this);
         }
     }
+
+    public boolean isLocal() {
+        return isLocal;
+    }
+
+    public void setLocal(boolean local) {
+        isLocal = local;
+    }
+
 
     public String getName() {
         return name;
