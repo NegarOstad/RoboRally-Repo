@@ -6,8 +6,8 @@ public class PlayerTemplate {
     public String name;
     public String color;
     public SpaceTemplate spaceTemplate;
-
     public Heading heading;
+    public boolean isLocal;
 
     public CommandCard[] getCommandCards() {
         return commandCards;
@@ -34,5 +34,9 @@ public class PlayerTemplate {
        // this.commandTemplate=commandTemplate;
         this.tokenCount = tokenCount;
         this.registerIsEmpty = registerIsEmpty;
+    }
+
+    public void setLocal(boolean local){
+        isLocal = local;
     }
 }
