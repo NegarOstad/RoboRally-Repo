@@ -368,6 +368,32 @@ public class AppController implements Observer {
     }
 
 
+    /*public void exit() {
+        if (gameController != null) {
+            if (isGameSaved) {
+                // If the game is already saved, directly exit the game
+                if (stopGame()) {
+                    Platform.exit();
+                }
+            } else {
+                Alert alert = new Alert(AlertType.CONFIRMATION);
+                alert.setTitle("Do you want to exit and save the game?");
+                alert.setContentText("Do you want to save the game before leaving?");
+                Optional<ButtonType> userOption = alert.showAndWait();
+
+                if (userOption.isPresent() && userOption.get() == ButtonType.OK) {
+                    saveGame();
+                }
+
+                // If the user did not cancel, the RoboRally application will exit after the option to save the game
+                if (stopGame()) {
+                    Platform.exit();
+                }
+            }
+        } else {
+            Platform.exit();
+        }
+    }*/
     /*public void exit()  {
         if (gameController != null) {
             if (!isGameSaved) {
@@ -391,7 +417,7 @@ public class AppController implements Observer {
 
             Platform.exit();
         }
-    }
+    }*/
   /*  public void saveGame() {
         TextInputDialog textInputDialog = new TextInputDialog();
         textInputDialog.setHeaderText("Save Game");
