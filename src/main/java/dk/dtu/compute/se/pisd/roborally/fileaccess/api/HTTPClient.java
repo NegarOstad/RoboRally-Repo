@@ -6,6 +6,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
+import java.util.concurrent.CompletableFuture;
 
 public class HTTPClient {
 
@@ -46,13 +47,23 @@ public class HTTPClient {
 
     public HttpResponse<String> makeGetRequest(String path) throws Exception{
 
-        HttpRequest httpRequestBoard = HttpRequest.newBuilder().GET().uri(URI.create(URL+path)).build();
+       /* HttpRequest httpRequestBoard = HttpRequest.newBuilder().GET().uri(URI.create(URL+path)).build();
         httpClient.sendAsync(httpRequestBoard, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
         HttpResponse<String> response = httpClient.send(httpRequestBoard, HttpResponse.BodyHandlers.ofString());
+        CompletableFuture<HttpResponse<String>> future = httpClient.sendAsync(httpRequestBoard, HttpResponse.BodyHandlers.ofString());
+
+        HttpResponse<String> response = future.thenCompose(HttpResponse::body).join();
+
         System.out.println("Server response: " + response.body());
+        return response;*/
+        HttpRequest httpRequest = HttpRequest.newBuilder().GET().uri(URI.create(URL+path)).build();
+
+        CompletableFuture<HttpResponse<String>> futureResponse = httpClient.sendAsync(httpRequest,
+                HttpResponse.BodyHandlers.ofString());
+
+        HttpResponse<String> response = futureResponse.join(); // Wait for the response to be available
+
         return response;
-
-
 
     }
 

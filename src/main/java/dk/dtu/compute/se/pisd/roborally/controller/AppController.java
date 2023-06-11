@@ -127,15 +127,16 @@ public class AppController implements Observer {
             dialog.setContentText("Available Games:");
             Optional<String> userChoice = dialog.showAndWait();
             String chosenGameId = userChoice.orElse("");
+
             System.out.println("Chosen game is: " + chosenGameId);
             if (!(chosenGameId.isEmpty())){
                 int userChoiceInt = parseInt(chosenGameId);
                 String[] joinInfo = repository.joinGameWithID(userChoiceInt).split(",");
                 gameId = parseInt(chosenGameId);
                 playerNum = parseInt(joinInfo[0]);
-                System.out.println("Join info [1] player count before parse: " + joinInfo[1]);
+                //System.out.println("Join info [1] player count before parse: " + joinInfo[1]);
                 playerCount =  parseInt(joinInfo[1]);
-                System.out.println("Gameid: " + gameId + ", Player num: " + playerNum + ", PlayerCount : " + playerCount);
+                //System.out.println("Gameid: " + gameId + ", Player num: " + playerNum + ", PlayerCount : " + playerCount);
                 goToWaitingRoom();
             }
             else {
