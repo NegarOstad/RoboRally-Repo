@@ -219,7 +219,6 @@ public class AppController implements Observer {
                 dialog.close();
             }
 
-
         }
     }
 

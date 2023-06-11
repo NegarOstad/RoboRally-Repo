@@ -1,0 +1,19 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+Client -> Server: loadGame()
+Server -> Repository: getList("templates")
+
+Repository -> Server: gameFiles
+Repository -> Server: Dialog: ChoiceDialog
+Server -> Client: show Dialog
+Server -> Client: user choice
+Server -> Client: result
+Server -> Repository: loadBoard(result)
+Repository -> Server: Board
+Server -> Repository: startLoadedGame(board)
+Server -> Client: Response
+
+@enduml

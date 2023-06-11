@@ -21,6 +21,7 @@ startLoadedGame() : void
 saveGame() : void
 stopGame() : void
 isGameSaved() : boolean
+setupBaseBoard() : Board
 exit() : void
 }
 
