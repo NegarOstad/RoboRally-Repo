@@ -36,8 +36,10 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
+import java.text.ParseException;
 import java.util.*;
 
 import static java.lang.Integer.parseInt;
@@ -147,10 +149,17 @@ public class AppController implements Observer {
 
     }
 
-    private void goToWaitingRoom(){
+    private void goToWaitingRoom() throws Exception {
         Dialog<Void> dialogUpdate = new Dialog<>();
         dialogUpdate.setTitle("You are in the waiting room.");
         dialogUpdate.setHeaderText("Click the 'Update' button to see if the required amount of players have joined.");
+
+        //show the count of player that are already joined
+        int numberOfPlayersJoined = repository.getPlayerCount();
+        Label playerCountLabel = new Label("Number of players joined:" + numberOfPlayersJoined);
+        VBox vBox = new VBox(playerCountLabel);
+        dialogUpdate.getDialogPane().setContent(vBox);
+
 
         // Create an 'Update' button
         ButtonType updateButton = new ButtonType("Update", ButtonType.OK.getButtonData());
