@@ -73,11 +73,9 @@ public class Repository {
                 newPlayer.setTokenCount(p.tokenCount);
                 newPlayer.setHeading(p.heading);
                 newPlayer.setCards(p.getCommandCards());
-                newPlayer.setLocal(p.isLocal);
                 board.getPlayers().add(newPlayer);
                 if(p.name.equals(template.currentTemplate.name))
                     board.setCurrentPlayer(newPlayer);
-
             }
             board.setPhase(template.phase);
             board.setStep(template.step);

@@ -258,18 +258,18 @@ public class AppController implements Observer {
         if (gameController == null) {
             gameFiles = repository.getList("templates");
             ChoiceDialog dialog = new ChoiceDialog(gameFiles[0], gameFiles);
-
+            System.out.println("choice dialog set");
             dialog.setTitle("Load Game");
             dialog.setHeaderText("Which game do you want to continue?");
             dialog.setContentText("Saved Games:");
             Optional<String> userChoice = dialog.showAndWait();
             String result = userChoice.orElse("");
+            Board board = null;
             if(!(result.isEmpty())){
                 System.out.println(userChoice);
                 System.out.println(result);
                 try {
-                    Board board = repository.loadGame(result);
-                    startGame(board, "load");
+                    board = repository.loadGame(result);
 
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -278,8 +278,34 @@ public class AppController implements Observer {
                 dialog.close();
             }
 
-
+            System.out.println("we made it after dialog.close");
+            if(board != null) {
+                int[] playerNums = makePlayerNumList(board.getPlayerCount());
+                dialog = new ChoiceDialog(playerNums[0], playerNums);
+                dialog.setTitle("Load Game");
+                dialog.setHeaderText("Which player do you want to be?");
+                dialog.setContentText("Available players:");
+                Optional<Integer> playerChoice = dialog.showAndWait();
+                int chosenPlayer = playerChoice.orElse(0);
+                setLocalPlayer(board, chosenPlayer - 1);
+                startGame(board, "load");
+            } else {
+                dialog.close();
+            }
         }
+    }
+
+    private int[] makePlayerNumList(int playerCount) {
+            int[] nums = new int[playerCount];
+        for (int i = 0; i < playerCount; i++) {
+            nums[i] = i+1;
+        }
+        return nums;
+    }
+
+
+    private void setLocalPlayer(Board board, int chosenPlayer) {
+            board.getPlayer(chosenPlayer).setLocal(true);
     }
 
 

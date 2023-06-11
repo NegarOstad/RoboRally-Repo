@@ -36,7 +36,4 @@ public class PlayerTemplate {
         this.registerIsEmpty = registerIsEmpty;
     }
 
-    public void setLocal(boolean local){
-        isLocal = local;
-    }
 }
