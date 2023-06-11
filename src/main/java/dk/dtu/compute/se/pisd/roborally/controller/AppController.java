@@ -167,6 +167,7 @@ public class AppController implements Observer {
         dialogUpdate.setResultConverter(dialogButton -> {
             if (dialogButton == updateButton) {
                 // Call your method here
+                dialogUpdate.close();
                 try {
                     updateGameState(chosenGame);
                 } catch (Exception e) {
