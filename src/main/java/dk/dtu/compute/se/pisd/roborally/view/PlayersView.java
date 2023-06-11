@@ -49,6 +49,9 @@ public class PlayersView extends TabPane implements ViewObserver {
             Player current = board.getPlayer(i);
             playerViews[i] = new PlayerView(gameController, current, current.isLocal());
             this.getTabs().add(playerViews[i]);
+            if(!current.isLocal()){
+                this.getTabs().get(i).setDisable(true);
+            }
         }
         board.attach(this);
         update(board);
