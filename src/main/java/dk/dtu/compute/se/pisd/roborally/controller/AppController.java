@@ -156,7 +156,7 @@ public class AppController implements Observer {
 
         //show the count of player that are already joined
         int numberOfPlayersJoined = repository.getPlayerCount(gameId);
-        Label playerCountLabel = new Label("Number of players joined:" + numberOfPlayersJoined);
+        Label playerCountLabel = new Label("Number of players joined: " + numberOfPlayersJoined);
         VBox vBox = new VBox(playerCountLabel);
         dialogUpdate.getDialogPane().setContent(vBox);
 
