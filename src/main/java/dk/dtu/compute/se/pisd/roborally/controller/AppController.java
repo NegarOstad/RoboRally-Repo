@@ -280,8 +280,8 @@ public class AppController implements Observer {
 
             System.out.println("we made it after dialog.close");
             if(board != null) {
-                int[] playerNums = makePlayerNumList(board.getPlayerCount());
-                dialog = new ChoiceDialog(playerNums[0], playerNums);
+                List<Integer> playerNums = makePlayerNumList(board.getPlayerCount());
+                dialog = new ChoiceDialog(playerNums.get(0), playerNums);
                 dialog.setTitle("Load Game");
                 dialog.setHeaderText("Which player do you want to be?");
                 dialog.setContentText("Available players:");
@@ -295,11 +295,11 @@ public class AppController implements Observer {
         }
     }
 
-    private int[] makePlayerNumList(int playerCount) {
-            int[] nums = new int[playerCount];
-        for (int i = 0; i < playerCount; i++) {
-            nums[i] = i+1;
-        }
+    private List<Integer> makePlayerNumList(int playerCount) {
+            List<Integer> nums = new ArrayList<>();
+            for (int i = 0; i < playerCount; i++) {
+                nums.add(i+1);
+            }
         return nums;
     }
 
