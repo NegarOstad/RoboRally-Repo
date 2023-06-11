@@ -13,8 +13,9 @@ public class HTTPClient {
 
     HttpClient httpClient;
 
-    private final String URL = "http://localhost:8080/";
+   private final String URL = "http://localhost:8080/";
     //private final String URL = "http://10.209.204.5:8080/";
+   //private final String URL = "http://192.168.1.58:8080/";
 
     // Private constructor to prevent instantiation from outside the class
     private HTTPClient() {
@@ -48,7 +49,7 @@ public class HTTPClient {
         HttpRequest httpRequestBoard = HttpRequest.newBuilder().GET().uri(URI.create(URL+path)).build();
         httpClient.sendAsync(httpRequestBoard, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
         HttpResponse<String> response = httpClient.send(httpRequestBoard, HttpResponse.BodyHandlers.ofString());
-        System.out.println("LoadBoard response: " + response.body());
+        System.out.println("Server response: " + response.body());
         return response;
 
 

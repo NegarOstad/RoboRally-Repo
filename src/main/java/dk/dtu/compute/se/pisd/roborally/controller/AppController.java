@@ -134,6 +134,7 @@ public class AppController implements Observer {
                 String[] joinInfo = repository.joinGameWithID(userChoiceInt).split(",");
                 gameId = parseInt(chosenGame);
                 playerNum = parseInt(joinInfo[0]);
+                System.out.println("Join info [1] player count before parse: " + joinInfo[1]);
                 playerCount =  parseInt(joinInfo[1]);
                 System.out.println("Gameid: " + gameId + ", Player num: " + playerNum + ", PlayerCount : " + playerCount);
                 goToWaitingRoom();
@@ -141,7 +142,6 @@ public class AppController implements Observer {
             else {
                 dialog.close();
             }
-
 
         }
 
