@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
@@ -40,6 +41,8 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private Menu controlMenu;
 
+    private Menu update;
+
     private MenuItem saveGame;
 
     private MenuItem newGame;
@@ -52,11 +55,29 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem exitApp;
 
+    private Menu updateMenu;
+
+    private MenuItem updateButton;
+
+
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
 
         controlMenu = new Menu("File");
         this.getMenus().add(controlMenu);
+
+        updateMenu = new Menu("Update");
+        this.getMenus().add(updateMenu);
+
+        updateButton = new MenuItem("Update");
+        updateMenu.getItems().add(updateButton);
+        updateMenu.setOnAction( e -> {
+            try {
+                this.appController.newGame();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         newGame = new MenuItem("New Game");
         newGame.setOnAction( e -> {
