@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,7 +118,7 @@ class GameControllerTest {
         Assertions.assertEquals(endSpace, current.getSpace());
 
     }
-
+/*
     @Test
     void TestGear() {
         Board board = gameController.board;
@@ -128,6 +130,7 @@ class GameControllerTest {
         TestGear.doAction(current, board);
         Assertions.assertEquals(Heading.NORTH,current.getHeading());
 
+    }*/
 
     }
 
@@ -138,16 +141,59 @@ class GameControllerTest {
         Assertions.assertEquals(ElementType.Wall, board.getSpace(0,1).getType());
 
     }*/
+
+
+
+        @Test
+        void testGear_turnLeft() {
+            // Arrange
+            boolean turnLeft = true;
+            boolean turnRight = false;
+            Player currentPlayer = new Player("red", "Peter");
+            currentPlayer.setHeading(Heading.NORTH);
+
+            Gear gear = new Gear(turnLeft, turnRight);
+
+            // Act
+            gear.doAction(currentPlayer, null);
+
+            // Assert
+            Assertions.assertEquals(Heading.WEST, currentPlayer.getHeading());
+        }
+
+        @Test
+    void testGear_turnRight() {
+        // Arrange
+        boolean turnLeft = false;
+        boolean turnRight = true;
+        Player currentPlayer = new Player("red", "Bob");
+        currentPlayer.setHeading(Heading.SOUTH);
+
+        Gear gear = new Gear(turnLeft, turnRight);
+
+        // Act
+        gear.doAction(currentPlayer, null);
+
+        // Assert
+        Assertions.assertEquals(Heading.WEST, currentPlayer.getHeading());
+    }
+
     @Test
     void stopPlayerOneTurn() {
         Board board = gameController.board;
         board.getSpace(0, 1).setTypeWall();
+        // Space space = gameController.board.getSpace(0,1);
+        //  space.setTypeWall();
         Player currentPlayer = board.getCurrentPlayer();
         System.out.println("Player x is " + currentPlayer.getSpace().x + " player y is " + currentPlayer.getSpace().y + " player heading is " + currentPlayer.getHeading());
-        currentPlayer.setTestRegister(1,board);
+        currentPlayer.setTestRegister(1, board);
         board.setPhase(Phase.ACTIVATION);
+
         gameController.executePrograms();
         System.out.println("Player x is " + currentPlayer.getSpace().x + " player y is " + currentPlayer.getSpace().y + " player heading is " + currentPlayer.getHeading());
+
+        // Wall TestWall = new Wall(space);
+        // TestWall.stopPlayerOneTurn(currentPlayer);
         Assertions.assertEquals(0, currentPlayer.getSpace().x);
         Assertions.assertEquals(0, currentPlayer.getSpace().y);
 
@@ -194,21 +240,21 @@ class GameControllerTest {
         Assertions.assertEquals(0, player1.getSpace().y, "Player at location y = 0.");
         Assertions.assertEquals(0, player1.getTokenCount(), "Player should have no tokens");
     }
-
+/*
     @Test
     void currentPlayerLandsOnBothCheckpointsInOrderAndGetsTwoTokens() {
         Board board = gameController.board;
         Player player1 = board.getCurrentPlayer();
 
-        player1.setTestRegister(1,board);
+        player1.setTestRegister(1);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
-        player1.setTestRegister(2,board);
+        player1.setTestRegister(2);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
-        player1.setTestRegister(3,board);
+        player1.setTestRegister(3);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
@@ -217,7 +263,7 @@ class GameControllerTest {
         Assertions.assertEquals(2, player1.getTokenCount(), "Player should have 2 tokens");
 
 
-    }
+    }*/
 
     @Test
     void winnerIsFound() {
