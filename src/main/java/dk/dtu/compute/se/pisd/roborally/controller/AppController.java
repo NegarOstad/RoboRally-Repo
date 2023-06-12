@@ -169,6 +169,8 @@ public class AppController implements Observer {
                 //dialog.close();
                 try {
                     updateGameState();
+                    goToWaitingRoom();
+                    dialog.close();
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -189,7 +191,7 @@ public class AppController implements Observer {
         } else {
             //show the count of player that are already joined
             numberOfPlayersJoined = repository.getPlayerCount(gameId);
-            goToWaitingRoom();
+
         }
 
     }
