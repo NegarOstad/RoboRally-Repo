@@ -196,6 +196,7 @@ public class AppController implements Observer {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
             Board board = repository.getBoard(String.valueOf(gameId), "boardOptions");
+            board.setGameId(gameId);
             setUpPlayers(playerCount, board);
             startGame(board, "new");
             return true;
