@@ -158,32 +158,33 @@ public class AppController implements Observer {
         dialog.setTitle("You are in the waiting room!");
         dialog.setHeaderText("Click the 'Update' button to check if the required amount of players have joined.");
         Label playerCountLabel = new Label("Number of players joined: " + numberOfPlayersJoined);
-        VBox vBox = new VBox(playerCountLabel);
+        Button updateButton = new Button("Update");
+        VBox vBox = new VBox(playerCountLabel, updateButton);
         dialog.getDialogPane().setContent(vBox);
 
-        // Create an 'Update' button
-        ButtonType updateButton = new ButtonType("Update", ButtonType.OK.getButtonData());
-        dialog.getDialogPane().getButtonTypes().add(updateButton);
 
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == updateButton) {
+        // Create an 'Update' button
+
+       // dialog.getDialogPane().getButtonTypes().add(updateButton);
+
+        updateButton.setOnAction(event -> { //receive an event
+
                 // Call your method here
                 //dialog.close();
                 try {
                     if(!updateGameState()){
-                        dialog.close();
-                        goToWaitingRoom();
+                        playerCountLabel.setText("Number of players joined: " + numberOfPlayersJoined);
                     } else {
+                        System.out.println("reached here");
                         dialog.close();
                     }
-
 
 
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-            }
-            return null;
+
+
         });
 
         dialog.showAndWait();
@@ -201,7 +202,6 @@ public class AppController implements Observer {
             //show the count of player that are already joined
             numberOfPlayersJoined = repository.getPlayerCount(gameId);
             return false;
-
         }
 
     }
