@@ -55,7 +55,7 @@ public class AppController implements Observer {
     final private List<Integer> PLAYER_NUMBER_OPTIONS = Arrays.asList(2, 3, 4, 5, 6);
     final private List<String> PLAYER_COLORS = Arrays.asList("red", "green", "blue", "orange", "grey", "magenta");
     final private List<Integer> BOARD_NUMBER = Arrays.asList(1,2);
-    final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "N0");
+    final private List<String> COUNTINUE_OR_NOT = Arrays.asList("Yes" , "No");
     private String[] gameFiles;
     private String gameName ;
     private int gameId;
