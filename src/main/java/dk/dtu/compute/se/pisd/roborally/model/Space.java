@@ -95,8 +95,8 @@ public class Space extends Subject {
         return heading;
     }
 
-    public Heading setHeading(Heading heading) {
-        return heading;
+    public void setHeading(Heading heading) {
+         this.heading = heading;
     }
 
     public void setTypeGear(Heading heading){

@@ -12,7 +12,7 @@ public class BoardTemplate extends Subject {
     public int height;
 
 
-    public SpaceTemplate[][] spaceTemplates;
+    public SpaceTemplate[][]  spaceTemplates;
     //public CommandFieldTemplate commandTemplate;
 
     public List<PlayerTemplate> playerTemplates = new ArrayList<>();

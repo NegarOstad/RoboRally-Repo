@@ -122,6 +122,7 @@ public class  Board extends Subject {
                 case ConveyorBelt:
                     ConveyorBelt conveyorBelt = (ConveyorBelt)spaceTemplate.sa;
                     space.setTypeConveyor(conveyorBelt.endX, conveyorBelt.endY);
+                    System.out.println(spaceTemplate.heading);
                     space.setHeading(spaceTemplate.heading);
                     break;
 
