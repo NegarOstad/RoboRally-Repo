@@ -20,6 +20,7 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
+import dk.dtu.compute.se.pisd.roborally.fileaccess.api.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
@@ -34,10 +35,11 @@ import java.util.List;
  */
 public class GameController {
 
+
+    Repository api = Repository.getInstance();
      final public Board board;
     int x = 0;
     int y = 0;
-
     int counter = 0;
 
     List<Player> priorityList;
@@ -144,12 +146,17 @@ public class GameController {
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
+
     }
 
     // XXX: V2
     private void continuePrograms() {
         do {
             executeNextStep();
+            String name = board.getGameId().toString();
+            System.out.println("Name when saving" + name);
+            api.saveBoard(board, String.valueOf(board.getGameId()));
+
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
