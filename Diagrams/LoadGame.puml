@@ -4,16 +4,11 @@
 autonumber
 
 Client -> Server: loadGame()
-Server -> Repository: getList("templates")
-
-Repository -> Server: gameFiles
-Repository -> Server: Dialog: ChoiceDialog
-Server -> Client: show Dialog
-Server -> Client: user choice
-Server -> Client: result
-Server -> Repository: loadBoard(result)
-Repository -> Server: Board
-Server -> Repository: startLoadedGame(board)
-Server -> Client: Response
+Client -> Server : get a list of saved games
+Server --> Client: send the list
+Client -> Server: Choose a board/game from the list
+Client -> Server: send the result
+Server --> Client: send json string of board
+Client --> Client: Start the game
 
 @enduml
