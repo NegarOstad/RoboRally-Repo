@@ -109,10 +109,12 @@ public class Space extends Subject {
         spaceAction = new Gear(heading);
     }*/
 
+
     public void setTypeGear(boolean turnLeft, boolean turnRight) {
         type = ElementType.Gear;
         spaceAction = new Gear(turnLeft, turnRight);
     }
+
 
 
     public SpaceAction setTypePriorityAntenna(){

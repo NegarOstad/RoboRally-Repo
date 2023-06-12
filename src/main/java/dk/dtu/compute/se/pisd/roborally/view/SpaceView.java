@@ -96,7 +96,12 @@ public class SpaceView extends StackPane implements ViewObserver {
             } else if (space.getType() == ElementType.Checkpoint) {
                 addImage(fullPath + "checkpoint.png",0, 0, 0);
             } else if (space.getType() == ElementType.Gear) {
-                addImage(fullPath + "gear.png",0,0,0);
+                Gear gear = (Gear) space.getBoardElement();
+                if (gear.isTurnLeft()) {
+                    addImage(fullPath + "gear_LEFT.png", 0, 0, 0);
+                } else if (gear.isTurnRight()) {
+                    addImage(fullPath + "gear_RIGHT.png", 0, 0, 0);
+                }
             } else if (space.getType() == ElementType.Wall) {
                 addImage(fullPath + "wall.png",0,0,0);
             } else if (space.getType() == ElementType.PriorityAntenna) {
