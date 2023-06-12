@@ -124,26 +124,31 @@ public class AppController implements Observer {
     public void joinGame() throws Exception {
 
         if (gameController == null) {
-            List<String> availableGames = List.of(repository.availableGamesList());
-            ChoiceDialog dialog = createChoiceDialog(availableGames.get(0), availableGames,
-                                                     "Join Game", "Which of the following games do you wish to join?",
-                                                        "Available games:");
-
-            Optional<String> userChoice = dialog.showAndWait();
-            String chosenGameId = userChoice.orElse("");
+           String chosenGameId = getUserChoiceJoinGame();
 
             System.out.println("Chosen game is: " + chosenGameId);
             if (!(chosenGameId.isEmpty())){
                 int userChoiceInt = parseInt(chosenGameId);
                 setJoinInfo(chosenGameId, repository.joinGameWithID(userChoiceInt).split(","));
                 goToWaitingRoom();
-            }
-            else {
-                dialog.close();
+
             }
 
         }
 
+    }
+
+    private String getUserChoiceJoinGame() throws Exception {
+        List<String> availableGames = List.of(repository.availableGamesList());
+        ChoiceDialog dialog = createChoiceDialog(availableGames.get(0), availableGames,
+                "Join Game", "Which of the following games do you wish to join?",
+                "Available games:");
+
+        Optional<String> userChoice = dialog.showAndWait();
+        if(userChoice.isEmpty()){
+            dialog.close();
+        }
+        return userChoice.orElse("");
     }
 
     private void setJoinInfo(String chosenGameId, String[] joinInfo) throws Exception {
@@ -154,27 +159,22 @@ public class AppController implements Observer {
     }
 
     private void goToWaitingRoom() throws Exception {
-
+        //CREATE DIALOG WINDOW FOR WAITING ROOM
         Dialog<Void> dialog = new Dialog<>();
-
         dialog.setTitle("You are in the waiting room!");
         dialog.setHeaderText("Click the 'Update' button to check if the required amount of players have joined.");
         Label playerCountLabel = new Label("Number of players joined: " + numberOfPlayersJoined);
+
+        //CREATE UPDATE BUTTON
         Button updateButton = new Button("Update");
         VBox vBox = new VBox(playerCountLabel, updateButton);
         dialog.getDialogPane().setContent(vBox);
 
+        //MAKE UPDATE BUTTON CHECK IF GAME IS STILL WAITING FOR PLAYERS OR IF READY CLOSE DIALOG
+        updateButton.setOnAction(event -> {
 
-        // Create an 'Update' button
-
-       // dialog.getDialogPane().getButtonTypes().add(updateButton);
-
-        updateButton.setOnAction(event -> { //receive an event
-
-                // Call your method here
-                //dialog.close();
                 try {
-                    if(!updatePlayersAmount()){
+                    if(waitingForPlayers()){
                         playerCountLabel.setText("Number of players joined: " + numberOfPlayersJoined);
                     } else {
                         System.out.println("reached here");
@@ -194,18 +194,18 @@ public class AppController implements Observer {
 
     }
 
-    private boolean updatePlayersAmount() throws Exception {
+    private boolean waitingForPlayers() throws Exception {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
             Board board = repository.getBoard(String.valueOf(gameId), "boardOptions");
             board.setGameId(gameId);
             setUpPlayers(playerCount, board);
             startGame(board, "new");
-            return true;
+            return false;
         } else {
             //show the count of player that are already joined
             numberOfPlayersJoined = repository.getPlayerCount(gameId);
-            return false;
+            return true;
         }
 
     }
