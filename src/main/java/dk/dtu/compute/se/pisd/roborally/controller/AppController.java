@@ -72,6 +72,7 @@ public class AppController implements Observer {
 
     int playerNum;
 
+    int numberOfPlayersJoined;
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
@@ -95,6 +96,7 @@ public class AppController implements Observer {
             if(!(num.isEmpty())){
                 gameId = repository.newGameId(playerCount, boardNum);
                 playerNum = 1;
+                numberOfPlayersJoined = 1;
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setContentText("Your game ID is: " + gameId);
                 alert.showAndWait();
@@ -149,12 +151,10 @@ public class AppController implements Observer {
     }
 
     private void goToWaitingRoom() throws Exception {
+
         Dialog<Void> dialog = new Dialog<>();
         dialog.setTitle("You are in the waiting room!");
         dialog.setHeaderText("Click the 'Update' button to check if the required amount of players have joined.");
-
-        //show the count of player that are already joined
-        int numberOfPlayersJoined = repository.getPlayerCount(gameId);
         Label playerCountLabel = new Label("Number of players joined: " + numberOfPlayersJoined);
         VBox vBox = new VBox(playerCountLabel);
         dialog.getDialogPane().setContent(vBox);
@@ -166,7 +166,7 @@ public class AppController implements Observer {
         dialog.setResultConverter(dialogButton -> {
             if (dialogButton == updateButton) {
                 // Call your method here
-                dialog.close();
+                //dialog.close();
                 try {
                     updateGameState();
                 } catch (Exception e) {
@@ -187,6 +187,8 @@ public class AppController implements Observer {
             setUpPlayers(playerCount, board);
             startGame(board, "new");
         } else {
+            //show the count of player that are already joined
+            numberOfPlayersJoined = repository.getPlayerCount(gameId);
             goToWaitingRoom();
         }
 
