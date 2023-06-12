@@ -1,24 +1,3 @@
-/*
- *  This file is part of the initial project provided for the
- *  course "Project in Software Development (02362)" held at
- *  DTU Compute at the Technical University of Denmark.
- *
- *  Copyright (C) 2019, 2020: Ekkart Kindler, ekki@dtu.dk
- *
- *  This software is free software; you can redistribute it and/or modify
- *  it under the terms of the GNU General Public License as published by
- *  the Free Software Foundation; version 2 of the License.
- *
- *  This project is distributed in the hope that it will be useful,
- *  but WITHOUT ANY WARRANTY; without even the implied warranty of
- *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- *  GNU General Public License for more details.
- *
- *  You should have received a copy of the GNU General Public License
- *  along with this project; if not, write to the Free Software
- *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- *
- */
 package dk.dtu.compute.se.pisd.roborally.fileaccess;
 
 import com.google.gson.*;
@@ -34,7 +13,7 @@ import java.lang.reflect.Type;
  * the class hierarchy resp. to the static type, which is dynamically sub-typed
  * in the structure. Note that this solution does not work if instances of
  * E itself need to be serialized (typically E would be abstract).
- * 
+ *
  * @author Menelaos Perdikeas, https://github.com/mperdikeas
  * @author Ekkart Kindler, ekki@dtu.dk
  *
@@ -47,13 +26,13 @@ public class Adapter<E> implements JsonSerializer<E>, JsonDeserializer<E>{
 
     @Override
     public JsonElement serialize(E src, Type typeOfSrc,
-            JsonSerializationContext context) {
+                                 JsonSerializationContext context) {
 
         JsonObject retValue = new JsonObject();
         String className = src.getClass().getName();
         retValue.addProperty(CLASSNAME, className);
         System.out.println(className);
-        JsonElement elem = context.serialize(src); 
+        JsonElement elem = context.serialize(src);
         retValue.add(INSTANCE, elem);
         System.out.println(elem);
         return retValue;
@@ -61,7 +40,7 @@ public class Adapter<E> implements JsonSerializer<E>, JsonDeserializer<E>{
 
     @Override
     public E deserialize(JsonElement json, Type typeOfT,
-            JsonDeserializationContext context) throws JsonParseException  {
+                         JsonDeserializationContext context) throws JsonParseException  {
         JsonObject jsonObject = json.getAsJsonObject();
         JsonPrimitive prim = (JsonPrimitive) jsonObject.get(CLASSNAME);
         String className = prim.getAsString();

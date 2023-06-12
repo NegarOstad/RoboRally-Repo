@@ -66,42 +66,43 @@ public class Space extends Subject {
 
         }
 
-        public void fillConveyorBelt(int endX, int endY, int x, int y , Board board, Heading heading){
-            type = ElementType.ConveyorBelt;
-            spaceAction = new ConveyorBelt(endX, endY);
+    public void fillConveyorBelt(int endX, int endY, int x, int y , Board board, Heading heading){
+        type = ElementType.ConveyorBelt;
+        spaceAction = new ConveyorBelt(endX, endY);
 
-            if (x == endX) {
-                if (endY == y) {
-                    this.heading = heading;
-                    return;
-                }
-                if(y < endY){
-                    y++;
-                    this.heading = Heading.SOUTH;
-                    board.getSpace(x, y).fillConveyorBelt(endX,  endY, x, y, board, this.heading);
-                } else {
-                    y--;
-                    this.heading = Heading.NORTH;
-                    board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y, board, this.heading);
-                }
-            } else if (x > endX) {
-                x--;
-                this.heading = Heading.WEST;
-                board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board, this.heading);
-            } else {
-                x++;
-                this.heading = Heading.EAST;
-                board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board, this.heading);
+        if (x == endX) {
+            if (endY == y) {
+                this.heading = heading;
+                return;
             }
-
+            if(y < endY){
+                y++;
+                this.heading = Heading.SOUTH;
+                board.getSpace(x, y).fillConveyorBelt(endX,  endY, x, y, board, this.heading);
+            } else {
+                y--;
+                this.heading = Heading.NORTH;
+                board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y, board, this.heading);
+            }
+        } else if (x > endX) {
+            x--;
+            this.heading = Heading.WEST;
+            board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board, this.heading);
+        } else {
+            x++;
+            this.heading = Heading.EAST;
+            board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board, this.heading);
         }
+
+    }
 
     public Heading getHeading() {
         return heading;
     }
 
     public void setHeading(Heading heading) {
-         this.heading = heading;
+
+        this.heading = heading;
     }
 
     public void setTypeGear(Heading heading){
