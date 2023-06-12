@@ -172,7 +172,7 @@ public class AppController implements Observer {
                 // Call your method here
                 //dialog.close();
                 try {
-                    if(!updateGameState()){
+                    if(!updatePlayersAmount()){
                         playerCountLabel.setText("Number of players joined: " + numberOfPlayersJoined);
                     } else {
                         System.out.println("reached here");
@@ -192,7 +192,7 @@ public class AppController implements Observer {
 
     }
 
-    private boolean updateGameState() throws Exception {
+    private boolean updatePlayersAmount() throws Exception {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
             Board board = repository.getBoard(String.valueOf(gameId), "boardOptions");
@@ -274,6 +274,20 @@ public class AppController implements Observer {
         if(result == null ){
             textInputDialog.close();
         }
+    }
+
+    public void updateGameState() throws Exception {
+            Board board;
+        try {
+            board = repository.loadGame(String.valueOf(gameId));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+            gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
+            setLocalPlayer(board, playerNum);
+
     }
 
     public void loadGame() throws Exception {
