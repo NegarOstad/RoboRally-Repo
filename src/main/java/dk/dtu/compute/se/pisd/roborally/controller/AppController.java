@@ -28,7 +28,6 @@ import dk.dtu.compute.se.pisd.roborally.RoboRally;
 
 import dk.dtu.compute.se.pisd.roborally.fileaccess.api.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 
 import javafx.application.Platform;
@@ -42,7 +41,6 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -74,8 +72,7 @@ public class AppController implements Observer {
     private GameController gameController;
 
     int playerCount;
-
-    int playerNum;
+    int localPlayerNum;
 
     int numberOfPlayersJoined;
     public AppController(@NotNull RoboRally roboRally) {
@@ -84,68 +81,63 @@ public class AppController implements Observer {
 
 
     public void newGame() throws Exception {
-        //// Ask to choose how many players can play in this game
-        ChoiceDialog<Integer> dialog = createChoiceDialog(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS,
-                                                            "Player number", "Select number of players", " ");
-        Optional<Integer> count = dialog.showAndWait();
-        playerCount = count.orElse(0);
+        setPlayerCountFromChoice();
+        System.out.println("playerNum: " + localPlayerNum);
+        // GET BOARD CHOICE FROM USER
+        if (playerCount != 0) {
+            String boardName = getBoardChoiceFromUser();
 
-        if (!(count.isEmpty())){
-            //// Add new Board ask to choose board
-            List<String> boardOptions = List.of(repository.getList("boardOptions"));
-            ChoiceDialog<String> boardDialog = new ChoiceDialog<>(boardOptions.get(0) ,boardOptions);
-            boardDialog.setTitle("Boards");
-            boardDialog.setHeaderText("Choose one board");
-            Optional<String> num = boardDialog.showAndWait();
-            String boardNum = num.orElse("");
-            if(!(num.isEmpty())){
-                gameId = repository.newGameId(playerCount, boardNum);
-                playerNum = 1;
+            // SET UP GAME AND FIRST PLAYER NUMBER
+            if (!(boardName.isEmpty())) {
+                gameId = repository.newGameId(playerCount, boardName);
+                localPlayerNum = 1;
                 numberOfPlayersJoined = 1;
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setContentText("Your game ID is: " + gameId);
                 alert.showAndWait();
-                //// Here should implements after press ok
                 System.out.println("GameID: " + gameId);
-
                 goToWaitingRoom();
-
             }
-           else {
-               boardDialog.close();
+        }
+    }
+
+        private void setPlayerCountFromChoice(){
+            ChoiceDialog<Integer> dialog = createChoiceDialog(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS,
+                    "Player number", "Select number of players", " ");
+            Optional<Integer> count = dialog.showAndWait();
+            if(count.isEmpty()){
+                dialog.close();
+            } else {
+                    playerCount = count.orElse(0);
+                }
+        }
+
+        private String getBoardChoiceFromUser() throws Exception {
+            List<String> boardOptions = List.of(repository.getList("boardOptions"));
+            ChoiceDialog<String> boardDialog = createChoiceDialog(boardOptions.get(0), boardOptions,
+                    "Boards", "Choose one board", " ");
+            Optional<String> num = boardDialog.showAndWait();
+            if(num.isEmpty()){
+                boardDialog.close();
             }
-
+            return num.orElse("");
         }
-        else {
-            dialog.close();
-        }
-
-
-        }
-
 
     public void joinGame() throws Exception {
 
         if (gameController == null) {
             List<String> availableGames = List.of(repository.availableGamesList());
-            ChoiceDialog dialog = new ChoiceDialog(availableGames.get(0), availableGames);
+            ChoiceDialog dialog = createChoiceDialog(availableGames.get(0), availableGames,
+                                                     "Join Game", "Which of the following games do you wish to join?",
+                                                        "Available games:");
 
-            dialog.setTitle("Join Game");
-            dialog.setHeaderText("Which of the following games do you wish to join?");
-            dialog.setContentText("Available Games:");
             Optional<String> userChoice = dialog.showAndWait();
             String chosenGameId = userChoice.orElse("");
 
             System.out.println("Chosen game is: " + chosenGameId);
             if (!(chosenGameId.isEmpty())){
                 int userChoiceInt = parseInt(chosenGameId);
-                String[] joinInfo = repository.joinGameWithID(userChoiceInt).split(",");
-                gameId = parseInt(chosenGameId);
-                playerNum = parseInt(joinInfo[0]);
-                //System.out.println("Join info [1] player count before parse: " + joinInfo[1]);
-                playerCount =  parseInt(joinInfo[1]);
-                numberOfPlayersJoined  = repository.getPlayerCount(gameId);
-                //System.out.println("Gameid: " + gameId + ", Player num: " + playerNum + ", PlayerCount : " + playerCount);
+                setJoinInfo(chosenGameId, repository.joinGameWithID(userChoiceInt).split(","));
                 goToWaitingRoom();
             }
             else {
@@ -154,6 +146,13 @@ public class AppController implements Observer {
 
         }
 
+    }
+
+    private void setJoinInfo(String chosenGameId, String[] joinInfo) throws Exception {
+        gameId = parseInt(chosenGameId);
+        localPlayerNum = parseInt(joinInfo[0]);
+        playerCount =  parseInt(joinInfo[1]);
+        numberOfPlayersJoined  = repository.getPlayerCount(gameId);
     }
 
     private void goToWaitingRoom() throws Exception {
@@ -218,7 +217,7 @@ public class AppController implements Observer {
 
         for (int i = 0; i < noPlayers; i++) {
             Player player = new Player(PLAYER_COLORS.get(i), "Player " + (i + 1));
-            if(playerNum == i+1)
+            if(localPlayerNum == i+1)
                 player.setLocal(true);
             board.addPlayer(player);
             player.setSpace(board.getSpace(i % board.width, i), board);
@@ -258,7 +257,7 @@ public class AppController implements Observer {
         }
 
             gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
-            setLocalPlayer(board, playerNum);
+            setLocalPlayer(board, localPlayerNum);
 
     }
 
