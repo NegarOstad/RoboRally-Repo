@@ -105,9 +105,14 @@ public class Space extends Subject {
         this.heading = heading;
     }
 
-    public void setTypeGear(Heading heading){
+    /*public void setTypeGear(Heading heading){
         type = ElementType.Gear;
         spaceAction = new Gear(heading);
+    }*/
+
+    public void setTypeGear(boolean turnLeft, boolean turnRight) {
+        type = ElementType.Gear;
+        spaceAction = new Gear(turnLeft, turnRight);
     }
 
 
