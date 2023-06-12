@@ -35,7 +35,7 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class Board extends Subject {
+public class  Board extends Subject {
 
     public final int width;
 
@@ -122,6 +122,8 @@ public class Board extends Subject {
                 case ConveyorBelt:
                     ConveyorBelt conveyorBelt = (ConveyorBelt)spaceTemplate.sa;
                     space.setTypeConveyor(conveyorBelt.endX, conveyorBelt.endY);
+                    System.out.println(spaceTemplate.heading);
+                    space.setHeading(spaceTemplate.heading);
                     break;
 
             case PriorityAntenna:

@@ -33,6 +33,7 @@ public class Space extends Subject {
 
     //public final Board board;
     ElementType type;
+    Heading heading = null;
     public final int x;
     public final int y;
     private Player player;
@@ -65,28 +66,43 @@ public class Space extends Subject {
 
         }
 
-        public void fillConveyorBelt(int endX, int endY, int x, int y , Board board){
+        public void fillConveyorBelt(int endX, int endY, int x, int y , Board board, Heading heading){
             type = ElementType.ConveyorBelt;
             spaceAction = new ConveyorBelt(endX, endY);
+
             if (x == endX) {
-                if(y > endY){
-                    y--;
-                    board.getSpace(x, y).fillConveyorBelt(endX,  endY, x, y, board);
-                } else if(y < endY){
+                if (endY == y) {
+                    this.heading = heading;
+                    return;
+                }
+                if(y < endY){
                     y++;
-                    board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y, board);
+                    this.heading = Heading.SOUTH;
+                    board.getSpace(x, y).fillConveyorBelt(endX,  endY, x, y, board, this.heading);
+                } else {
+                    y--;
+                    this.heading = Heading.NORTH;
+                    board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y, board, this.heading);
                 }
             } else if (x > endX) {
                 x--;
-                board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board);
+                this.heading = Heading.WEST;
+                board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board, this.heading);
             } else {
                 x++;
-                board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board);
+                this.heading = Heading.EAST;
+                board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board, this.heading);
             }
 
         }
 
+    public Heading getHeading() {
+        return heading;
+    }
 
+    public void setHeading(Heading heading) {
+         this.heading = heading;
+    }
 
     public void setTypeGear(Heading heading){
         type = ElementType.Gear;

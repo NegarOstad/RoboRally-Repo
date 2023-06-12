@@ -14,5 +14,13 @@ package dk.dtu.compute.se.pisd.roborally.model;
         public void doAction(Player currentPlayer, Board board) {
             currentPlayer.setSpace(board.getSpace(endX, endY), board);
         }
+
+        public int getEndX() {
+            return endX;
+        }
+
+        public int getEndY() {
+            return endY;
+        }
     }
 
