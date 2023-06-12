@@ -153,6 +153,7 @@ public class AppController implements Observer {
     private void goToWaitingRoom() throws Exception {
 
         Dialog<Void> dialog = new Dialog<>();
+
         dialog.setTitle("You are in the waiting room!");
         dialog.setHeaderText("Click the 'Update' button to check if the required amount of players have joined.");
         Label playerCountLabel = new Label("Number of players joined: " + numberOfPlayersJoined);
@@ -168,9 +169,15 @@ public class AppController implements Observer {
                 // Call your method here
                 //dialog.close();
                 try {
-                    updateGameState();
-                    goToWaitingRoom();
-                    dialog.close();
+                    if(!updateGameState()){
+                        dialog.close();
+                        goToWaitingRoom();
+                    } else {
+                        dialog.close();
+                    }
+
+
+
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
@@ -182,15 +189,17 @@ public class AppController implements Observer {
 
     }
 
-    private void updateGameState() throws Exception {
+    private boolean updateGameState() throws Exception {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
             Board board = repository.getBoard(String.valueOf(gameId), "boardOptions");
             setUpPlayers(playerCount, board);
             startGame(board, "new");
+            return true;
         } else {
             //show the count of player that are already joined
             numberOfPlayersJoined = repository.getPlayerCount(gameId);
+            return false;
 
         }
 
