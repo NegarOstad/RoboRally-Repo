@@ -191,9 +191,9 @@ public class AppController implements Observer {
 
     private Board setupBaseBoard(){
         Board board = new Board(8,8);
-        board.getSpace(1,3).setTypeGear(Heading.NORTH);
-        board.getSpace(4,4).setTypeGear(Heading.EAST);
-        board.getSpace(1,3).setTypeGear(Heading.SOUTH);
+        board.getSpace(1, 3).setTypeGear(false); // Turn right
+        board.getSpace(4, 4).setTypeGear(true); // Turn left
+        board.getSpace(1, 3).setTypeGear(false); // Turn right
         board.getSpace(4,0).setTypeCheckpoint(0, false);
         board.getSpace(5,0).setTypeCheckpoint(1,true);
         board.getSpace(2,1).fillConveyorBelt(6, 1, 2, 1 , board, null);
