@@ -139,6 +139,7 @@ public class AppController implements Observer {
                 playerNum = parseInt(joinInfo[0]);
                 //System.out.println("Join info [1] player count before parse: " + joinInfo[1]);
                 playerCount =  parseInt(joinInfo[1]);
+                numberOfPlayersJoined  = repository.getPlayerCount(gameId);
                 //System.out.println("Gameid: " + gameId + ", Player num: " + playerNum + ", PlayerCount : " + playerCount);
                 goToWaitingRoom();
             }
