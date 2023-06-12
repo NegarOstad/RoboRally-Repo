@@ -176,6 +176,7 @@ public class AppController implements Observer {
                         playerCountLabel.setText("Number of players joined: " + numberOfPlayersJoined);
                     } else {
                         System.out.println("reached here");
+                        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
                         dialog.close();
                     }
 
@@ -187,7 +188,7 @@ public class AppController implements Observer {
 
         });
 
-        dialog.showAndWait();
+        dialog.show();
 
     }
 
