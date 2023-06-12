@@ -36,6 +36,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ChoiceDialog;
+import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
@@ -66,7 +67,6 @@ public class AppController implements Observer {
     final private RoboRally roboRally;
 
     private GameController gameController;
-    String chosenGame;
 
     int playerCount;
 
@@ -127,16 +127,17 @@ public class AppController implements Observer {
             dialog.setHeaderText("Which of the following games do you wish to join?");
             dialog.setContentText("Available Games:");
             Optional<String> userChoice = dialog.showAndWait();
-            chosenGame = userChoice.orElse("");
+            String chosenGameId = userChoice.orElse("");
 
-            if (!(chosenGame.isEmpty())){
-                int userChoiceInt = parseInt(chosenGame);
+            System.out.println("Chosen game is: " + chosenGameId);
+            if (!(chosenGameId.isEmpty())){
+                int userChoiceInt = parseInt(chosenGameId);
                 String[] joinInfo = repository.joinGameWithID(userChoiceInt).split(",");
-                gameId = parseInt(chosenGame);
+                gameId = parseInt(chosenGameId);
                 playerNum = parseInt(joinInfo[0]);
-                System.out.println("Join info [1] player count before parse: " + joinInfo[1]);
+                //System.out.println("Join info [1] player count before parse: " + joinInfo[1]);
                 playerCount =  parseInt(joinInfo[1]);
-                System.out.println("Gameid: " + gameId + ", Player num: " + playerNum + ", PlayerCount : " + playerCount);
+                //System.out.println("Gameid: " + gameId + ", Player num: " + playerNum + ", PlayerCount : " + playerCount);
                 goToWaitingRoom();
             }
             else {
@@ -147,36 +148,42 @@ public class AppController implements Observer {
 
     }
 
-    private void goToWaitingRoom(){
-        Dialog<Void> dialogUpdate = new Dialog<>();
-        dialogUpdate.setTitle("You are in the waiting room.");
-        dialogUpdate.setHeaderText("Click the 'Update' button to see if the required amount of players have joined.");
+    private void goToWaitingRoom() throws Exception {
+        Dialog<Void> dialog = new Dialog<>();
+        dialog.setTitle("You are in the waiting room!");
+        dialog.setHeaderText("Click the 'Update' button to check if the required amount of players have joined.");
+
+        //show the count of player that are already joined
+        int numberOfPlayersJoined = repository.getPlayerCount(gameId);
+        Label playerCountLabel = new Label("Number of players joined: " + numberOfPlayersJoined);
+        VBox vBox = new VBox(playerCountLabel);
+        dialog.getDialogPane().setContent(vBox);
 
         // Create an 'Update' button
         ButtonType updateButton = new ButtonType("Update", ButtonType.OK.getButtonData());
-        dialogUpdate.getDialogPane().getButtonTypes().add(updateButton);
+        dialog.getDialogPane().getButtonTypes().add(updateButton);
 
-        // Handle button click event
-        dialogUpdate.setResultConverter(dialogButton -> {
+        dialog.setResultConverter(dialogButton -> {
             if (dialogButton == updateButton) {
                 // Call your method here
+                dialog.close();
                 try {
-                    updateGameState(chosenGame);
+                    updateGameState();
                 } catch (Exception e) {
-                    throw new RuntimeException(e); // Make exception more specific9???
+                    throw new RuntimeException(e);
                 }
             }
             return null;
         });
 
-// Show the dialog and wait for user interaction
-        Optional<Void> result = dialogUpdate.showAndWait();
+        dialog.showAndWait();
+
     }
 
-    private void updateGameState(String boardChoice) throws Exception {
+    private void updateGameState() throws Exception {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
-            Board board = repository.getBoard("boardOptions", boardChoice);
+            Board board = repository.getBoard(String.valueOf(gameId), "boardOptions");
             setUpPlayers(playerCount, board);
             startGame(board, "new");
         } else {

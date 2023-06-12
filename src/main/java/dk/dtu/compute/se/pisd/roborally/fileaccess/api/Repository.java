@@ -123,9 +123,8 @@ public class Repository {
     }
 
 
-    public Board getBoard(String folder, String filename) throws Exception {
-        String path = folder+"/"+filename;
-        HttpResponse<String> boardString = client.makeGetRequest("sendBoard/" + path);
+    public Board getBoard(String gameId, String folder) throws Exception {
+        HttpResponse<String> boardString = client.makeGetRequest("sendBoard/" + gameId + "/" + folder);
         BoardTemplate template = returnBoardTemplate(boardString);
         Board board = new Board(template.width, template.height, template.spaceTemplates);
         return board;
@@ -144,8 +143,9 @@ public class Repository {
         return gameIsReady;
     }
 
-    public int getPlayerCount() throws Exception {
-        HttpResponse<String> response = client.makeGetRequest("playerCount");
+    public int getPlayerCount(int gameId) throws Exception {
+        HttpResponse<String> response = client.makeGetRequest("playerCount/" + gameId);
+        System.out.println(Integer.valueOf(response.body()));
         return Integer.valueOf(response.body());
     }
 }
