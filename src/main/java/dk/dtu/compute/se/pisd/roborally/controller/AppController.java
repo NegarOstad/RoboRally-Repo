@@ -182,11 +182,9 @@ public class AppController implements Observer {
                         dialog.close();
                     }
 
-
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-
 
         });
 

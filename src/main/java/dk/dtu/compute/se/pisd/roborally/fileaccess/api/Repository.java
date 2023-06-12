@@ -95,17 +95,14 @@ public class Repository {
 
     }
 
-    public int newGameId(int playerCount, String boardNum) throws Exception {
-        HttpResponse<String> response = client.makeGetRequest("new/" + playerCount + "/" + boardNum);
+    public int newGameId(int playerCount, String boardName) throws Exception {
+        HttpResponse<String> response = client.makeGetRequest("createGame/" + playerCount + "/" + boardName);
         System.out.println("New get request:" + response.body());
-        System.out.println("new/" + playerCount + "/" + boardNum);
+        System.out.println("new/" + playerCount + "/" + boardName);
         return valueOf(response.body());
     }
 
-   /* public int getGameID() throws Exception {
-        HttpResponse<String> response = client.makeGetRequest("gameID");
-        return parseInt(response.body());
-    }*/
+
     public String joinGameWithID(Integer gameID) throws Exception {
     HttpResponse<String> response = client.makeGetRequest("join/" + gameID);
         return response.body();
