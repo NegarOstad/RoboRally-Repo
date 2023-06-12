@@ -91,9 +91,8 @@ public class AppController implements Observer {
                 gameId = repository.newGameId(playerCount, boardName);
                 localPlayerNum = 1;
                 numberOfPlayersJoined = 1;
-                Alert alert = new Alert(AlertType.INFORMATION);
-                alert.setContentText("Your game ID is: " + gameId);
-                alert.showAndWait();
+                String gameIdString = "Your game ID is: " + gameId;
+                createAlert(AlertType.INFORMATION, gameIdString);
                 System.out.println("GameID: " + gameId);
                 goToWaitingRoom();
             }
@@ -236,12 +235,8 @@ public class AppController implements Observer {
         if(result != null ){
             repository.saveBoard(gameController.board, result);
             isGameSaved = true;
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setContentText("Game is saved.");
-            alert.showAndWait();
-            //exit();
-        }
-        if(result == null ){
+            createAlert(AlertType.INFORMATION, "Game is saved.");
+        } else {
             textInputDialog.close();
         }
     }
@@ -275,7 +270,6 @@ public class AppController implements Observer {
 
             }
 
-            System.out.println("we made it after dialog.close");
             if(board != null) {
                 int chosenPlayer = getUserPlayerChoice(board);
                 setLocalPlayer(board, chosenPlayer - 1);
@@ -340,6 +334,12 @@ public class AppController implements Observer {
             dialog.setHeaderText(headerText);
             dialog.setContentText(contentText);
             return dialog;
+        }
+
+        private void createAlert(AlertType alertType, String contentText){
+            Alert alert = new Alert(alertType);
+            alert.setContentText(contentText);
+            alert.showAndWait();
         }
 
     /**
