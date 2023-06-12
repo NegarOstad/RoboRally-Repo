@@ -238,18 +238,18 @@ public class AppController implements Observer {
 
     private Board setupBaseBoard(){
         Board board = new Board(8,8);
-        board.getSpace(1,4).setTypeGear(Heading.NORTH);
-        board.getSpace(4,5).setTypeGear(Heading.EAST);
-        board.getSpace(1,4).setTypeGear(Heading.SOUTH);
-        board.getSpace(4,1).setTypeCheckpoint(0, false);
-        board.getSpace(5,1).setTypeCheckpoint(1,true);
-        board.getSpace(2,2).fillConveyorBelt(6, 2, 2, 2 , board, null);
-        board.getSpace(2,6).setTypeConveyor(4, 3);
-        board.getSpace(2,6).fillConveyorBelt(4, 3, 2, 6 , board, null);
-        board.getSpace(4,3).setTypeConveyor(7, 1);
-        board.getSpace(4,3).fillConveyorBelt(7, 1, 7, 3 , board, null);
-        board.getSpace(0,6).setTypeWall();
-        board.getSpace(5,4).setTypeWall();
+        board.getSpace(1,3).setTypeGear(Heading.NORTH);
+        board.getSpace(4,4).setTypeGear(Heading.EAST);
+        board.getSpace(1,3).setTypeGear(Heading.SOUTH);
+        board.getSpace(4,0).setTypeCheckpoint(0, false);
+        board.getSpace(5,0).setTypeCheckpoint(1,true);
+        board.getSpace(2,1).fillConveyorBelt(6, 1, 2, 1 , board, null);
+        board.getSpace(1,6).setTypeConveyor(3, 3);
+        board.getSpace(1,6).fillConveyorBelt(3, 3, 1, 6 , board, null);
+        board.getSpace(7,6).setTypeConveyor(5, 6);
+        board.getSpace(7,6).fillConveyorBelt(5, 6, 7, 6 , board, null);
+        board.getSpace(0,5).setTypeWall();
+        board.getSpace(5,3).setTypeWall();
         board.setTypePriorityAntenna(7, 7);
         return  board;
     }
