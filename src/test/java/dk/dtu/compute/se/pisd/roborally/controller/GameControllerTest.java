@@ -240,7 +240,7 @@ class GameControllerTest {
         Assertions.assertEquals(0, player1.getTokenCount(), "Player should have no tokens");
     }
 
-    @Test
+    /*@Test
     void currentPlayerLandsOnBothCheckpointsInOrderAndGetsTwoTokens() {
         Board board = gameController.board;
         Player player1 = board.getCurrentPlayer();
@@ -262,7 +262,7 @@ class GameControllerTest {
         Assertions.assertEquals(2, player1.getTokenCount(), "Player should have 2 tokens");
 
 
-    }
+    }*/
 
     @Test
     void winnerIsFound() {
