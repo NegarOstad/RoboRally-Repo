@@ -132,7 +132,7 @@ class GameControllerTest {
 
     }*/
 
-    }
+
 
     /*@Test
     void spaceHasAWall() {
