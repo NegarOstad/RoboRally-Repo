@@ -25,6 +25,7 @@ import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
+import dk.dtu.compute.se.pisd.roborally.view.RoboRallyUpdate;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
@@ -64,8 +65,9 @@ public class RoboRally extends Application {
         // the board view (which initially is empty); it will be filled
         // when the user creates a new game or loads a game
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
+        RoboRallyUpdate updateButton = new RoboRallyUpdate(appController);
         boardRoot = new BorderPane();
-        VBox vbox = new VBox(menuBar, boardRoot);
+        VBox vbox = new VBox(menuBar, updateButton, boardRoot);
         vbox.setMinWidth(MIN_APP_WIDTH);
         Scene primaryScene = new Scene(vbox);
 
