@@ -193,7 +193,7 @@
             "endY": 3
           }
         },
-        "heading": "SOUTH"
+        "heading": "NORTH"
       },
       {
         "type": "ConveyorBelt",
@@ -206,7 +206,7 @@
             "endY": 3
           }
         },
-        "heading": "SOUTH"
+        "heading": "NORTH"
       },
       {
         "type": "ConveyorBelt",
@@ -219,7 +219,7 @@
             "endY": 3
           }
         },
-        "heading": "SOUTH"
+        "heading": "NORTH"
       },
       {
         "type": "ConveyorBelt",
@@ -232,7 +232,7 @@
             "endY": 3
           }
         },
-        "heading": "SOUTH"
+        "heading": "NORTH"
       },
       {
         "type": "Normal",
@@ -500,7 +500,19 @@
           "observers": []
         },
         {
-          "command": "FORWARD",
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "FAST_FORWARD",
+          "observers": []
+        },
+        {
+          "command": "FAST_FORWARD",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
           "observers": []
         },
         {
@@ -508,23 +520,11 @@
           "observers": []
         },
         {
-          "command": "LEFT",
-          "observers": []
-        },
-        {
-          "command": "LEFT",
+          "command": "RIGHT",
           "observers": []
         },
         {
           "command": "LEFT_RIGHT",
-          "observers": []
-        },
-        {
-          "command": "LEFT",
-          "observers": []
-        },
-        {
-          "command": "FORWARD",
           "observers": []
         }
       ],
@@ -542,23 +542,15 @@
       "heading": "SOUTH",
       "commandCards": [
         {
-          "command": "LEFT_RIGHT",
-          "observers": []
-        },
-        {
-          "command": "LEFT_RIGHT",
-          "observers": []
-        },
-        {
           "command": "RIGHT",
           "observers": []
         },
         {
-          "command": "FAST_FORWARD",
+          "command": "LEFT",
           "observers": []
         },
         {
-          "command": "LEFT",
+          "command": "LEFT_RIGHT",
           "observers": []
         },
         {
@@ -566,11 +558,19 @@
           "observers": []
         },
         {
-          "command": "LEFT",
+          "command": "RIGHT",
           "observers": []
         },
         {
-          "command": "FAST_FORWARD",
+          "command": "FORWARD",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
+          "observers": []
+        },
+        {
+          "command": "RIGHT",
           "observers": []
         }
       ],
@@ -593,7 +593,19 @@
         "observers": []
       },
       {
-        "command": "FORWARD",
+        "command": "RIGHT",
+        "observers": []
+      },
+      {
+        "command": "FAST_FORWARD",
+        "observers": []
+      },
+      {
+        "command": "FAST_FORWARD",
+        "observers": []
+      },
+      {
+        "command": "RIGHT",
         "observers": []
       },
       {
@@ -601,23 +613,11 @@
         "observers": []
       },
       {
-        "command": "LEFT",
-        "observers": []
-      },
-      {
-        "command": "LEFT",
+        "command": "RIGHT",
         "observers": []
       },
       {
         "command": "LEFT_RIGHT",
-        "observers": []
-      },
-      {
-        "command": "LEFT",
-        "observers": []
-      },
-      {
-        "command": "FORWARD",
         "observers": []
       }
     ],
