@@ -82,7 +82,6 @@ public class AppController implements Observer {
 
     public void newGame() throws Exception {
         setPlayerCountFromChoice();
-        System.out.println("playerNum: " + localPlayerNum);
         // GET BOARD CHOICE FROM USER
         if (playerCount != 0) {
             String boardName = getBoardChoiceFromUser();
@@ -262,19 +261,10 @@ public class AppController implements Observer {
     }
 
     public void loadGame() throws Exception {
-
+        Board board = null;
         if (gameController == null) {
-            gameFiles = repository.getList("templates");
-            ChoiceDialog dialog = new ChoiceDialog(gameFiles[0], gameFiles);
-            System.out.println("choice dialog set");
-            dialog.setTitle("Load Game");
-            dialog.setHeaderText("Which game do you want to continue?");
-            dialog.setContentText("Saved Games:");
-            Optional<String> userChoice = dialog.showAndWait();
-            String result = userChoice.orElse("");
-            Board board = null;
-            if(!(result.isEmpty())){
-                System.out.println(userChoice);
+            String result = getUserBoardChoice();
+
                 System.out.println(result);
                 try {
                     board = repository.loadGame(result);
@@ -282,62 +272,75 @@ public class AppController implements Observer {
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-            }else {
-                dialog.close();
+
             }
 
             System.out.println("we made it after dialog.close");
             if(board != null) {
-                List<Integer> playerNums = makePlayerNumList(board.getPlayerCount());
-                dialog = new ChoiceDialog(playerNums.get(0), playerNums);
-                dialog.setTitle("Load Game");
-                dialog.setHeaderText("Which player do you want to be?");
-                dialog.setContentText("Available players:");
-                Optional<Integer> playerChoice = dialog.showAndWait();
-                int chosenPlayer = playerChoice.orElse(0);
+                int chosenPlayer = getUserPlayerChoice(board);
                 setLocalPlayer(board, chosenPlayer - 1);
                 startGame(board, "load");
-            } else {
+
+            }
+    }
+
+        private String getUserBoardChoice() throws Exception {
+            List<String> gameFileList = Arrays.stream(repository.getList("templates")).toList();
+            ChoiceDialog dialog = createChoiceDialog(gameFileList.get(0), gameFileList, "Load Game",
+                    "Which game do you want to continue?",
+                    "Saved Games:");
+
+            Optional<String> userChoice = dialog.showAndWait();
+            if(userChoice.isEmpty())
                 dialog.close();
-            }
+            return userChoice.orElse("");
         }
-    }
 
-    private List<Integer> makePlayerNumList(int playerCount) {
-            List<Integer> nums = new ArrayList<>();
-            for (int i = 0; i < playerCount; i++) {
-                nums.add(i+1);
+        private int getUserPlayerChoice(Board board) {
+            List<Integer> playerNums = makePlayerNumList(board.getPlayerCount());
+            ChoiceDialog<Integer> dialog = createChoiceDialog(playerNums.get(0), playerNums, "Load Game",
+                    "Which player do you want to be?", "Available players:");
+
+            Optional<Integer> playerChoice = dialog.showAndWait();
+            return playerChoice.orElse(0);
+
+        }
+
+            private List<Integer> makePlayerNumList(int playerCount) {
+                    List<Integer> nums = new ArrayList<>();
+                    for (int i = 0; i < playerCount; i++) {
+                        nums.add(i+1);
+                    }
+                return nums;
             }
-        return nums;
-    }
 
 
-    private void setLocalPlayer(Board board, int chosenPlayer) {
-            board.getPlayer(chosenPlayer).setLocal(true);
-    }
+        private void setLocalPlayer(Board board, int chosenPlayer) {
+                board.getPlayer(chosenPlayer).setLocal(true);
+        }
 
 
-    private void startGame(Board board, String startType){
-        gameController = new GameController(board);
-        if(startType.equals("load"))
-            gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
-        else if (startType.equals("new"))
-            gameController.startProgrammingPhase();
-        else
-            System.out.println("Start Type not recognized.");
+        private void startGame(Board board, String startType){
+            gameController = new GameController(board);
+            if(startType.equals("load"))
+                gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
+            else if (startType.equals("new"))
+                gameController.startProgrammingPhase();
+            else
+                System.out.println("Start Type not recognized.");
 
-        roboRally.createBoardView(gameController);
+            roboRally.createBoardView(gameController);
 
-    }
+        }
 
-    private <T> ChoiceDialog<T> createChoiceDialog(T defaultChoice, List<T> choices, String title,
-                                                   String headerText, String contentText) {
-        ChoiceDialog<T> dialog = new ChoiceDialog<>(defaultChoice, choices);
-        dialog.setTitle(title);
-        dialog.setHeaderText(headerText);
-        dialog.setContentText(contentText);
-        return dialog;
-    }
+        private <T> ChoiceDialog<T> createChoiceDialog(T defaultChoice, List<T> choices, String title,
+                                                       String headerText, String contentText) {
+            ChoiceDialog<T> dialog = new ChoiceDialog<>(defaultChoice, choices);
+            dialog.setTitle(title);
+            dialog.setHeaderText(headerText);
+            dialog.setContentText(contentText);
+            return dialog;
+        }
 
     /**
      * Stop playing the current game, giving the user the option to save
