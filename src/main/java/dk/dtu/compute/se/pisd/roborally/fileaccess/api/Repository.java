@@ -47,10 +47,6 @@ public class Repository {
     }
     public String[] getList(String path) throws Exception {
       HttpResponse<String> response = client.makeGetRequest("sendList/"+path);
-        /*HttpRequest httpRequestList =
-                HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/sendList"))
-                        .build();
-        HttpResponse responseList = httpClient.send(httpRequestList, HttpResponse.BodyHandlers.ofString());*/
         System.out.println(response.body());
         String[] arrayOfOptions = response.body().toString().split(",");
         for(String s : arrayOfOptions){
@@ -61,11 +57,22 @@ public class Repository {
     }
 
 
-    public Board loadGame(String boardname) throws Exception {
+    public Board loadGame(String boardName) throws Exception {
+            Board board = reestablishBoard(boardName);
+            return board;
 
-            HttpResponse<String> response = client.makeGetRequest("sendBoard/templates/"+boardname);
-            BoardTemplate template = returnBoardTemplate(response);
-            Board board = new Board(template.width, template.height, template.spaceTemplates);
+    }
+        private Board reestablishBoard(String boardName) throws Exception {
+        HttpResponse<String> boardString = client.makeGetRequest("existingBoard/" + boardName);
+        BoardTemplate template = returnBoardTemplate(boardString);
+        Board board = new Board(template.width, template.height, template.spaceTemplates);
+        setExistingPlayers(template, board);
+        setExistingBoardState(board, template);
+        return board;
+
+        }
+
+        private void setExistingPlayers(BoardTemplate template, Board board){
             for(PlayerTemplate p : template.playerTemplates){
                 Player newPlayer = new Player(p.color, p.name);
                 Space newPlayerSpace = board.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
@@ -77,13 +84,15 @@ public class Repository {
                 if(p.name.equals(template.currentTemplate.name))
                     board.setCurrentPlayer(newPlayer);
             }
+
+        }
+
+        private void setExistingBoardState(Board board, BoardTemplate template){
             board.setPhase(template.phase);
             board.setStep(template.step);
             board.setWinnerStatus(template.winnerIsFound);
             board.setStepMode(template.stepMode);
-            return board;
-
-    }
+        }
 
 
     private BoardTemplate returnBoardTemplate(HttpResponse<String> response){
@@ -120,8 +129,8 @@ public class Repository {
     }
 
 
-    public Board getBoard(String gameId, String folder) throws Exception {
-        HttpResponse<String> boardString = client.makeGetRequest("sendBoard/" + gameId + "/" + folder);
+    public Board getNewBoard(String gameId) throws Exception {
+        HttpResponse<String> boardString = client.makeGetRequest("newBoard/" + gameId);
         BoardTemplate template = returnBoardTemplate(boardString);
         Board board = new Board(template.width, template.height, template.spaceTemplates);
         return board;

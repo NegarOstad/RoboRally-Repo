@@ -195,7 +195,7 @@ public class AppController implements Observer {
     private boolean waitingForPlayers() throws Exception {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
-            Board board = repository.getBoard(String.valueOf(gameId), "boardOptions");
+            Board board = repository.getNewBoard(String.valueOf(gameId));
             board.setGameId(gameId);
             setUpPlayers(playerCount, board);
             startGame(board, "new");
@@ -243,13 +243,12 @@ public class AppController implements Observer {
             Board board;
         try {
             board = repository.loadGame(String.valueOf(gameId));
+            gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
+            setLocalPlayer(board, localPlayerNum);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-            gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
-            setLocalPlayer(board, localPlayerNum);
 
     }
 
