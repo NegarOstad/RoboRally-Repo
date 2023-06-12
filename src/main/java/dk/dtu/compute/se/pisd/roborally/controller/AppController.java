@@ -72,6 +72,7 @@ public class AppController implements Observer {
 
     int playerNum;
 
+    int numberOfPlayersJoined;
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
@@ -95,6 +96,7 @@ public class AppController implements Observer {
             if(!(num.isEmpty())){
                 gameId = repository.newGameId(playerCount, boardNum);
                 playerNum = 1;
+                numberOfPlayersJoined = 1;
                 Alert alert = new Alert(AlertType.INFORMATION);
                 alert.setContentText("Your game ID is: " + gameId);
                 alert.showAndWait();
@@ -137,6 +139,7 @@ public class AppController implements Observer {
                 playerNum = parseInt(joinInfo[0]);
                 //System.out.println("Join info [1] player count before parse: " + joinInfo[1]);
                 playerCount =  parseInt(joinInfo[1]);
+                numberOfPlayersJoined  = repository.getPlayerCount(gameId);
                 //System.out.println("Gameid: " + gameId + ", Player num: " + playerNum + ", PlayerCount : " + playerCount);
                 goToWaitingRoom();
             }
@@ -149,45 +152,57 @@ public class AppController implements Observer {
     }
 
     private void goToWaitingRoom() throws Exception {
+
         Dialog<Void> dialog = new Dialog<>();
+
         dialog.setTitle("You are in the waiting room!");
         dialog.setHeaderText("Click the 'Update' button to check if the required amount of players have joined.");
-
-        //show the count of player that are already joined
-        int numberOfPlayersJoined = repository.getPlayerCount(gameId);
         Label playerCountLabel = new Label("Number of players joined: " + numberOfPlayersJoined);
-        VBox vBox = new VBox(playerCountLabel);
+        Button updateButton = new Button("Update");
+        VBox vBox = new VBox(playerCountLabel, updateButton);
         dialog.getDialogPane().setContent(vBox);
 
-        // Create an 'Update' button
-        ButtonType updateButton = new ButtonType("Update", ButtonType.OK.getButtonData());
-        dialog.getDialogPane().getButtonTypes().add(updateButton);
 
-        dialog.setResultConverter(dialogButton -> {
-            if (dialogButton == updateButton) {
+        // Create an 'Update' button
+
+       // dialog.getDialogPane().getButtonTypes().add(updateButton);
+
+        updateButton.setOnAction(event -> { //receive an event
+
                 // Call your method here
-                dialog.close();
+                //dialog.close();
                 try {
-                    updateGameState();
+                    if(!updateGameState()){
+                        playerCountLabel.setText("Number of players joined: " + numberOfPlayersJoined);
+                    } else {
+                        System.out.println("reached here");
+                        dialog.getDialogPane().getButtonTypes().addAll(ButtonType.CANCEL);
+                        dialog.close();
+                    }
+
+
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
-            }
-            return null;
+
+
         });
 
-        dialog.showAndWait();
+        dialog.show();
 
     }
 
-    private void updateGameState() throws Exception {
+    private boolean updateGameState() throws Exception {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
             Board board = repository.getBoard(String.valueOf(gameId), "boardOptions");
             setUpPlayers(playerCount, board);
             startGame(board, "new");
+            return true;
         } else {
-            goToWaitingRoom();
+            //show the count of player that are already joined
+            numberOfPlayersJoined = repository.getPlayerCount(gameId);
+            return false;
         }
 
     }
