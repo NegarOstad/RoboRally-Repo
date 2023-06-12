@@ -107,8 +107,8 @@ public class  Board extends Subject {
     private void setSpaceType(ElementType type, Space space, SpaceTemplate spaceTemplate){
         switch(type) {
                 case Gear:
-                    Gear gear = (Gear) spaceTemplate.sa;
-                    space.setTypeGear(gear.isTurnLeft());
+                    Gear gear = (Gear)spaceTemplate.sa;
+                    space.setTypeGear(gear.isTurnLeft(), gear.isTurnRight());
                     break;
                 case Checkpoint:
                     Checkpoint checkpoint = (Checkpoint)spaceTemplate.sa;

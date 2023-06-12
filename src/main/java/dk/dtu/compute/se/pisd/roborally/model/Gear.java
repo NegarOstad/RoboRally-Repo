@@ -21,27 +21,31 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
 public class Gear extends SpaceAction {
     private boolean turnLeft;
+    private boolean turnRight;
 
-    public Gear(boolean turnLeft) {
+    public Gear(boolean turnLeft, boolean turnRight) {
         this.turnLeft = turnLeft;
-    }
-
-    public void setTurnLeft(boolean turnLeft) {
-        this.turnLeft = turnLeft;
+        this.turnRight = turnRight;
     }
 
     public boolean isTurnLeft() {
         return turnLeft;
     }
 
+    public boolean isTurnRight() {
+        return turnRight;
+    }
+
+
+
     @Override
     public void doAction(Player currentPlayer, Board board) {
         if (turnLeft) {
             Heading currentHeading = currentPlayer.getHeading();
-            currentPlayer.setHeading(currentHeading.next());
+            currentPlayer.setHeading(currentHeading.prev());
         } else {
             Heading currentHeading = currentPlayer.getHeading();
-            currentPlayer.setHeading(currentHeading.prev());
+            currentPlayer.setHeading(currentHeading.next());
         }
     }
 }
