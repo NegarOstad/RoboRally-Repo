@@ -100,9 +100,31 @@ public class AppController implements Observer {
 
     }
 
+    private Board setupBaseBoard() {
+        Board board = new Board(8, 8);
 
+        board.getSpace(0, 1).setTypeCheckpoint(0, false);
+        board.getSpace(7, 2).setTypeCheckpoint(1, true);
+        board.getSpace(1, 6).setTypeCheckpoint(2, false);
+        board.getSpace(6, 6).setTypeCheckpoint(3, false);
 
-    private Board setupBaseBoard(){
+        board.getSpace(2, 0).fillConveyorBelt(5, 3, 2, 0, board, null);
+        board.getSpace(1, 5).fillConveyorBelt(2, 4, 1, 5, board, null);
+
+        board.getSpace(3, 6).setTypeWall();
+        board.getSpace(7, 0).setTypeWall();
+        board.getSpace(3, 2).setTypeWall();
+
+        board.getSpace(1, 3).setTypeGear(false, true); // Turn right
+        board.getSpace(6, 4).setTypeGear(true, false); // Turn left
+        board.getSpace(2, 7).setTypeGear(false, true); //Turn right
+
+        board.setTypePriorityAntenna(7, 7);
+
+        return board;
+    }
+
+    /*private Board setupBaseBoard(){
         Board board = new Board(8,8);
         board.getSpace(1, 3).setTypeGear(false, true); // Turn right
         board.getSpace(6, 4).setTypeGear(true, false); // Turn left
@@ -110,8 +132,8 @@ public class AppController implements Observer {
         board.getSpace(4,0).setTypeCheckpoint(0, false);
         board.getSpace(5,0).setTypeCheckpoint(1,true);
         board.getSpace(2,1).fillConveyorBelt(6, 1, 2, 1 , board, null);
-        board.getSpace(1,7).setTypeConveyor(3, 4);
-        board.getSpace(1,7).fillConveyorBelt(3, 4, 1, 7 , board, null);
+        board.getSpace(7,1).setTypeConveyor(4, 3);
+        board.getSpace(7,1).fillConveyorBelt(4, 3, 7, 1 , board, null);
         board.getSpace(7,6).setTypeConveyor(5, 6);
         board.getSpace(7,6).fillConveyorBelt(5, 6, 7, 6 , board, null);
         board.getSpace(0,5).setTypeWall();
@@ -119,7 +141,7 @@ public class AppController implements Observer {
         board.setTypePriorityAntenna(7, 7);
 
         return  board;
-    }
+    }*/
 
     public void saveGame() {
         TextInputDialog textInputDialog = new TextInputDialog();
