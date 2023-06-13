@@ -240,11 +240,23 @@ public class AppController implements Observer {
     }
 
     public void updateGameState() throws Exception {
-            Board board;
+            Board updatedBoard;
         try {
-            board = repository.loadGame(String.valueOf(gameId));
-            gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
-            setLocalPlayer(board, localPlayerNum);
+            updatedBoard = repository.loadGame("testsave");
+            gameController.board.setPhase(updatedBoard.getPhase());
+            gameController.board.setStep(updatedBoard.getStep());
+            gameController.board.setCurrentPlayer(updatedBoard.getCurrentPlayer());
+            for(Player p : gameController.board.getPlayers()){
+                for(Player p_up : updatedBoard.getPlayers()) {
+                    if(p.getName().equals(p_up.getName())) {
+                        p.updateSpace(p_up.getSpace(), gameController.board);
+                        p.setTokenCount(p_up.getTokenCount());
+                        p.setHeading(p_up.getHeading());
+                    }
+                }
+            }
+
+            System.out.println("We went into the try of the updateGameState");
 
         } catch (Exception e) {
             throw new RuntimeException(e);

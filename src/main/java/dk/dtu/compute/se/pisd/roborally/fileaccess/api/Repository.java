@@ -39,7 +39,7 @@ public class Repository {
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>())
                 .disableHtmlEscaping()
-                //.setPrettyPrinting()
+                .setPrettyPrinting()
                 ;
         Gson gson = simpleBuilder.create();
 
