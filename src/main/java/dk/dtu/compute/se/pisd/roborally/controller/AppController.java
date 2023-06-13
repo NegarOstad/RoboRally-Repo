@@ -388,164 +388,37 @@ public class AppController implements Observer {
         if (gameController != null) {
             if (isGameSaved) {
                 // If the game is already saved, directly exit the game
-                stopGameAndExit();
+                Platform.exit();
             } else {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Exit RoboRally?");
                 alert.setContentText("Do you want to exit RoboRally without saving?");
-                ButtonType exitWithoutSavingButton = new ButtonType("Exit without saving");
-                ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-                alert.getButtonTypes().setAll(exitWithoutSavingButton, cancel);
-
                 Optional<ButtonType> userOption = alert.showAndWait();
 
-                if (userOption.isPresent() && userOption.get() == exitWithoutSavingButton) {
+                if (userOption.isPresent() && userOption.get() == ButtonType.CANCEL) {
                     // If the user chooses to exit without saving, stop the game and exit
                     Platform.exit();
-                }
-            }
-        } else {
-            // If there is no current game, simply exit the application
-            Platform.exit();
-        }
-    }
 
-    private boolean exitConfirmed = false;
-
-    private void stopGameAndExit() {
-        boolean canExit = true;
-
-        // Check if the game needs to be saved before exiting
-        if (!isGameSaved && !exitConfirmed) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Exit RoboRally?");
-            alert.setHeaderText("The game is not saved.");
-            alert.setContentText("Do you want to exit without saving?");
-
-            ButtonType exitWithoutSavingButton = new ButtonType("Exit without saving");
-            ButtonType saveAndExitButton = new ButtonType("Save and exit");
-            ButtonType cancel = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-
-            alert.getButtonTypes().setAll(exitWithoutSavingButton, saveAndExitButton, cancel);
-
-            Optional<ButtonType> userOption = alert.showAndWait();
-
-            if (userOption.isPresent()) {
-                if (userOption.get() == exitWithoutSavingButton) {
-                    // If the user chooses to exit without saving, exit the game
-                    exitConfirmed = true;
-                    canExit = true;
-                    Platform.exit();
-                } else if (userOption.get() == saveAndExitButton) {
-                    // If the user chooses to save and exit, save the game and exit
+                } else if (userOption.isPresent() && userOption.get() == ButtonType.OK) {
+                    // If there is no current game, simply exit the application
                     saveGame();
-                } else {
-                    // If the user cancels, do not exit the game
-                    canExit = false;
+                    Platform.exit();
                 }
-            } else {
-                // If the dialog is closed, do not exit the game
-                canExit = false;
-            }
-        }
-
-        if (canExit) {
-            Platform.exit();
-        }
-    }
-
-
-
-    /*public void exit()  {
-        if (gameController != null) {
-            if (!isGameSaved) {
-                saveGame();
-            }
-
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Exit RoboRally?");
-            alert.setContentText("Do you want to exit RoboRally?");
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (!result.isPresent() || result.get() != ButtonType.OK) {
-                return; // return without exiting the application
 
             }
         }
-
-        // If the user did not cancel, the RoboRally application will exit
-        // after the option to save the game
-        if (gameController == null || stopGame()) {
-
-            Platform.exit();
-        }
-    }*/
-  /*  public void saveGame() {
-        TextInputDialog textInputDialog = new TextInputDialog();
-        textInputDialog.setHeaderText("Save Game");
-        textInputDialog.setContentText("Enter a name for your game:");
-        textInputDialog.showAndWait();
-        String result = textInputDialog.getResult();
-        LoadBoard.saveBoard(gameController.board, result);
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setContentText("Game is saved.");
-        alert.showAndWait();
-        exit();
     }
 
-    public void loadGame()  {
-        // XXX needs to be implemented eventually
-        // for now, we just create a new game
-        if (gameController == null) {
+            /**
+             * Stop playing the current game, giving the user the option to save
+             * the game or to cancel stopping the game. The method returns true
+             * if the game was successfully stopped (with or without saving the
+             * game); returns false, if the current game was not stopped. In case
+             * there is no current game, false is returned.
+             *
+             * @return true if the current game was stopped, false otherwise
+             */
 
-            newGame(LoadBoard.loadBoard("mygame"));
-
-        }
-    }
-
-    /**
-     * Stop playing the current game, giving the user the option to save
-     * the game or to cancel stopping the game. The method returns true
-     * if the game was successfully stopped (with or without saving the
-     * game); returns false, if the current game was not stopped. In case
-     * there is no current game, false is returned.
-     *
-     * @return true if the current game was stopped, false otherwise
-     */
-   /* public boolean stopGame()  {
-        if (gameController != null) {
-
-            // here we save the game (without asking the user).
-            gameController = null;
-            roboRally.createBoardView(null);
-
-            HttpRequest httpRequest =
-                    HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/stop/" ))
-                            .build();
-            httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
-            return true;
-        }
-        return false;
-    }
-
-    public void exit()  {
-        if (gameController != null) {
-            Alert alert = new Alert(AlertType.CONFIRMATION);
-            alert.setTitle("Exit RoboRally?");
-            alert.setContentText("Do you want to exit RoboRally?");
-            Optional<ButtonType> result = alert.showAndWait();
-
-            if (!result.isPresent() || result.get() != ButtonType.OK) {
-                return; // return without exiting the application
-            }
-        }
-
-        // If the user did not cancel, the RoboRally application will exit
-        // after the option to save the game
-        if (gameController == null || stopGame()) {
-            Platform.exit();
-        }
-    }*/
 
     public boolean isGameRunning() {
         return gameController != null;
