@@ -82,7 +82,8 @@ public class SpaceView extends StackPane implements ViewObserver {
                 addImage(fullPath + "gear_RIGHT.png", 0, 0, 0);
             }
         } else if (space.getType() == ElementType.Wall) {
-            addImage(fullPath + "wall.png", 0, 0, 0);
+            Wall wall = (Wall) space.getSpaceAction();
+            addImage(fullPath + "wall_"+ wall.getHeading().name() + ".png", 0, 0, 0);
         } else if (space.getType() == ElementType.PriorityAntenna) {
             addImage(fullPath + "priorityantenna.png", 0, 0, 0);
         }
