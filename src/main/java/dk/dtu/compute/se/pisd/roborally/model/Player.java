@@ -145,6 +145,7 @@ public class Player extends Subject {
                 this.space = space; // makes player's space the space passed as argument
                 notifyChange();
 
+
             } else {
                 System.out.println("Invalid move.");
             }
