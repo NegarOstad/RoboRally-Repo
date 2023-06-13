@@ -116,7 +116,10 @@ public class  Board extends Subject {
                     break;
 
                 case Wall:
-                    space.setTypeWall();
+                    Wall wall = (Wall)spaceTemplate.sa;
+                    System.out.println("Setting wall heading from board template: " + wall.getHeading());
+                    space.setTypeWall(wall.getHeading());
+
                     break;
 
                 case ConveyorBelt:

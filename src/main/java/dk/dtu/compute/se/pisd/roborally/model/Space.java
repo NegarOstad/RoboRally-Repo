@@ -50,9 +50,9 @@ public class Space extends Subject {
         type = ElementType.Normal;
     }
 
-    public void setTypeWall(){
+    public void setTypeWall(Heading heading){
         type = ElementType.Wall;
-        //boardElement  = new Wall();
+        spaceAction = new Wall(heading);
     }
 
     public void setTypeCheckpoint(int index, boolean isLastCheckpoint) {
