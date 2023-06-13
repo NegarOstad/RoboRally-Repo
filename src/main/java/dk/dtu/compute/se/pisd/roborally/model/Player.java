@@ -120,6 +120,8 @@ public class Player extends Subject {
         return space;
     }
 
+
+
     public void setSpace(Space space, Board board) {
         boolean moveIsValid = false;
         Space oldSpace = this.space; //holds player's space before move
@@ -153,17 +155,19 @@ public class Player extends Subject {
         Space oldSpace = this.space; //holds player's space before move
         if (space.x != oldSpace.x || space.y != oldSpace.y) { // meaning player hasn't move since last update
 
-            if (oldSpace != null) {
-               // oldSpace.setPlayer(null, board); // sets the Player for the player's space before move to null so that the robot disappears
-            }
-            if (space != null) {
-                space.setPlayer(this, board);
 
-            }
 
-            this.space = space; // makes player's space the space passed as argument
-            System.out.println("Player's updated space : " + this.space.x + "," + this.space.y);
+            Space[][] spaces = board.getSpaces();
+            this.space = spaces[space.x][space.y];
+
+            this.space.setPlayer(this, board);
+            //this.space = space; // makes player's space the space passed as argument
             notifyChange();
+            this.space.playerChanged();
+
+            System.out.println(this.space.getPlayer());
+            System.out.println("Player's updated space : " + this.space.x + "," + this.space.y);
+
 
         }
     }
