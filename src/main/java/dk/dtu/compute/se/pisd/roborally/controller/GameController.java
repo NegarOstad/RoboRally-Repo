@@ -44,6 +44,7 @@ public class GameController {
 
     List<Player> priorityList;
 
+
     public GameController(@NotNull Board board) {
         this.board = board;
     }
