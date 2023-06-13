@@ -48,13 +48,6 @@ public class SpaceView extends StackPane implements ViewObserver {
 
     public final Space space;
 
-    double difDirection;
-
-    int endDirection;
-
-    int x;
-
-    int y;
 
     private List<ImageView> imageViews;
 
@@ -79,7 +72,7 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (space.getType() == ElementType.ConveyorBelt) {
             addImage(fullPath + "conveyorbelt_" + space.getHeading().name() + ".png", 0, 0, 0);
         } else if (space.getType() == ElementType.Checkpoint) {
-            addImage(fullPath + "checkpoint.png", 0, 0, 0);
+            addImage(fullPath + "checkpoint_" + space.getCheckpointIndex() + ".png", 0, 0, 0);
         } else if (space.getType() == ElementType.Gear) {
             Gear gear = (Gear) space.getSpaceAction();
             if (gear.isTurnLeft()) {
