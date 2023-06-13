@@ -242,7 +242,7 @@ public class AppController implements Observer {
     public void updateGameState() throws Exception {
             Board updatedBoard;
         try {
-            updatedBoard = repository.loadGame("testsave");
+            updatedBoard = repository.loadGame(String.valueOf(gameController.board.getGameId()));
             gameController.board.setPhase(updatedBoard.getPhase());
             gameController.board.setStep(updatedBoard.getStep());
             gameController.board.setCurrentPlayer(updatedBoard.getCurrentPlayer());

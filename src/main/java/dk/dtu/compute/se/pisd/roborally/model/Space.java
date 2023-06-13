@@ -39,6 +39,7 @@ public class Space extends Subject {
     private SpaceAction spaceAction;
 
 
+
     public Space(int x, int y) {
         //this.board = board;
         this.x = x;
@@ -50,7 +51,7 @@ public class Space extends Subject {
 
     public void setTypeWall(){
         type = ElementType.Wall;
-        //boardElement  = new Wall();
+        spaceAction = new Wall(Heading.SOUTH);
     }
 
     public void setTypeCheckpoint(int index, boolean isLastCheckpoint) {
