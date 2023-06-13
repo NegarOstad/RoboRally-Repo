@@ -264,7 +264,7 @@ public class AppController implements Observer {
     /***
      * Creates a temporary board to deserialize from a game state saved on server and adds
      * the appropriate information to the current game's board and its players.
-     * @throws Exception
+     * @throws Exception if cannot load the select game state
      */
     public void updateGameState() throws Exception {
             Board updatedBoard;
