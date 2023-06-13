@@ -12,7 +12,7 @@ public class BoardTemplate extends Subject {
     public int height;
 
 
-    public SpaceTemplate[][] spaceTemplates;
+    public SpaceTemplate[][]  spaceTemplates;
     //public CommandFieldTemplate commandTemplate;
 
     public List<PlayerTemplate> playerTemplates = new ArrayList<>();
@@ -35,7 +35,8 @@ public class BoardTemplate extends Subject {
             for(int y = 0; y < height; y++) {
                 ElementType type = spaces[x][y].getType();
                 SpaceAction sa = spaces[x][y].getBoardElement();
-                SpaceTemplate spaceTemplate = new SpaceTemplate(x, y, type, sa);
+                Heading heading = spaces[x][y].getHeading();
+                SpaceTemplate spaceTemplate = new SpaceTemplate(x, y, type, sa, heading);
                 spaceTemplates[x][y] = spaceTemplate;
             }
         }
@@ -53,7 +54,7 @@ public class BoardTemplate extends Subject {
             int spaceX = p.getSpace().x;
             int spaceY = p.getSpace().y;
 
-               // CommandFieldTemplate[] temp = new CommandFieldTemplate[current.getCards().length];
+            // CommandFieldTemplate[] temp = new CommandFieldTemplate[current.getCards().length];
 
             PlayerTemplate newPlayer = new PlayerTemplate(p.getName(), p.getColor(), spaceTemplates[spaceX][spaceY], p.getHeading(), p.getTokenCount(), p.getRegisterStatus());
             playerTemplates.add(newPlayer);

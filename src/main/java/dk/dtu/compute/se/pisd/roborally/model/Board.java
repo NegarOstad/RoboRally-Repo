@@ -35,13 +35,13 @@ import static dk.dtu.compute.se.pisd.roborally.model.Phase.INITIALISATION;
  * @author Ekkart Kindler, ekki@dtu.dk
  *
  */
-public class Board extends Subject {
+public class  Board extends Subject {
 
     public final int width;
 
     public final int height;
 
-   // public final String boardName;
+    // public final String boardName;
 
     private Integer gameId;
 
@@ -83,7 +83,7 @@ public class Board extends Subject {
     }
 
     public Board(int width, int height, SpaceTemplate[][] spaceTemplates) {
-       // this.boardName = boardName;
+        // this.boardName = boardName;
         this.width = width;
         this.height = height;
         spaces = new Space[width][height];
@@ -106,23 +106,25 @@ public class Board extends Subject {
 
     private void setSpaceType(ElementType type, Space space, SpaceTemplate spaceTemplate){
         switch(type) {
-                case Gear:
-                    Gear gear = (Gear)spaceTemplate.sa;
-                    space.setTypeGear(gear.getHeading());
-                    break;
-                case Checkpoint:
-                    Checkpoint checkpoint = (Checkpoint)spaceTemplate.sa;
-                    space.setTypeCheckpoint(checkpoint.getIndex(), checkpoint.isLastCheckpoint());
-                    break;
+            case Gear:
+                Gear gear = (Gear)spaceTemplate.sa;
+                space.setTypeGear(gear.isTurnLeft(), gear.isTurnRight());
+                break;
+            case Checkpoint:
+                Checkpoint checkpoint = (Checkpoint)spaceTemplate.sa;
+                space.setTypeCheckpoint(checkpoint.getIndex(), checkpoint.isLastCheckpoint());
+                break;
 
-                case Wall:
-                    space.setTypeWall();
-                    break;
+            case Wall:
+                space.setTypeWall();
+                break;
 
-                case ConveyorBelt:
-                    ConveyorBelt conveyorBelt = (ConveyorBelt)spaceTemplate.sa;
-                    space.setTypeConveyor(conveyorBelt.endX, conveyorBelt.endY);
-                    break;
+            case ConveyorBelt:
+                ConveyorBelt conveyorBelt = (ConveyorBelt)spaceTemplate.sa;
+                space.setTypeConveyor(conveyorBelt.endX, conveyorBelt.endY);
+                System.out.println(spaceTemplate.heading);
+                space.setHeading(spaceTemplate.heading);
+                break;
 
             case PriorityAntenna:
                 priorityAntenna = (PriorityAntenna) spaceTemplate.sa;
@@ -206,7 +208,7 @@ public class Board extends Subject {
     }
 
     public int getNextPlayersNumber(List<Player> listOfClosestPlayers){
-    // public int getNextPlayersNumber(Player closestPlayer){
+        // public int getNextPlayersNumber(Player closestPlayer){
         int index = players.indexOf(listOfClosestPlayers);
         return (index + 1) % players.size();
     }
@@ -244,7 +246,7 @@ public class Board extends Subject {
     }
 
     public int getPlayerNumber(@NotNull Player player) {
-            return players.indexOf(player);
+        return players.indexOf(player);
 
     }
 
@@ -317,6 +319,8 @@ public class Board extends Subject {
     public List<Player> getPlayers() {
         return players;
     }
+
+
 
    /* public void setSpaceType(int x, int y, ElementType inputType) {
         switch (inputType){
