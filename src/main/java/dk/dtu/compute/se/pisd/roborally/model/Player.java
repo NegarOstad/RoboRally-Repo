@@ -149,6 +149,23 @@ public class Player extends Subject {
         }
     }
 
+    public void updateSpace(Space space, Board board) {
+        Space oldSpace = this.space; //holds player's space before move
+        if (space != oldSpace) { // meaning player hasn't move since last update
+
+            if (oldSpace != null) {
+                oldSpace.setPlayer(null, board); // sets the Player for the player's space before move to null so that the robot disappears
+            }
+            if (space != null) {
+                space.setPlayer(this, board);
+            }
+
+            this.space = space; // makes player's space the space passed as argument
+            notifyChange();
+
+        }
+    }
+
     private boolean pushRobot(Player opponent, Board board){
         boolean canBePushed = false;
         int x = opponent.getSpace().x;
