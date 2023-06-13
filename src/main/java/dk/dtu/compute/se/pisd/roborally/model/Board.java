@@ -285,16 +285,16 @@ public class  Board extends Subject {
     }
 
     public String getStatusMessage() {
-        if(winnerIsFound) {
+        /*if(winnerIsFound) {
             return current.getName() + " is the winner!";
         } else if(OutOfBounds) {
             return "out of bounds";
-        }else {
+        }else {*/
             return "Phase: " + getPhase().name() +
                     ", Player = " + getCurrentPlayer().getName() +
                     ", Step: " + getStep() +
                     ", Token count: " + getCurrentPlayer().getTokenCount();
-        }
+        //}
     }
 
     public void setWinnerStatus(boolean winnerIsFound) {

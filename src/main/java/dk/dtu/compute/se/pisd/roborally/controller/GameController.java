@@ -23,9 +23,12 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.api.Repository;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * ...
@@ -200,6 +203,13 @@ public class GameController {
                     executeCommand(currentPlayer, command);
                     if (currentPlayer.getSpace().getBoardElement() != null)
                         currentPlayer.getSpace().getBoardElement().doAction(currentPlayer, board);
+
+                    if(board.getWinnerStatus()) {
+                        displayWinnerMessage(currentPlayer.getName());
+                        board.setPhase(Phase.END); // disables all buttons
+                        return;
+                    }
+
                     currentPlayer.setEndOfRegister(false); // CHANGE THIS TO ONLY SET TO FALSE WHEN TURN IS OVER!!!
                 }
 
@@ -228,6 +238,14 @@ public class GameController {
             // this should not happen
             assert false;
         }
+    }
+
+    private void displayWinnerMessage(String name){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Game is won!");
+        alert.setContentText(name + " is the winner!\n Press 'Stop Game' to return to the main menu.");
+        alert.showAndWait();
+
     }
     public void executeCommandOptionAndContinue(Command option) {
         board.setPhase(Phase.ACTIVATION);
