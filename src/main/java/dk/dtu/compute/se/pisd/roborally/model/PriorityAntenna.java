@@ -38,7 +38,8 @@ public class PriorityAntenna extends SpaceAction {
                 //currentClosest = player;
                 double a = Math.abs(this.x - player.getSpace().x);
                 double b = Math.abs(this.y - player.getSpace().y);
-                double distance = Math.sqrt(Math.pow(a,2) + Math.pow(b, 2));
+                //added a random number to avoid players of the same distance the priority antenna
+                double distance = Math.sqrt(Math.pow(a,2) + Math.pow(b, 2)) + Math.random()/100;
                 if (distance <= minDistance) {
                     currentClosest = player;
                     minDistance = distance;
