@@ -14,7 +14,7 @@ public class Repository {
 
     private static Repository instance;
 
-    private Repository() {
+    private Repository(){
 
     }
 
@@ -25,28 +25,25 @@ public class Repository {
         }
         return instance;
     }
-
     HTTPClient client = HTTPClient.getInstance();
-
     public void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate(board, board.getSpaces(), board.getPlayers(), board.getCurrentPlayer());
-
         String path = "saveGame/" + name;
         client.makePostRequest(path, templateString(template));
 
 
     }
 
-    private String templateString(BoardTemplate template) {
+    private String templateString(BoardTemplate template){
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>())
                 .disableHtmlEscaping()
-                .setPrettyPrinting();
+                .setPrettyPrinting()
+                ;
         Gson gson = simpleBuilder.create();
 
         return gson.toJson(template, template.getClass()/*, writer*/);
     }
-
     public String[] getList(String path) throws Exception {
         HttpResponse<String> response = client.makeGetRequest("sendList/" + path);
         System.out.println(response.body());
@@ -60,45 +57,44 @@ public class Repository {
 
 
     public Board loadGame(String boardName) throws Exception {
-        Board board = reestablishBoard(boardName);
-        return board;
+            Board board = reestablishBoard(boardName);
+            return board;
 
     }
+        private Board reestablishBoard(String boardName) throws Exception {
+            HttpResponse<String> boardString = client.makeGetRequest("existingBoard/" + boardName);
+            BoardTemplate template = returnBoardTemplate(boardString);
+            Board board = new Board(template.width, template.height, template.spaceTemplates);
+            setExistingPlayers(template, board);
+            setExistingBoardState(board, template);
+            return board;
 
-    private Board reestablishBoard(String boardName) throws Exception {
-        HttpResponse<String> boardString = client.makeGetRequest("existingBoard/" + boardName);
-        BoardTemplate template = returnBoardTemplate(boardString);
-        Board board = new Board(template.width, template.height, template.spaceTemplates);
-        setExistingPlayers(template, board);
-        setExistingBoardState(board, template);
-        return board;
-
-    }
-
-    private void setExistingPlayers(BoardTemplate template, Board board) {
-        for (PlayerTemplate p : template.playerTemplates) {
-            Player newPlayer = new Player(p.color, p.name);
-            Space newPlayerSpace = board.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
-            newPlayer.setSpace(newPlayerSpace, board);
-            newPlayer.setTokenCount(p.tokenCount);
-            newPlayer.setHeading(p.heading);
-            newPlayer.setCards(p.getCommandCards());
-            board.getPlayers().add(newPlayer);
-            if (p.name.equals(template.currentTemplate.name))
-                board.setCurrentPlayer(newPlayer);
         }
 
-    }
+        private void setExistingPlayers(BoardTemplate template, Board board){
+            for(PlayerTemplate p : template.playerTemplates){
+                Player newPlayer = new Player(p.color, p.name);
+                Space newPlayerSpace = board.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
+                newPlayer.setSpace(newPlayerSpace, board);
+                newPlayer.setTokenCount(p.tokenCount);
+                newPlayer.setHeading(p.heading);
+                newPlayer.setCards(p.getCommandCards());
+                board.getPlayers().add(newPlayer);
+                if(p.name.equals(template.currentTemplate.name))
+                    board.setCurrentPlayer(newPlayer);
+            }
 
-    private void setExistingBoardState(Board board, BoardTemplate template) {
-        board.setPhase(template.phase);
-        board.setStep(template.step);
-        board.setWinnerStatus(template.winnerIsFound);
-        board.setStepMode(template.stepMode);
-    }
+        }
+
+        private void setExistingBoardState(Board board, BoardTemplate template){
+            board.setPhase(template.phase);
+            board.setStep(template.step);
+            board.setWinnerStatus(template.winnerIsFound);
+            board.setStepMode(template.stepMode);
+        }
 
 
-    private BoardTemplate returnBoardTemplate(HttpResponse<String> response) {
+    private BoardTemplate returnBoardTemplate(HttpResponse<String> response){
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>());
         Gson gson = simpleBuilder.create();
@@ -120,12 +116,11 @@ public class Repository {
         return response.body();
 
     }
-
     public String[] availableGamesList() throws Exception {
         HttpResponse<String> response = client.makeGetRequest("availableGames");
         System.out.println(response.body());
         String[] arrayOfOptions = response.body().toString().split(",");
-        for (String s : arrayOfOptions) {
+        for(String s : arrayOfOptions){
             System.out.println(s);
         }
 
@@ -145,7 +140,7 @@ public class Repository {
         boolean gameIsReady;
         HttpResponse<String> response = client.makeGetRequest("gameFull/" + gameId);
         System.out.println("gameIsReady() in repository:" + response.body());
-        if (response.body().equals("true"))
+        if(response.body().equals("true"))
             gameIsReady = true;
         else
             gameIsReady = false;

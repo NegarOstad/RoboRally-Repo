@@ -123,7 +123,14 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu.getItems().add(loadGame);
 
         exitApp = new MenuItem("Exit");
-        exitApp.setOnAction( e -> this.appController.exit());
+        exitApp.setOnAction( e -> {
+            try {
+                this.appController.exit();
+            } catch (Exception ex) {
+                System.out.println("Current game file not found in server.");
+                throw new RuntimeException(ex);
+            }
+        });
         controlMenu.getItems().add(exitApp);
 
         controlMenu.setOnShowing(e -> update());

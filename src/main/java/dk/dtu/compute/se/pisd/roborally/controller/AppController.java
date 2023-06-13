@@ -77,11 +77,10 @@ public class AppController implements Observer {
 
     private GameController gameController;
 
-    private int playerCount;
-     private int localPlayerNum;
+    int playerCount;
+    int localPlayerNum;
 
-    private int numberOfPlayersJoined;
-
+    int numberOfPlayersJoined;
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
@@ -250,7 +249,7 @@ public class AppController implements Observer {
             Board updatedBoard;
         try {
             updatedBoard = repository.loadGame(String.valueOf(gameController.board.getGameId()));
-            // gameController.board.setPhase(updatedBoard.getPhase());
+            //gameController.board.setPhase(updatedBoard.getPhase());
             gameController.board.setStep(updatedBoard.getStep());
             gameController.board.setCurrentPlayer(updatedBoard.getCurrentPlayer());
             for(Player p : gameController.board.getPlayers()){
@@ -262,7 +261,7 @@ public class AppController implements Observer {
                     }
                 }
             }
-
+            //update(gameController.board);
             System.out.println("We went into the try of the updateGameState");
 
         } catch (Exception e) {
