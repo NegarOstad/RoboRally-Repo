@@ -4,10 +4,6 @@ class Board {
 
 }
 
-class RacingCourse {
-
-}
-
 class Player {
 
 }

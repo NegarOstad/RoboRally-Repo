@@ -11,7 +11,7 @@ public class RoboRallyUpdate extends Button {
         this.setText("Update");
         this.setOnAction(e -> {
             try {
-                appController.updateGameState();
+                appController.newGame();
             } catch (Exception ex) {
                 throw new RuntimeException(ex);
             }
