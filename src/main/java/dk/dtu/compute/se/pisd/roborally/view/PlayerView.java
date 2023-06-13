@@ -94,7 +94,14 @@ public class PlayerView extends Tab implements ViewObserver {
         //      refactored.
 
         finishButton = new Button("Finish Programming");
-        finishButton.setOnAction( e -> gameController.finishProgrammingPhase());
+        finishButton.setOnAction( e -> {
+            try {
+                gameController.finishProgrammingPhase();
+                finishButton.setDisable(true);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
 
         executeButton = new Button("Execute Program");
         executeButton.setOnAction( e-> gameController.executePrograms());
@@ -133,6 +140,7 @@ public class PlayerView extends Tab implements ViewObserver {
             gameController.board.attach(this);
             update(gameController.board);
         }
+
     }
 
     @Override

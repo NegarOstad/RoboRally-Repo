@@ -50,7 +50,13 @@ import static java.lang.Integer.parseInt;
 /**
  * ...
  *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author
+ * Melissa Woo, s224311@dtu.dk
+ * Bayan Al Dowairi, s224329@dtu.dk
+ * Amira Omar, s205821@dtu.dk
+ * Besma Al Jwadi, s224325@dtu.dk
+ * Negar Ostad, s224283@dtu.dk
+ *
  *
  */
 public class AppController implements Observer {
@@ -71,10 +77,11 @@ public class AppController implements Observer {
 
     private GameController gameController;
 
-    int playerCount;
-    int localPlayerNum;
+    private int playerCount;
+     private int localPlayerNum;
 
-    int numberOfPlayersJoined;
+    private int numberOfPlayersJoined;
+
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
@@ -243,7 +250,7 @@ public class AppController implements Observer {
             Board updatedBoard;
         try {
             updatedBoard = repository.loadGame(String.valueOf(gameController.board.getGameId()));
-            gameController.board.setPhase(updatedBoard.getPhase());
+            // gameController.board.setPhase(updatedBoard.getPhase());
             gameController.board.setStep(updatedBoard.getStep());
             gameController.board.setCurrentPlayer(updatedBoard.getCurrentPlayer());
             for(Player p : gameController.board.getPlayers()){
@@ -255,13 +262,12 @@ public class AppController implements Observer {
                     }
                 }
             }
-            update(gameController.board);
+
             System.out.println("We went into the try of the updateGameState");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
 
     }
 
@@ -377,23 +383,26 @@ public class AppController implements Observer {
 
     public void exit() {
         if (gameController != null) {
-            if (!isGameSaved) {
+            if (isGameSaved) {
+                // If the game is already saved, directly exit the game
+                Platform.exit();
+            } else {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
-                alert.setTitle("Do you want to exit and save the game?");
-                alert.setContentText("Do you want to save the game before leaving?");
+                alert.setTitle("Exit RoboRally?");
+                alert.setContentText("Do you want to exit RoboRally without saving?");
                 Optional<ButtonType> userOption = alert.showAndWait();
 
-                if (userOption.isPresent() && userOption.get() == ButtonType.OK) {
+                if (userOption.isPresent() && userOption.get() == ButtonType.CANCEL) {
+                    // If the user chooses to exit without saving, stop the game and exit
+                    Platform.exit();
+
+                } else if (userOption.isPresent() && userOption.get() == ButtonType.OK) {
+                    //If the user chooses to exit and save, save the game then stop game and exit
                     saveGame();
+                    Platform.exit();
                 }
+
             }
-             // If the user did not cancel, the RoboRally application will exit after the option to save the game
-            // Exits the game when saved, aswell as when game is not saved
-            if (stopGame()) {
-                Platform.exit();
-            }
-        } else {
-            Platform.exit();
         }
     }
 

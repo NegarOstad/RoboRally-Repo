@@ -30,7 +30,13 @@ import java.util.List;
 /**
  * ...
  *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author
+ * Melissa Woo, s224311@dtu.dk
+ * Bayan Al Dowairi, s224329@dtu.dk
+ * Amira Omar, s205821@dtu.dk
+ * Besma Al Jwadi, s224325@dtu.dk
+ * Negar Ostad, s224283@dtu.dk
+ *
  *
  */
 public class GameController {
@@ -102,10 +108,14 @@ public class GameController {
         return new CommandCard(commands[random]);
     }
 
+
+
     // XXX: V2
-    public void finishProgrammingPhase() {
+    public void finishProgrammingPhase() throws Exception {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
+       api.setReady(board.getGameId());
+
         board.setPhase(Phase.ACTIVATION);
         //board.setCurrentPlayer(board.getPlayer(0));
         priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
@@ -139,8 +149,17 @@ public class GameController {
 
     // XXX: V2
     public void executePrograms() {
-        board.setStepMode(false);
-        continuePrograms();
+        System.out.println(api.areAllReady(board.getGameId()));
+        if(api.areAllReady(board.getGameId())){
+            int turn = api.getTurn(board.getGameId());
+            if (priorityList.get(turn).isLocal()) {
+                System.out.println("TURN" + turn);
+                board.setStepMode(false);
+                continuePrograms();
+            }
+
+        }
+
     }
 
     // XXX: V2
@@ -199,6 +218,7 @@ public class GameController {
                         board.setStep(step);
 
                     } else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
+                        api.setExecuted(board.getGameId());
                         startProgrammingPhase();
                     }
                 }

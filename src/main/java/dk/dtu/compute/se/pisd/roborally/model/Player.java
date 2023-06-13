@@ -154,8 +154,7 @@ public class Player extends Subject {
     public void updateSpace(Space space, Board board) {
         Space oldSpace = this.space; //holds player's space before move
         if (space.x != oldSpace.x || space.y != oldSpace.y) { // meaning player hasn't move since last update
-
-
+            oldSpace.setPlayer(null, board);
 
             Space[][] spaces = board.getSpaces();
             this.space = spaces[space.x][space.y];
