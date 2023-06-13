@@ -115,9 +115,6 @@ public class RoboRallyMenuBar extends MenuBar {
         loadGame.setOnAction( e -> {
             try {
                 this.appController.loadGame();
-            } catch (IOException ex) {
-                System.out.println("This is the error");
-                throw new RuntimeException(ex);
             } catch (Exception ex) {
 
                 throw new RuntimeException(ex);
