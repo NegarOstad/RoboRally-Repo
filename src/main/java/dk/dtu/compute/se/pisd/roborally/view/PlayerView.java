@@ -133,6 +133,7 @@ public class PlayerView extends Tab implements ViewObserver {
             gameController.board.attach(this);
             update(gameController.board);
         }
+        
     }
 
     @Override

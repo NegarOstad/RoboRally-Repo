@@ -71,10 +71,10 @@ public class AppController implements Observer {
 
     private GameController gameController;
 
-    int playerCount;
-    int localPlayerNum;
+    private int playerCount;
+     private int localPlayerNum;
 
-    int numberOfPlayersJoined;
+    private int numberOfPlayersJoined;
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
