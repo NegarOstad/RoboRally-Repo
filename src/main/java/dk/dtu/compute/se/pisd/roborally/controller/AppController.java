@@ -85,7 +85,9 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
-
+    /***
+     * Gets a player count and board choice from user and requests server to create a new game.
+     */
     public void newGame() throws Exception {
         setPlayerCountFromChoice();
         // GET BOARD CHOICE FROM USER
@@ -127,6 +129,11 @@ public class AppController implements Observer {
             return num.orElse("");
         }
 
+    /***
+     * Gets a choice from user from a list of games waiting for players
+     * and uses it to get player number for user's robot and total amount of players
+     * in chosen game from the server
+     */
     public void joinGame() throws Exception {
 
         if (gameController == null) {
@@ -144,26 +151,32 @@ public class AppController implements Observer {
 
     }
 
-    private String getUserChoiceJoinGame() throws Exception {
-        List<String> availableGames = List.of(repository.availableGamesList());
-        ChoiceDialog dialog = createChoiceDialog(availableGames.get(0), availableGames,
-                "Join Game", "Which of the following games do you wish to join?",
-                "Available games:");
+        private String getUserChoiceJoinGame() throws Exception {
+            List<String> availableGames = List.of(repository.availableGamesList());
+            ChoiceDialog dialog = createChoiceDialog(availableGames.get(0), availableGames,
+                    "Join Game", "Which of the following games do you wish to join?",
+                    "Available games:");
 
-        Optional<String> userChoice = dialog.showAndWait();
-        if(userChoice.isEmpty()){
-            dialog.close();
+            Optional<String> userChoice = dialog.showAndWait();
+            if(userChoice.isEmpty()){
+                dialog.close();
+            }
+            return userChoice.orElse("");
         }
-        return userChoice.orElse("");
-    }
 
-    private void setJoinInfo(String chosenGameId, String[] joinInfo) throws Exception {
-        gameId = parseInt(chosenGameId);
-        localPlayerNum = parseInt(joinInfo[0]);
-        playerCount =  parseInt(joinInfo[1]);
-        numberOfPlayersJoined  = repository.getPlayerCount(gameId);
-    }
+        private void setJoinInfo(String chosenGameId, String[] joinInfo) throws Exception {
+            gameId = parseInt(chosenGameId);
+            localPlayerNum = parseInt(joinInfo[0]);
+            playerCount =  parseInt(joinInfo[1]);
+            numberOfPlayersJoined  = repository.getPlayerCount(gameId);
+        }
 
+    /***
+     * Creates a dialog window that serves as a waiting room. Contains an update button,
+     * which asks the server if the expected amount of players has joined. If so, creates
+     * a new board and players, and starts the game, or else shows the amount of players
+     * currently waiting
+     */
     private void goToWaitingRoom() throws Exception {
         //CREATE DIALOG WINDOW FOR WAITING ROOM
         Dialog<Void> dialog = new Dialog<>();
@@ -228,6 +241,9 @@ public class AppController implements Observer {
 
     }
 
+    /***
+     * Prompts the user to enter a file name to save the game as a json string or to cancel
+     */
     public void saveGame() {
         TextInputDialog textInputDialog = new TextInputDialog();
         textInputDialog.setHeaderText("Save Game");
@@ -245,6 +261,11 @@ public class AppController implements Observer {
         }
     }
 
+    /***
+     * Creates a temporary board to deserialize from a game state saved on server and adds
+     * the appropriate information to the current game's board and its players.
+     * @throws Exception
+     */
     public void updateGameState() throws Exception {
             Board updatedBoard;
         try {
@@ -271,6 +292,11 @@ public class AppController implements Observer {
 
     }
 
+    /***
+     * Prompts the user to choose a board to load game from and recreates that board
+     * and the game state surrounding it. It then starts a game
+     * @throws Exception if cannot load chosen board
+     */
     public void loadGame() throws Exception {
         Board board = null;
         if (gameController == null) {
@@ -324,12 +350,22 @@ public class AppController implements Observer {
                 return nums;
             }
 
-
+    /***
+     * Sets the player chosen by the user to be the local player for this game
+     * @param board Board object which the game is operating on
+     * @param chosenPlayer the player, the user wants to play as
+     */
         private void setLocalPlayer(Board board, int chosenPlayer) {
                 board.getPlayer(chosenPlayer).setLocal(true);
         }
 
-
+    /***
+     * Starts a new game either from scratch or reinitializing an existing board
+     * @param board Board that the game to be started should be played on
+     * @param startType if "load" then reinitialize both game state and existing players
+     *                  if "new" then create new board and views as well as new players in their
+     *                  default start positions
+     */
         private void startGame(Board board, String startType){
             gameController = new GameController(board);
             if(startType.equals("load"))
@@ -394,7 +430,7 @@ public class AppController implements Observer {
 
                 if (userOption.isPresent() && userOption.get() == ButtonType.CANCEL) {
                     // If the user chooses to exit without saving, stop the game and exit
-                        repository.deleteGame(gameId);
+                        repository.deleteGame(gameId); // delete game from server resources folder
                         Platform.exit();
 
                 } else if (userOption.isPresent() && userOption.get() == ButtonType.OK) {
