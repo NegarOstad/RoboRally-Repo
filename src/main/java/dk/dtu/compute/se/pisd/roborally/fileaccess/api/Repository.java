@@ -43,13 +43,14 @@ public class Repository {
                 ;
         Gson gson = simpleBuilder.create();
 
-        return gson.toJson(template, template.getClass(), writer);
+        return gson.toJson(template, template.getClass()/*, writer*/);
     }
     public String[] getList(String path) throws Exception {
-      HttpResponse<String> response = client.makeGetRequest("sendList/"+path);
-        HttpRequest httpRequestList = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/sendList"))
+        HttpResponse<String> response = client.makeGetRequest("sendList/"+path);
+        /*HttpRequest httpRequestList =
+                HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/sendList"))
                         .build();
-        HttpResponse responseList = httpClient.send(httpRequestList, HttpResponse.BodyHandlers.ofString());
+        HttpResponse responseList = httpClient.send(httpRequestList, HttpResponse.BodyHandlers.ofString());*/
         System.out.println(response.body());
         String[] arrayOfOptions = response.body().toString().split(",");
         for(String s : arrayOfOptions){
@@ -62,25 +63,25 @@ public class Repository {
 
     public Board loadGame(String boardname) throws Exception {
 
-            HttpResponse<String> response = client.makeGetRequest("sendBoard/templates/"+boardname);
-            BoardTemplate template = returnBoardTemplate(response);
-            Board board = new Board(template.width, template.height, template.spaceTemplates);
-            for(PlayerTemplate p : template.playerTemplates){
-                Player newPlayer = new Player(p.color, p.name);
-                Space newPlayerSpace = board.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
-                newPlayer.setSpace(newPlayerSpace, board);
-                newPlayer.setTokenCount(p.tokenCount);
-                newPlayer.setHeading(p.heading);
-                newPlayer.setCards(p.getCommandCards());
-                board.getPlayers().add(newPlayer);
-                if(p.name.equals(template.currentTemplate.name))
-                    board.setCurrentPlayer(newPlayer);
-            }
-            board.setPhase(template.phase);
-            board.setStep(template.step);
-            board.setWinnerStatus(template.winnerIsFound);
-            board.setStepMode(template.stepMode);
-            return board;
+        HttpResponse<String> response = client.makeGetRequest("sendBoard/templates/"+boardname);
+        BoardTemplate template = returnBoardTemplate(response);
+        Board board = new Board(template.width, template.height, template.spaceTemplates);
+        for(PlayerTemplate p : template.playerTemplates){
+            Player newPlayer = new Player(p.color, p.name);
+            Space newPlayerSpace = board.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
+            newPlayer.setSpace(newPlayerSpace, board);
+            newPlayer.setTokenCount(p.tokenCount);
+            newPlayer.setHeading(p.heading);
+            newPlayer.setCards(p.getCommandCards());
+            board.getPlayers().add(newPlayer);
+            if(p.name.equals(template.currentTemplate.name))
+                board.setCurrentPlayer(newPlayer);
+        }
+        board.setPhase(template.phase);
+        board.setStep(template.step);
+        board.setWinnerStatus(template.winnerIsFound);
+        board.setStepMode(template.stepMode);
+        return board;
 
     }
 
@@ -101,12 +102,12 @@ public class Repository {
         return valueOf(response.body());
     }
 
-    public int getGameID() throws Exception {
-        HttpResponse<String> response = client.makeGetRequest("gameID");
-        return parseInt(response.body());
-    }
+    /* public int getGameID() throws Exception {
+         HttpResponse<String> response = client.makeGetRequest("gameID");
+         return parseInt(response.body());
+     }*/
     public String joinGameWithID(Integer gameID) throws Exception {
-    HttpResponse<String> response = client.makeGetRequest("join/" + gameID);
+        HttpResponse<String> response = client.makeGetRequest("join/" + gameID);
         return response.body();
 
     }
