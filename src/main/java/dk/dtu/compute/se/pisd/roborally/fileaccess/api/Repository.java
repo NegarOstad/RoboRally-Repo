@@ -201,4 +201,9 @@ public class Repository {
         boolean setReady;
         client.makePostRequest("executed/" + gameId, "");
     }
+
+    public void deleteGame(int gameId) throws Exception {
+        client.makeDeleteRequest("deleteGame/" + String.valueOf(gameId));
+
+    }
 }

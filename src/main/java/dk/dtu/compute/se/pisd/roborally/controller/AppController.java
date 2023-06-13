@@ -381,7 +381,7 @@ public class AppController implements Observer {
         return false;
     }
 
-    public void exit() {
+    public void exit() throws Exception {
         if (gameController != null) {
             if (isGameSaved) {
                 // If the game is already saved, directly exit the game
@@ -389,12 +389,13 @@ public class AppController implements Observer {
             } else {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
                 alert.setTitle("Exit RoboRally?");
-                alert.setContentText("Do you want to exit RoboRally without saving?");
+                alert.setContentText("Do you want to save before exiting Robo Rally?");
                 Optional<ButtonType> userOption = alert.showAndWait();
 
                 if (userOption.isPresent() && userOption.get() == ButtonType.CANCEL) {
                     // If the user chooses to exit without saving, stop the game and exit
-                    Platform.exit();
+                        repository.deleteGame(gameId);
+                        Platform.exit();
 
                 } else if (userOption.isPresent() && userOption.get() == ButtonType.OK) {
                     //If the user chooses to exit and save, save the game then stop game and exit
