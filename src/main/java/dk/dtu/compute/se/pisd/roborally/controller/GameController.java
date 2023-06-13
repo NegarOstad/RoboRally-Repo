@@ -311,46 +311,40 @@ public class GameController {
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
-        int newY = player.getSpace().y;
-        int newX = player.getSpace().x;
+        Space currentSpace = player.getSpace();
+        boolean wallIsBlocking = currentSpace.getType().equals(ElementType.Wall)
+                && ((Wall)currentSpace.getBoardElement()).getHeading().equals(currentHeading);
+        int newX = currentSpace.x;
+        int newY = currentSpace.y;
 
         for (int i = 0; i < 2 ; i++) {
-            ElementType nextSpaceType;
             switch (currentHeading){
                 case SOUTH:
-                    newY++;
-                    if(newY >= 0 && newY < board.height) {
-                        nextSpaceType = board.getSpace(player.getSpace().x, player.getSpace().y + 1).getType();
-                        if (!(nextSpaceType.equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY), board);
-                    }
+                    if (!wallIsBlocking)
+                        newY = newY + 1;
+                    if(newY >= 0 && newY < board.height)
+                        player.setSpace(board.getSpace(newX, newY), board);
                     break;
 
                 case NORTH:
-                    newY--;
-                    if(newY >= 0 && newY < board.height) {
-                        nextSpaceType = board.getSpace(player.getSpace().x, player.getSpace().y - 1).getType();
-                        if (!(nextSpaceType.equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY), board);
-                    }
+                    if(!wallIsBlocking)
+                        newY = newY - 1;
+                    if(newY >= 0 && newY < board.height)
+                        player.setSpace(board.getSpace(newX, newY), board);
                     break;
 
                 case WEST:
-                    newX--;
-                    if(newX >= 0 && newX < board.width) {
-                        nextSpaceType = board.getSpace(player.getSpace().x - 1, player.getSpace().y).getType();
-                        if (!(nextSpaceType.equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY), board);
-                    }
+                    if (!wallIsBlocking)
+                        newX = newX - 1;
+                    if(newX >= 0 && newX < board.width)
+                        player.setSpace(board.getSpace(newX, newY), board);
                     break;
 
                 case EAST:
-                    newX++;
-                    if(newX >= 0 && newX < board.width) {
-                        nextSpaceType = board.getSpace(player.getSpace().x + 1, player.getSpace().y).getType();
-                        if (!(nextSpaceType.equals(ElementType.Wall)))
-                            player.setSpace(board.getSpace(newX, newY), board);
-                    }
+                    if (!wallIsBlocking)
+                        newX = newX + 1;
+                    if(newX >= 0 && newX < board.width)
+                        player.setSpace(board.getSpace(newX, newY), board);
                     break;
 
                 default:
