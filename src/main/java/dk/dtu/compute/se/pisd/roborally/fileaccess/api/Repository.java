@@ -10,7 +10,7 @@ import java.net.http.HttpResponse;
 import static java.lang.Integer.parseInt;
 import static java.lang.Integer.valueOf;
 
-/*public class Repository {
+public class Repository {
 
     private static Repository instance;
 
@@ -43,12 +43,11 @@ import static java.lang.Integer.valueOf;
                 ;
         Gson gson = simpleBuilder.create();
 
-        return gson.toJson(template, template.getClass()/*, writer);*/
-   /* }
+        return gson.toJson(template, template.getClass(), writer);
+    }
     public String[] getList(String path) throws Exception {
       HttpResponse<String> response = client.makeGetRequest("sendList/"+path);
-        /*HttpRequest httpRequestList =
-                HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/sendList"))
+        HttpRequest httpRequestList = HttpRequest.newBuilder().GET().uri(URI.create("http://localhost:8080/sendList"))
                         .build();
         HttpResponse responseList = httpClient.send(httpRequestList, HttpResponse.BodyHandlers.ofString());
         System.out.println(response.body());
@@ -102,7 +101,7 @@ import static java.lang.Integer.valueOf;
         return valueOf(response.body());
     }
 
-   /* public int getGameID() throws Exception {
+    public int getGameID() throws Exception {
         HttpResponse<String> response = client.makeGetRequest("gameID");
         return parseInt(response.body());
     }
@@ -149,4 +148,3 @@ import static java.lang.Integer.valueOf;
         return Integer.valueOf(response.body());
     }
 }
-*/
