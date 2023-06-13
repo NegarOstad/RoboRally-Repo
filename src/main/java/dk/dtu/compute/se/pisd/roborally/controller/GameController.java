@@ -21,6 +21,7 @@
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
 //import dk.dtu.compute.se.pisd.roborally.fileaccess.api.Repository;
+import dk.dtu.compute.se.pisd.roborally.model.ElementType;
 import dk.dtu.compute.se.pisd.roborally.fileaccess.LoadBoard;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.*;
@@ -38,7 +39,7 @@ public class GameController {
 
 
     //Repository api = Repository.getInstance();
-     final public Board board;
+    final public Board board;
     int x = 0;
     int y = 0;
     int counter = 0;
@@ -55,7 +56,7 @@ public class GameController {
      *
      * @param space the space to which the current player should move
      */
-    public void moveCurrentPlayerToSpace(@NotNull Space space)  {
+    public void moveCurrentPlayerToSpace(@NotNull Space space) {
         // TODO Assignment V1: method should be implemented by the students:
         //   - the current player should be moved to the given space
         //     (if it is free()
@@ -65,7 +66,8 @@ public class GameController {
         //     if the player is moved
 
     }
-    public void reinitializeBoard(Phase phase, Player current, int step){
+
+    public void reinitializeBoard(Phase phase, Player current, int step) {
         board.setPhase(phase);
         board.setCurrentPlayer(current);
         board.setStep(step);
@@ -159,11 +161,19 @@ public class GameController {
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
+    public boolean isPlayerOnConveyor(Player currentPlayer) {
+        return currentPlayer;
+    }
+
+
 
     // XXX: V2
     private void executeNextStep() {
         System.out.println("Counter : " + counter + ", Current step: " + board.getStep() + ", Current priority player: " + priorityList.get(counter).getName());
         Player currentPlayer = priorityList.get(counter);
+        if (isPlayerOnConveyor(currentPlayer)) {
+            moveForward(currentPlayer); // Move player 1 step forward
+        }
         board.setCurrentPlayer(currentPlayer);
 
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
@@ -391,5 +401,6 @@ public class GameController {
             return false;
         }
     }
+
 
 }

@@ -20,7 +20,7 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.model;
-
+import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 /**
@@ -94,7 +94,41 @@ public class Space extends Subject {
             board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board, this.heading);
         }
 
+
     }
+        /*public void fillConveyorBelt(int endX, int endY, int x, int y , Board board, Heading heading){
+        type = ElementType.ConveyorBelt;
+        spaceAction = new ConveyorBelt(endX, endY);
+
+        if (x == endX) {
+            if (endY == y) {
+                this.heading = heading;
+                return;
+            }
+            if(y < endY){
+                y++;
+                this.heading = Heading.SOUTH;
+                board.getSpace(x, y).fillConveyorBelt(endX,  endY, x, y, board, this.heading);
+                gamecontroller.moveForward(player);
+            } else {
+                y--;
+                this.heading = Heading.NORTH;
+                board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y, board, this.heading);
+                gameController.moveForward(player);
+            }
+        } else if (x > endX) {
+            x--;
+            this.heading = Heading.WEST;
+            board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board, this.heading);
+            gameController.moveForward(player);
+        } else {
+            x++;
+            this.heading = Heading.EAST;
+            board.getSpace(x, y).fillConveyorBelt( endX,  endY, x, y , board, this.heading);
+            gameController.moveForward(player);
+        }
+
+    }*/
 
     public Heading getHeading() {
         return heading;
