@@ -5,28 +5,19 @@ class AppController{
 
 -PLAYER_NUMBER_OPTIONS : List<Integer>
 -PLAYER_COLORS : List<String>
+-BOARD_NUMBER : List<Integer>
 -gameFiles : String[]
 -gameName : String
--gameId: int
--repository : Repository
+repository : Repository
 -isGameSaves : boolean
 -roboRally : RoboRally
 -gameController : GameController
--numberOfPlayersJoined: int
--playerNum: int
--playerCount: int
 
 newGame() : void
 joinGame() : void
 loadGame() : void
 setUpPlayers() : void
-updatePlayersAmount(): boolean
-goToWaitingRoom(): void
-makePlayerNumList(): List<Integer>
-setLocalPlayer(): void
-startGame(): void
 startLoadedGame() : void
-updateGameState(): void
 saveGame() : void
 stopGame() : void
 isGameSaved() : boolean
