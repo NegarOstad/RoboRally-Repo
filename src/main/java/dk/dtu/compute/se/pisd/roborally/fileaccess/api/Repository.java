@@ -192,4 +192,18 @@ public class Repository {
         boolean setReady;
         client.makePostRequest("programmingPhaseComplete/" + gameId, "");
     }
+    public int getTurn(int gameId) {
+        HttpResponse<String> response = null;
+        try {
+            response = client.makeGetRequest("getTurn/" + gameId);
+        } catch (Exception e) {
+            return 0;
+        }
+        return valueOf(response.body());
+    }
+
+    public void setExecuted(int gameId) {
+        boolean setReady;
+        client.makePostRequest("executed/" + gameId, "");
+    }
 }

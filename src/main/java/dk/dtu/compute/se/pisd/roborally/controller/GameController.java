@@ -117,8 +117,6 @@ public class GameController {
         board.setOutOfBounds(false); // ????
 
         board.setStep(0);
-
-
     }
 
     // XXX: V2
@@ -145,11 +143,15 @@ public class GameController {
 
     // XXX: V2
     public void executePrograms() {
+        System.out.println(api.areAllReady(board.getGameId()));
         if(api.areAllReady(board.getGameId())){
+            int turn = api.getTurn(board.getGameId());
+            if (priorityList.get(turn).isLocal()) {
+                System.out.println("TURN" + turn);
+                board.setStepMode(false);
+                continuePrograms();
+            }
 
-
-            board.setStepMode(false);
-            continuePrograms();
         }
 
     }
@@ -210,6 +212,7 @@ public class GameController {
                         board.setStep(step);
 
                     } else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
+                        api.setExecuted(board.getGameId());
                         startProgrammingPhase();
                     }
                 }
