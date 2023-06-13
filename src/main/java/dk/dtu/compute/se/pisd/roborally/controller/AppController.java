@@ -375,7 +375,7 @@ public class AppController implements Observer {
         return false;
     }
 
-    public void exit() {
+    public void exit() throws Exception {
         if (gameController != null) {
             if (!isGameSaved) {
                 Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -386,6 +386,8 @@ public class AppController implements Observer {
                 if (userOption.isPresent() && userOption.get() == ButtonType.OK) {
                     saveGame();
                 }
+                repository.deleteGame(gameId);
+
             }
              // If the user did not cancel, the RoboRally application will exit after the option to save the game
             // Exits the game when saved, aswell as when game is not saved

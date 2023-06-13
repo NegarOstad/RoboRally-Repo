@@ -77,7 +77,12 @@ public class RoboRally extends Application {
                 e -> {
                     e.consume();
 
+                    try {
                         appController.exit();
+                    } catch (Exception ex) {
+                        System.out.println("Current game file not found.");
+                        throw new RuntimeException(ex);
+                    }
                 } );
         stage.setResizable(true);
         stage.sizeToScene();

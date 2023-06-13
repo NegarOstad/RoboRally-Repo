@@ -28,7 +28,6 @@ public class Repository {
     HTTPClient client = HTTPClient.getInstance();
     public void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate(board, board.getSpaces(), board.getPlayers(), board.getCurrentPlayer());
-
         String path = "saveGame/" + name;
         client.makePostRequest(path, templateString(template));
 
@@ -63,12 +62,12 @@ public class Repository {
 
     }
         private Board reestablishBoard(String boardName) throws Exception {
-        HttpResponse<String> boardString = client.makeGetRequest("existingBoard/" + boardName);
-        BoardTemplate template = returnBoardTemplate(boardString);
-        Board board = new Board(template.width, template.height, template.spaceTemplates);
-        setExistingPlayers(template, board);
-        setExistingBoardState(board, template);
-        return board;
+            HttpResponse<String> boardString = client.makeGetRequest("existingBoard/" + boardName);
+            BoardTemplate template = returnBoardTemplate(boardString);
+            Board board = new Board(template.width, template.height, template.spaceTemplates);
+            setExistingPlayers(template, board);
+            setExistingBoardState(board, template);
+            return board;
 
         }
 
@@ -153,5 +152,9 @@ public class Repository {
         HttpResponse<String> response = client.makeGetRequest("playerCount/" + gameId);
         System.out.println(Integer.valueOf(response.body()));
         return Integer.valueOf(response.body());
+    }
+
+    public void deleteGame(int gameId) throws Exception {
+
     }
 }

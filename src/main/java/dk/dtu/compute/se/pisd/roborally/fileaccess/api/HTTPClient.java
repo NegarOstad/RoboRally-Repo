@@ -1,5 +1,6 @@
 package dk.dtu.compute.se.pisd.roborally.fileaccess.api;
 
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -69,4 +70,23 @@ public class HTTPClient {
 
     }
 
-}
+    public void makeDeleteRequest(String path) {
+        HttpRequest httpRequestDelete =
+                HttpRequest.newBuilder()
+                        .DELETE()
+                        .uri(URI.create(URL + path))
+                        .build();
+
+        try {
+            HttpResponse<String> response = httpClient.send(httpRequestDelete, HttpResponse.BodyHandlers.ofString());
+            int statusCode = response.statusCode();
+            String responseBody = response.body();
+
+            System.out.println("Response Status Code: " + statusCode);
+            System.out.println("Response Body: " + responseBody);
+        } catch (IOException | InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    }
