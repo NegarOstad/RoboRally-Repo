@@ -250,18 +250,19 @@ public class AppController implements Observer {
                 for(Player p_up : updatedBoard.getPlayers()) {
                     if(p.getName().equals(p_up.getName())) {
                         p.updateSpace(p_up.getSpace(), gameController.board);
+                        update(gameController.board);
                         p.setTokenCount(p_up.getTokenCount());
                         p.setHeading(p_up.getHeading());
                     }
                 }
             }
             update(gameController.board);
-
             System.out.println("We went into the try of the updateGameState");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
+
 
     }
 
