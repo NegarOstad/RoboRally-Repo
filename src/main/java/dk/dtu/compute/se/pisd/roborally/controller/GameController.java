@@ -161,9 +161,7 @@ public class GameController {
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
-    public boolean isPlayerOnConveyor(Player currentPlayer) {
-        return currentPlayer;
-    }
+
 
 
 
@@ -171,9 +169,7 @@ public class GameController {
     private void executeNextStep() {
         System.out.println("Counter : " + counter + ", Current step: " + board.getStep() + ", Current priority player: " + priorityList.get(counter).getName());
         Player currentPlayer = priorityList.get(counter);
-        if (isPlayerOnConveyor(currentPlayer)) {
-            moveForward(currentPlayer); // Move player 1 step forward
-        }
+
         board.setCurrentPlayer(currentPlayer);
 
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
