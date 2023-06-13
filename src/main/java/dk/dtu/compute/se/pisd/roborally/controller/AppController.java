@@ -60,7 +60,7 @@ public class AppController implements Observer {
     private String gameName ;
     private int gameId;
 
-    Repository repository = Repository.getInstance();
+    private Repository repository = Repository.getInstance();
 
     private boolean isGameSaved = false;
 
@@ -68,11 +68,11 @@ public class AppController implements Observer {
 
     private GameController gameController;
 
-    int playerCount;
+    private int playerCount;
 
-    int playerNum;
+   private int playerNum;
 
-    int numberOfPlayersJoined;
+    private int numberOfPlayersJoined;
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
@@ -408,16 +408,49 @@ public class AppController implements Observer {
         }
     }
 
-            /**
-             * Stop playing the current game, giving the user the option to save
-             * the game or to cancel stopping the game. The method returns true
-             * if the game was successfully stopped (with or without saving the
-             * game); returns false, if the current game was not stopped. In case
-             * there is no current game, false is returned.
-             *
-             * @return true if the current game was stopped, false otherwise
-             */
+    /**
+     * Stop playing the current game, giving the user the option to save
+     * the game or to cancel stopping the game. The method returns true
+     * if the game was successfully stopped (with or without saving the
+     * game); returns false, if the current game was not stopped. In case
+     * there is no current game, false is returned.
+     *
+     * @return true if the current game was stopped, false otherwise
+     */
+   /* public boolean stopGame()  {
+        if (gameController != null) {
 
+            // here we save the game (without asking the user).
+            gameController = null;
+            roboRally.createBoardView(null);
+
+            HttpRequest httpRequest =
+                    HttpRequest.newBuilder().GET().uri(URI.create("http://10.209.204.5:8080/stop/" ))
+                            .build();
+            httpClient.sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString()).thenAccept(System.out::println).join();
+            return true;
+        }
+        return false;
+    }
+
+    public void exit()  {
+        if (gameController != null) {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Exit RoboRally?");
+            alert.setContentText("Do you want to exit RoboRally?");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (!result.isPresent() || result.get() != ButtonType.OK) {
+                return; // return without exiting the application
+            }
+        }
+
+        // If the user did not cancel, the RoboRally application will exit
+        // after the option to save the game
+        if (gameController == null || stopGame()) {
+            Platform.exit();
+        }
+    }*/
 
     public boolean isGameRunning() {
         return gameController != null;
