@@ -50,7 +50,13 @@ import static java.lang.Integer.parseInt;
 /**
  * ...
  *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author
+ * Melissa Woo, s224311@dtu.dk
+ * Bayan Al Dowairi, s224329@dtu.dk
+ * Amira Omar, s205821@dtu.dk
+ * Besma Al Jwadi, s224325@dtu.dk
+ * Negar Ostad, s224283@dtu.dk
+ *
  *
  */
 public class AppController implements Observer {
