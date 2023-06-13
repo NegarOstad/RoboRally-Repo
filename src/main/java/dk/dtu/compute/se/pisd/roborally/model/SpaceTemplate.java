@@ -8,7 +8,8 @@ public class SpaceTemplate {
     public Heading heading;
 
 
-    public SpaceTemplate(int x, int y, ElementType type,  SpaceAction sa, Heading heading) {
+
+    public SpaceTemplate(int x, int y, ElementType type,  SpaceAction sa, Heading heading){
         this.x = x;
         this.y = y;
         this.sa = sa;

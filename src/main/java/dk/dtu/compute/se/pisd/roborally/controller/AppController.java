@@ -239,9 +239,9 @@ public class AppController implements Observer {
 
     private Board setupBaseBoard(){
         Board board = new Board(8,8);
-        board.getSpace(1,3).setTypeGear(Heading.NORTH);
-        board.getSpace(4,4).setTypeGear(Heading.EAST);
-        board.getSpace(1,3).setTypeGear(Heading.SOUTH);
+        board.getSpace(1, 3).setTypeGear(false, true); // Turn right
+        board.getSpace(4, 4).setTypeGear(true, false); // Turn left
+        board.getSpace(1, 3).setTypeGear(false, true); // Turn right
         board.getSpace(4,0).setTypeCheckpoint(0, false);
         board.getSpace(5,0).setTypeCheckpoint(1,true);
         board.getSpace(2,1).fillConveyorBelt(6, 1, 2, 1 , board, null);
@@ -252,6 +252,7 @@ public class AppController implements Observer {
         board.getSpace(0,5).setTypeWall();
         board.getSpace(5,3).setTypeWall();
         board.setTypePriorityAntenna(7, 7);
+
         return  board;
     }
 
@@ -374,7 +375,7 @@ public class AppController implements Observer {
 
             // here we save the game (without asking the user).
             saveGame();
-            
+
             gameController = null;
             roboRally.createBoardView(null);
             return true;

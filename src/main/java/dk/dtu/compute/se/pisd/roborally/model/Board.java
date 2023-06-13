@@ -108,7 +108,7 @@ public class  Board extends Subject {
         switch(type) {
                 case Gear:
                     Gear gear = (Gear)spaceTemplate.sa;
-                    space.setTypeGear(gear.getHeading());
+                    space.setTypeGear(gear.isTurnLeft(), gear.isTurnRight());
                     break;
                 case Checkpoint:
                     Checkpoint checkpoint = (Checkpoint)spaceTemplate.sa;
@@ -319,6 +319,8 @@ public class  Board extends Subject {
     public List<Player> getPlayers() {
         return players;
     }
+
+
 
    /* public void setSpaceType(int x, int y, ElementType inputType) {
         switch (inputType){

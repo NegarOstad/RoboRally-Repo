@@ -153,8 +153,6 @@ public class GameController {
     private void continuePrograms() {
         do {
             executeNextStep();
-            String name = board.getGameId().toString();
-            System.out.println("Name when saving" + name);
             api.saveBoard(board, String.valueOf(board.getGameId()));
 
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
