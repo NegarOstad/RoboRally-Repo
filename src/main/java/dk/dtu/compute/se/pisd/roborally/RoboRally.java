@@ -53,6 +53,7 @@ public class RoboRally extends Application {
 
     private Stage stage;
     private BorderPane boardRoot;
+    RoboRallyUpdate updateButton;
     // private RoboRallyMenuBar menuBar;
 
     // private AppController appController;
@@ -72,7 +73,8 @@ public class RoboRally extends Application {
         // the board view (which initially is empty); it will be filled
         // when the user creates a new game or loads a game
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
-        RoboRallyUpdate updateButton = new RoboRallyUpdate(appController);
+        updateButton = new RoboRallyUpdate(appController);
+        updateButton.setDisable(true);
         boardRoot = new BorderPane();
         VBox vbox = new VBox(menuBar, updateButton, boardRoot);
         vbox.setMinWidth(MIN_APP_WIDTH);
@@ -105,6 +107,7 @@ public class RoboRally extends Application {
             // create and add view for new board
             BoardView boardView = new BoardView(gameController);
             boardRoot.setCenter(boardView);
+            updateButton.setDisable(false);
         }
 
         stage.sizeToScene();
