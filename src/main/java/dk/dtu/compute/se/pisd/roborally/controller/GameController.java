@@ -348,13 +348,14 @@ public class GameController {
     // TODO Assignment V2
     public void fastForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
-        Space currentSpace = player.getSpace();
-        boolean wallIsBlocking = currentSpace.getType().equals(ElementType.Wall)
-                && ((Wall)currentSpace.getBoardElement()).getHeading().equals(currentHeading);
-        int newX = currentSpace.x;
-        int newY = currentSpace.y;
+        int newX = player.getSpace().x;
+        int newY = player.getSpace().y;
 
         for (int i = 0; i < 2 ; i++) {
+            Space currentSpace = player.getSpace();
+            boolean wallIsBlocking = currentSpace.getType().equals(ElementType.Wall)
+                    && ((Wall)currentSpace.getBoardElement()).getHeading().equals(currentHeading);
+
             switch (currentHeading){
                 case SOUTH:
                     if (!wallIsBlocking)
