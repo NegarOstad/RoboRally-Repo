@@ -155,6 +155,7 @@ public class Repository {
     }
 
     public void deleteGame(int gameId) throws Exception {
+        client.makeDeleteRequest("deleteGame/" + String.valueOf(gameId));
 
     }
 }

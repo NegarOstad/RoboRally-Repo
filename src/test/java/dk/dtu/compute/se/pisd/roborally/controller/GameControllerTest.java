@@ -141,7 +141,7 @@ class GameControllerTest {
     @Test
     void stopPlayerOneTurn() {
         Board board = gameController.board;
-        board.getSpace(0, 1).setTypeWall();
+        board.getSpace(0, 1).setTypeWall(Heading.SOUTH);
         Player currentPlayer = board.getCurrentPlayer();
         System.out.println("Player x is " + currentPlayer.getSpace().x + " player y is " + currentPlayer.getSpace().y + " player heading is " + currentPlayer.getHeading());
         currentPlayer.setTestRegister(1,board);

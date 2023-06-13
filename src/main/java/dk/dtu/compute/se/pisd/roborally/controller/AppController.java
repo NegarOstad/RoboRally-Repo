@@ -385,8 +385,10 @@ public class AppController implements Observer {
 
                 if (userOption.isPresent() && userOption.get() == ButtonType.OK) {
                     saveGame();
+                } else {
+                    repository.deleteGame(gameId);
                 }
-                repository.deleteGame(gameId);
+
 
             }
              // If the user did not cancel, the RoboRally application will exit after the option to save the game
