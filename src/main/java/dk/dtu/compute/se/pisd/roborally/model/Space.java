@@ -34,6 +34,7 @@ public class Space extends Subject {
     //public final Board board;
     ElementType type;
     Heading heading = null;
+
     public final int x;
     public final int y;
     private Player player;
@@ -60,11 +61,22 @@ public class Space extends Subject {
 
     }
 
+    public int getCheckpointIndex() {
+        if (type == ElementType.Checkpoint && spaceAction instanceof Checkpoint) {
+            return ((Checkpoint) spaceAction).getIndex();
+        }
+        // Return a special value or throw an exception to indicate that no checkpoint is set
+        throw new IllegalStateException("No checkpoint is set in this space.");
+    }
+
+
     public void setTypeConveyor(int endX, int endY) {
         type = ElementType.ConveyorBelt;
         spaceAction = new ConveyorBelt(endX, endY);
 
         }
+
+
 
     public void fillConveyorBelt(int endX, int endY, int x, int y , Board board, Heading heading){
         type = ElementType.ConveyorBelt;
