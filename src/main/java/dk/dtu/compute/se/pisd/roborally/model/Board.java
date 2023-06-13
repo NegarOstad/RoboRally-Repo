@@ -320,6 +320,8 @@ public class  Board extends Subject {
         return players;
     }
 
+
+
    /* public void setSpaceType(int x, int y, ElementType inputType) {
         switch (inputType){
             case Gear:

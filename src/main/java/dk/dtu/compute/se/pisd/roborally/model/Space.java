@@ -105,15 +105,25 @@ public class Space extends Subject {
         this.heading = heading;
     }
 
+    public SpaceAction getSpaceAction() {
+        return spaceAction;
+    }
+
+    public void setSpaceAction(SpaceAction spaceAction) {
+        this.spaceAction = spaceAction;
+    }
+
     /*public void setTypeGear(Heading heading){
         type = ElementType.Gear;
         spaceAction = new Gear(heading);
     }*/
 
-    public void setTypeGear(boolean turnLeft, boolean turnRight) {
-        type = ElementType.Gear;
-        spaceAction = new Gear(turnLeft, turnRight);
-    }
+
+        public void setTypeGear(boolean turnLeft, boolean turnRight) {
+            type = ElementType.Gear;
+            spaceAction = new Gear(turnLeft, turnRight);
+        }
+
 
 
     public SpaceAction setTypePriorityAntenna(){
@@ -160,6 +170,8 @@ public class Space extends Subject {
         // notify the space of these changes by calling this method.
         notifyChange();
     }
+
+
 
     /*
     public boolean hasACheckpoint() {

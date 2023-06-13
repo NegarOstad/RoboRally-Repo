@@ -23,19 +23,16 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.model.*;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeLineCap;
+import dk.dtu.compute.se.pisd.roborally.model.SpaceAction;
+import dk.dtu.compute.se.pisd.roborally.model.Gear;
 import org.jetbrains.annotations.NotNull;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.*;
 
 /**
@@ -62,7 +59,7 @@ public class SpaceView extends StackPane implements ViewObserver {
     private List<ImageView> imageViews;
 
 
-   // private ImageHolder imageHolder = new ImageHolder();
+    // private ImageHolder imageHolder = new ImageHolder();
 
     public SpaceView(@NotNull Space space) {
         this.space = space;
@@ -76,40 +73,34 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.setPrefHeight(SPACE_HEIGHT);
         this.setMinHeight(SPACE_HEIGHT);
 
-        //String path = System.getProperty("user.dir");
         String path = System.getProperty("user.dir") + File.separator;
-        //String fullPath = path + "\\src\\main\\java\\dk\\dtu\\compute\\se\\pisd\\roborally\\view\\Images\\";
-        String fullPath = "file:" + path + File.separator + "src" + File.separator + "main" + File.separator + "java" + File.separator + "dk" + File.separator + "dtu" + File.separator + "compute" + File.separator + "se" + File.separator + "pisd" + File.separator + "roborally" + File.separator + "view" + File.separator + "Images" + File.separator;
+        String fullPath = "file:" + path + "src" + File.separator + "main" + File.separator + "java" + File.separator + "dk" + File.separator + "dtu" + File.separator + "compute" + File.separator + "se" + File.separator + "pisd" + File.separator + "roborally" + File.separator + "view" + File.separator + "Images" + File.separator;
 
-        //System.out.println(fullPath);
-
-        // check difference between start and end square of the conveyorbelt
-
-
-        //ConveyorBelt conveyorBelt = new ConveyorBelt(x,y);
-
-
-        int i;
-        for (i = space.x; i <= space.x; i++)
-            if (space.getType() == ElementType.ConveyorBelt) {
-                addImage(fullPath + "conveyorbelt_"+space.getHeading().name()+".png", 0, 0, 0);
-            } else if (space.getType() == ElementType.Checkpoint) {
-                addImage(fullPath + "checkpoint.png",0, 0, 0);
-            } else if (space.getType() == ElementType.Gear) {
-                addImage(fullPath + "gear_LEFT.png",0,0,0);
-            } else if (space.getType() == ElementType.Wall) {
-                addImage(fullPath + "wall.png",0,0,0);
-            } else if (space.getType() == ElementType.PriorityAntenna) {
-            addImage(fullPath + "priorityantenna.png",0,0,0);
-           }
-
+        if (space.getType() == ElementType.ConveyorBelt) {
+            addImage(fullPath + "conveyorbelt_" + space.getHeading().name() + ".png", 0, 0, 0);
+        } else if (space.getType() == ElementType.Checkpoint) {
+            addImage(fullPath + "checkpoint.png", 0, 0, 0);
+        } else if (space.getType() == ElementType.Gear) {
+            Gear gear = (Gear) space.getSpaceAction();
+            if (gear.isTurnLeft()) {
+                addImage(fullPath + "gear_LEFT.png", 0, 0, 0);
+            }
+            if (gear.isTurnRight()) {
+                addImage(fullPath + "gear_RIGHT.png", 0, 0, 0);
+            }
+        } else if (space.getType() == ElementType.Wall) {
+            addImage(fullPath + "wall.png", 0, 0, 0);
+        } else if (space.getType() == ElementType.PriorityAntenna) {
+            addImage(fullPath + "priorityantenna.png", 0, 0, 0);
+        }
 
         if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: lightyellow;");
         } else {
-            //this.setStyle("-fx-background-color: lavenderblush;");
             this.setStyle("-fx-background-color: lightpink;");
         }
+
+
 /*
 
         if (space.getType() == ElementType.ConveyorBelt) {

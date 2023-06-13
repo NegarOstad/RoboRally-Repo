@@ -36,8 +36,6 @@ public class Gear extends SpaceAction {
         return turnRight;
     }
 
-
-
     @Override
     public void doAction(Player currentPlayer, Board board) {
         if (turnLeft) {
