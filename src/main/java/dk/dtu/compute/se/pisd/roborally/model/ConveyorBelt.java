@@ -12,7 +12,14 @@ package dk.dtu.compute.se.pisd.roborally.model;
 
         @Override
         public void doAction(Player currentPlayer, Board board) {
-            currentPlayer.setSpace(board.getSpace(endX, endY), board);
+            Space space = currentPlayer.getSpace();
+            Heading heading = space.getHeading();
+            Space next = board.getNeighbour(space, heading);
+
+            currentPlayer.setSpace(next, board);
+            Heading nextHeading = next.getHeading();
+            if (nextHeading != null)
+                currentPlayer.setHeading(nextHeading);
         }
 
         public int getEndX() {

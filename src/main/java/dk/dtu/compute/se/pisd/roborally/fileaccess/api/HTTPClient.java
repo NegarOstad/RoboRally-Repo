@@ -8,7 +8,7 @@ import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
 
-/*public class HTTPClient {
+public class HTTPClient {
 
     private static HTTPClient instance;
 
@@ -57,7 +57,7 @@ import java.util.concurrent.CompletableFuture;
 
         System.out.println("Server response: " + response.body());
         return response;*/
-       /* HttpRequest httpRequest = HttpRequest.newBuilder().GET().uri(URI.create(URL+path)).build();
+       HttpRequest httpRequest = HttpRequest.newBuilder().GET().uri(URI.create(URL+path)).build();
 
         CompletableFuture<HttpResponse<String>> futureResponse = httpClient.sendAsync(httpRequest,
                 HttpResponse.BodyHandlers.ofString());
@@ -68,4 +68,4 @@ import java.util.concurrent.CompletableFuture;
 
     }
 
-}*/
+}
