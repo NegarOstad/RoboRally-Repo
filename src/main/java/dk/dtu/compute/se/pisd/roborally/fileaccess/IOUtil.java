@@ -30,7 +30,13 @@ import java.io.InputStream;
 /**
  * A utility class reading strings from resources and arbitrary input streams.
  *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author
+ * Melissa Woo, s224311@dtu.dk
+ * Bayan Al Dowairi, s224329@dtu.dk
+ * Amira Omar, s205821@dtu.dk
+ * Besma Al Jwadi, s224325@dtu.dk
+ * Negar Ostad, s224283@dtu.dk
+ *
  */
 public class IOUtil {
 

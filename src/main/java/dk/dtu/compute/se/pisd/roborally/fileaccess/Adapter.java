@@ -35,11 +35,19 @@ import java.lang.reflect.Type;
  * in the structure. Note that this solution does not work if instances of
  * E itself need to be serialized (typically E would be abstract).
  * 
- * @author Menelaos Perdikeas, https://github.com/mperdikeas
- * @author Ekkart Kindler, ekki@dtu.dk
+ *
+ * @author
+ * Melissa Woo, s224311@dtu.dk
+ * Bayan Al Dowairi, s224329@dtu.dk
+ * Amira Omar, s205821@dtu.dk
+ * Besma Al Jwadi, s224325@dtu.dk
+ * Negar Ostad, s224283@dtu.dk
  *
  * @param <E> The top of the class hierarchy
  */
+
+
+
 public class Adapter<E> implements JsonSerializer<E>, JsonDeserializer<E>{
 
     private static final String CLASSNAME = "CLASSNAME";
