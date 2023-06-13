@@ -4,15 +4,18 @@ public class Wall extends SpaceAction {
 
     private Space currentSpace;
 
+    private Heading heading;
 
+    public Wall(Heading heading){
+        this.heading = heading;
+    }
 
-   /* public void stopPlayerOneTurn(Player currentPlayer, Space currentSpace) {
-
-        currentPlayer.setSpace(currentSpace);
-    }*/
+    public Heading getHeading() {
+        return heading;
+    }
 
     @Override
     public void doAction(Player currentPlayer, Board board) {
-        currentPlayer.setSpace(currentSpace, board);
+
     }
 }
