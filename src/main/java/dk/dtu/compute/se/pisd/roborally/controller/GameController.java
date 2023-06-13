@@ -102,10 +102,14 @@ public class GameController {
         return new CommandCard(commands[random]);
     }
 
+
+
     // XXX: V2
-    public void finishProgrammingPhase() {
+    public void finishProgrammingPhase() throws Exception {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
+       api.setReady(board.getGameId());
+
         board.setPhase(Phase.ACTIVATION);
         //board.setCurrentPlayer(board.getPlayer(0));
         priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
@@ -113,6 +117,8 @@ public class GameController {
         board.setOutOfBounds(false); // ????
 
         board.setStep(0);
+
+
     }
 
     // XXX: V2
@@ -139,8 +145,13 @@ public class GameController {
 
     // XXX: V2
     public void executePrograms() {
-        board.setStepMode(false);
-        continuePrograms();
+        if(api.areAllReady(board.getGameId())){
+
+
+            board.setStepMode(false);
+            continuePrograms();
+        }
+
     }
 
     // XXX: V2

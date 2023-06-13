@@ -256,12 +256,12 @@ public class AppController implements Observer {
                 }
             }
             update(gameController.board);
+
             System.out.println("We went into the try of the updateGameState");
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
 
     }
 

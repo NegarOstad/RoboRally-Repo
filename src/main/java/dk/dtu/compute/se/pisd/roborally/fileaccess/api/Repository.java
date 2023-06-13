@@ -14,7 +14,7 @@ public class Repository {
 
     private static Repository instance;
 
-    private Repository(){
+    private Repository() {
 
     }
 
@@ -25,7 +25,9 @@ public class Repository {
         }
         return instance;
     }
+
     HTTPClient client = HTTPClient.getInstance();
+
     public void saveBoard(Board board, String name) {
         BoardTemplate template = new BoardTemplate(board, board.getSpaces(), board.getPlayers(), board.getCurrentPlayer());
 
@@ -35,21 +37,21 @@ public class Repository {
 
     }
 
-    private String templateString(BoardTemplate template){
+    private String templateString(BoardTemplate template) {
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>())
                 .disableHtmlEscaping()
-                .setPrettyPrinting()
-                ;
+                .setPrettyPrinting();
         Gson gson = simpleBuilder.create();
 
         return gson.toJson(template, template.getClass()/*, writer*/);
     }
+
     public String[] getList(String path) throws Exception {
-      HttpResponse<String> response = client.makeGetRequest("sendList/"+path);
+        HttpResponse<String> response = client.makeGetRequest("sendList/" + path);
         System.out.println(response.body());
         String[] arrayOfOptions = response.body().toString().split(",");
-        for(String s : arrayOfOptions){
+        for (String s : arrayOfOptions) {
             System.out.println(s);
         }
 
@@ -58,11 +60,12 @@ public class Repository {
 
 
     public Board loadGame(String boardName) throws Exception {
-            Board board = reestablishBoard(boardName);
-            return board;
+        Board board = reestablishBoard(boardName);
+        return board;
 
     }
-        private Board reestablishBoard(String boardName) throws Exception {
+
+    private Board reestablishBoard(String boardName) throws Exception {
         HttpResponse<String> boardString = client.makeGetRequest("existingBoard/" + boardName);
         BoardTemplate template = returnBoardTemplate(boardString);
         Board board = new Board(template.width, template.height, template.spaceTemplates);
@@ -70,32 +73,32 @@ public class Repository {
         setExistingBoardState(board, template);
         return board;
 
+    }
+
+    private void setExistingPlayers(BoardTemplate template, Board board) {
+        for (PlayerTemplate p : template.playerTemplates) {
+            Player newPlayer = new Player(p.color, p.name);
+            Space newPlayerSpace = board.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
+            newPlayer.setSpace(newPlayerSpace, board);
+            newPlayer.setTokenCount(p.tokenCount);
+            newPlayer.setHeading(p.heading);
+            newPlayer.setCards(p.getCommandCards());
+            board.getPlayers().add(newPlayer);
+            if (p.name.equals(template.currentTemplate.name))
+                board.setCurrentPlayer(newPlayer);
         }
 
-        private void setExistingPlayers(BoardTemplate template, Board board){
-            for(PlayerTemplate p : template.playerTemplates){
-                Player newPlayer = new Player(p.color, p.name);
-                Space newPlayerSpace = board.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
-                newPlayer.setSpace(newPlayerSpace, board);
-                newPlayer.setTokenCount(p.tokenCount);
-                newPlayer.setHeading(p.heading);
-                newPlayer.setCards(p.getCommandCards());
-                board.getPlayers().add(newPlayer);
-                if(p.name.equals(template.currentTemplate.name))
-                    board.setCurrentPlayer(newPlayer);
-            }
+    }
 
-        }
-
-        private void setExistingBoardState(Board board, BoardTemplate template){
-            board.setPhase(template.phase);
-            board.setStep(template.step);
-            board.setWinnerStatus(template.winnerIsFound);
-            board.setStepMode(template.stepMode);
-        }
+    private void setExistingBoardState(Board board, BoardTemplate template) {
+        board.setPhase(template.phase);
+        board.setStep(template.step);
+        board.setWinnerStatus(template.winnerIsFound);
+        board.setStepMode(template.stepMode);
+    }
 
 
-    private BoardTemplate returnBoardTemplate(HttpResponse<String> response){
+    private BoardTemplate returnBoardTemplate(HttpResponse<String> response) {
         GsonBuilder simpleBuilder = new GsonBuilder().
                 registerTypeAdapter(SpaceAction.class, new Adapter<SpaceAction>());
         Gson gson = simpleBuilder.create();
@@ -113,15 +116,16 @@ public class Repository {
 
 
     public String joinGameWithID(Integer gameID) throws Exception {
-    HttpResponse<String> response = client.makeGetRequest("join/" + gameID);
+        HttpResponse<String> response = client.makeGetRequest("join/" + gameID);
         return response.body();
 
     }
+
     public String[] availableGamesList() throws Exception {
         HttpResponse<String> response = client.makeGetRequest("availableGames");
         System.out.println(response.body());
         String[] arrayOfOptions = response.body().toString().split(",");
-        for(String s : arrayOfOptions){
+        for (String s : arrayOfOptions) {
             System.out.println(s);
         }
 
@@ -141,7 +145,7 @@ public class Repository {
         boolean gameIsReady;
         HttpResponse<String> response = client.makeGetRequest("gameFull/" + gameId);
         System.out.println("gameIsReady() in repository:" + response.body());
-        if(response.body().equals("true"))
+        if (response.body().equals("true"))
             gameIsReady = true;
         else
             gameIsReady = false;
@@ -153,5 +157,39 @@ public class Repository {
         HttpResponse<String> response = client.makeGetRequest("playerCount/" + gameId);
         System.out.println(Integer.valueOf(response.body()));
         return Integer.valueOf(response.body());
+    }
+
+    public boolean programmingPhaseIsDone(int gameId) throws Exception {
+        boolean programmingPhaseIsDone;
+        HttpResponse<String> response = client.makeGetRequest("programmingPhase/" + gameId);
+        System.out.println("programmingPhaseIsDone() in repository:" + response.body());
+        if (response.body().equals("true"))
+            programmingPhaseIsDone = true;
+        else
+            programmingPhaseIsDone = false;
+
+        return programmingPhaseIsDone;
+    }
+
+    public boolean areAllReady(int gameId) {
+        boolean areAllReady;
+        HttpResponse<String> response = null;
+        try {
+            response = client.makeGetRequest("allReady/" + gameId);
+        } catch (Exception e) {
+            return false;
+        }
+        System.out.println("areAllReady() in repository:" + response.body());
+        if (response.body().equals("true"))
+            areAllReady = true;
+        else
+            areAllReady = false;
+
+        return areAllReady;
+    }
+
+    public void setReady(int gameId) throws Exception {
+        boolean setReady;
+        client.makePostRequest("programmingPhaseComplete/" + gameId, "");
     }
 }
