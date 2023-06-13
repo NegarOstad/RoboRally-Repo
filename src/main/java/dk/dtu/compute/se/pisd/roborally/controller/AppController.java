@@ -400,7 +400,8 @@ public class AppController implements Observer {
                     Platform.exit();
 
                 } else if (userOption.isPresent() && userOption.get() == ButtonType.OK) {
-                    //If the user chooses to exit and save, save the game then stop game and exit                    saveGame();
+                    //If the user chooses to exit and save, save the game then stop game and exit
+                    saveGame();
                     Platform.exit();
                 }
 
