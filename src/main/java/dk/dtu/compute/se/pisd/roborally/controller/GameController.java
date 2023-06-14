@@ -177,7 +177,10 @@ public class GameController {
 
 
     /***
-     * Handles all condition checks involved in executing a register
+     * Handles all condition checks involved in executing a register and keeps track of and updates the
+     * value of the fields involved. This includes the current step in the register, the command
+     * card to be executed, if the player has landed on a checkpoint and if they win the game. It also
+     * performs the action, if the space landed on contains a board element
      */
     private void executeNextStep() {
         System.out.println("Counter : " + counter + ", Current step: " + board.getStep() + ", Current priority player: " + priorityList.get(counter).getName());
@@ -243,6 +246,11 @@ public class GameController {
         alert.showAndWait();
 
     }
+
+    /***
+     * Used to execute an interactive card which requires user input.
+     * @param option the option which the user has clicked
+     */
     public void executeCommandOptionAndContinue(Command option) {
         board.setPhase(Phase.ACTIVATION);
         Player currentPlayer = board.getCurrentPlayer();
@@ -266,8 +274,11 @@ public class GameController {
     }
 
 
-
-    // XXX: V2
+    /***
+     * Directs the program to the correct method according to the command to be executed
+     * @param player the player which the command is to be executed on
+     * @param command the command to execute
+     */
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && command != null) {
 
@@ -298,6 +309,10 @@ public class GameController {
         }
     }
 
+    /***
+     * Moves the player a single space in the direction they are currently facing
+     * @param player player to be moved
+     */
     public void moveForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
         Space currentSpace = player.getSpace();
@@ -341,7 +356,10 @@ public class GameController {
 
     }
 
-    // TODO Assignment V2
+    /***
+     * Moves the player for up to two spaces in the direction they are currently facing
+     * @param player player to be moved
+     */
     public void fastForward(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
         int newX = player.getSpace().x;
@@ -390,19 +408,26 @@ public class GameController {
     }
 
 
-    // TODO Assignment V2
+    /***
+     * Turns the player right (fx if facing SOUTH, turns to the WEST)
+     * @param player player to be rotated
+     */
     public void turnRight(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
         player.setHeading(currentHeading.next());
 
     }
 
-    // TODO Assignment V2
+    /***
+     * Turns the player left (fx if facing SOUTH, turns to the EAST)
+     * @param player player to be rotated
+     */
     public void turnLeft(@NotNull Player player) {
         Heading currentHeading = player.getHeading();
         player.setHeading(currentHeading.prev());
 
     }
+
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
         CommandCard sourceCard = source.getCard();
