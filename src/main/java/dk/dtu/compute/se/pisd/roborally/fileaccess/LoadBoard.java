@@ -44,6 +44,10 @@ import java.nio.file.Path;
  *  * Negar Ostad, s224283@dtu.dk
  *  *
  */
+
+/***
+ *
+ */
 public class LoadBoard {
 
     private static final String BOARDSFOLDER = "boards";

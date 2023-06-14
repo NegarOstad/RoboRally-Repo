@@ -8,7 +8,9 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.concurrent.CompletableFuture;
-
+/**
+ * This class provides a simple HTTP client for making HTTP requests.
+ */
 public class HTTPClient {
 
     private static HTTPClient instance;
@@ -28,7 +30,10 @@ public class HTTPClient {
                 .connectTimeout(Duration.ofSeconds(20)).build();
     }
 
-    // Public static method to get the Singleton instance
+    /***
+     *
+     * @return singelton instance of http client
+     */
     public static HTTPClient getInstance() {
         if (instance == null) {
             // Create a new instance if it doesn't exist
@@ -36,6 +41,12 @@ public class HTTPClient {
         }
         return instance;
     }
+
+    /***
+     * Sends a post request with specified path
+     * @param path to which the post is sent
+     * @param content contens of request
+     */
 
     public  void makePostRequest(String path, String content){
 
@@ -49,6 +60,12 @@ public class HTTPClient {
 
     }
 
+    /***
+     *
+     * @param path to which request is sent
+     * @return response  of the request
+     * @throws Exception if an error occurs during the request
+     */
     public HttpResponse<String> makeGetRequest(String path) throws Exception{
 
        /* HttpRequest httpRequestBoard = HttpRequest.newBuilder().GET().uri(URI.create(URL+path)).build();
@@ -71,6 +88,10 @@ public class HTTPClient {
 
     }
 
+    /***
+     *
+     * @param path where request of deleting is sent
+     */
     public void makeDeleteRequest(String path) {
         HttpRequest httpRequestDelete =
                 HttpRequest.newBuilder()
