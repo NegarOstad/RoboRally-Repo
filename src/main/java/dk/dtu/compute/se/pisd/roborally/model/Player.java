@@ -27,7 +27,8 @@ import org.jetbrains.annotations.NotNull;
 import static dk.dtu.compute.se.pisd.roborally.model.Heading.SOUTH;
 
 /**
- * ...
+ * Represents a player in a game.
+ * Provides methods to manage the player's attributes and actions.
  *
  * @author Ekkart Kindler, ekki@dtu.dk
  *
@@ -151,6 +152,12 @@ public class Player extends Subject {
         }
     }
 
+    /**
+     * Updates the player's space on the game board.
+     *
+     * @param space The new space to assign to the player.
+     * @param board The game board on which the player's space is updated.
+     */
     public void updateSpace(Space space, Board board) {
         Space oldSpace = this.space; //holds player's space before move
         if (space.x != oldSpace.x || space.y != oldSpace.y) { // meaning player hasn't move since last update
@@ -171,6 +178,14 @@ public class Player extends Subject {
         }
     }
 
+    /**
+     * Pushes the opponent's robot to an neighboring space on the game board.
+     *
+     * @param opponent The player representing the opponent's robot.
+     * @param board    The game board on which the push action is performed.
+     * @return {@code true} if the push is successful and the opponent's robot is moved to a new space,
+     *         {@code false} otherwise.
+     */
     private boolean pushRobot(Player opponent, Board board){
         boolean canBePushed = false;
         int x = opponent.getSpace().x;
