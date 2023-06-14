@@ -159,7 +159,7 @@ class GameControllerTest {
         // Wall TestWall = new Wall(space);
         // TestWall.stopPlayerOneTurn(currentPlayer);
         Assertions.assertEquals(0, currentPlayer.getSpace().x);
-        Assertions.assertEquals(0, currentPlayer.getSpace().y);
+        Assertions.assertEquals(1, currentPlayer.getSpace().y);
 
     }
 

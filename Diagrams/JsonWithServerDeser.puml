@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+RoboRallyUpdate -> AppController: updateGameState()
+AppController -> Repository: loadGame()
+Repository -> HttpClient: makeGetRequest(/existingGame + boardName)
+HttpClient -> Server: get json string
+Server --> HttpClient: serialized board string
+HttpClient --> Repository: serialized board string
+Repository --> AppController: serialized board string
+AppController -> GameController: update board and player state
+
+@enduml

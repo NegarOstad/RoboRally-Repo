@@ -1,0 +1,14 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+GameController -> Repository: saveGame()
+Repository -> HttpClient: makePostRequest(/saveGame)
+HttpClient -> Server: create new file with json string
+
+
+
+
+
+@enduml
