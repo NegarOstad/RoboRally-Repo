@@ -1,49 +1,145 @@
-@startuml
+]@startuml
+package roborally{
 
+package controller{
+class AppController{
+roboRally : Roborally
+gameController: GameController
+repository: Repository
+newGame(): void
+loadGame(): void
+saveGame(): void
+joinGame(): void
+goToWaitingRoom(): void
+exit(): void
+stop(): void
+}
+class GameController{
+api: Repository
+board: Board
+}
+package fileaccess{
+package api{
+class HTTPClient{
+URL: String
+instance: HTTPClient
+httpClient : HTTPClient
+makePostRequest(): void
+makeGetRequest(): HttpResponse<String>
+makeDeleteRequest(): void
+}
+class Repository{
+instance: Repository
+saveGame(): void
+loadGame(): Board
+joinGameWithID(): String
+gameIsReady(): boolean
+}
+}
+}
+package model{
 class Board {
-
+width: int
+hight: int
+space[][] : Space
+current: Player
+phase: Phase
+}
+class Player{
+name: String
+color: String
+}
+class Checkpoint{
+doAction(): void
+}
+enum Command{
+FORWARD
+ RIGHT
+ LEFT
+ FAST_FORWARD
+ LEFT_RIGHT
+}
+class CommandCard{
+command: Command
+}
+class CommandcardField{
+player: player
+card: CommandCard
+}
+class ConveyorBelt{
+endX: int
+endY: int
+doAction(): void
+}
+enum ElementType{
+Checkpoint
+ConveyorBelt
+Gear
+Normal
+Wall
+PriorityAntenna
+}
+class Gear{
+doAction(): void
+}
+enum Heading{
+SOUTH
+WEST
+NORTH
+EAST
+}
+enum Phase{
+INITIALISATION
+PROGRAMMING
+ACTIVATION
+PLAYER_INTERACTION
+END
+}
+class PriorityAntenna{
+doAction(): void
+}
+class Space{}
+class SpaceAction{
+doAction(): void
+}
+abstract class SpaceTemplate{}
+class Wall{
+doAction(): void
+}
+}
+package view{
+class Roborally{}
+class StartRoborally{}
 }
 
-class Player {
 
-}
-
-class Robot {
-
-}
-
-class PlayerMat {
-
-}
-
-class upgradeShop{
-
-}
-
-class energyBank{
-}
-
-class timer{}
-
-class damageCards{
-
-}
-
-class specialProgrammingCards{}
-
-class checkpointTokens{}
-
-class rebootTokens{}
-
-class priorityAntenna{}
-
-class checkpoint{}
-
-class programmingCards{}
-
-class playerEnergyReserve{}
 
 Board "1"--"2..6" Player
-Player "1"--"1" Robot
+GameController --> AppController
+Repository --> AppController
+Roborally --> AppController
+
+Repository --> GameController
+
+Space -- Board
+Phase -- Board
+
+Space -- Player
+Heading -- Player
+CommandcardField -- Player
+
+Checkpoint --|> SpaceAction
+Gear --|> SpaceAction
+ConveyorBelt --|> SpaceAction
+CommandCard  --> CommandcardField
+
+ElementType -- Space
+Heading -- Space
+Player -- Space
+SpaceAction -- Space
+
+Heading -- Wall
+Space -- Wall
+Wall --|> SpaceAction
 
 @enduml
