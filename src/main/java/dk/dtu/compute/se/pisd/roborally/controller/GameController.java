@@ -65,7 +65,10 @@ public class GameController {
 
     }
 
-    // XXX: V2
+    /***
+     * Gives the players a random set of cards to program from and resets all cards in
+     * the 5 programming registers to null
+     */
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -88,7 +91,6 @@ public class GameController {
         }
     }
 
-    // XXX: V2
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
@@ -96,8 +98,11 @@ public class GameController {
     }
 
 
-
-    // XXX: V2
+    /***
+     * Deactivates the program fields and tells the server that this user is ready to activate
+     * Makes a list of players ordered by closeness to the priority antenna,
+     * @throws Exception
+     */
     public void finishProgrammingPhase() throws Exception {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -112,7 +117,7 @@ public class GameController {
         board.setStep(0);
     }
 
-    // XXX: V2
+
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
             for (int i = 0; i < board.getPlayerCount(); i++) {
@@ -123,7 +128,6 @@ public class GameController {
         }
     }
 
-    // XXX: V2
     private void makeProgramFieldsInvisible() {
         for (int i = 0; i < board.getPlayerCount(); i++) {
             Player player = board.getPlayer(i);
@@ -134,7 +138,10 @@ public class GameController {
         }
     }
 
-    // XXX: V2
+    /***
+     * Checks with server if all users finished programming. Checks with server if it is the
+     * users turn to execute and if so, goes to execute all cards in register
+     */
     public void executePrograms() {
         System.out.println(api.areAllReady(board.getGameId()));
         if(api.areAllReady(board.getGameId())){
@@ -149,14 +156,17 @@ public class GameController {
 
     }
 
-    // XXX: V2
+    // has been disabled for this project
     public void executeStep() {
         board.setStepMode(true);
         continuePrograms();
 
     }
 
-    // XXX: V2
+    /***
+     * Executes all steps in users register and saves a copy of the game state
+     * in the server after each step
+     */
     private void continuePrograms() {
         do {
             executeNextStep();
@@ -166,7 +176,9 @@ public class GameController {
     }
 
 
-    // XXX: V2
+    /***
+     * Handles all condition checks involved in executing a register
+     */
     private void executeNextStep() {
         System.out.println("Counter : " + counter + ", Current step: " + board.getStep() + ", Current priority player: " + priorityList.get(counter).getName());
         Player currentPlayer = priorityList.get(counter);
