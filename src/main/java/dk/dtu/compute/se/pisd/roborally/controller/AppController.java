@@ -304,6 +304,7 @@ public class AppController implements Observer {
 
                 System.out.println(result);
                 try {
+                    gameId = repository.newGameId(playerCount, result);
                     board = repository.loadGame(result);
 
                 } catch (Exception e) {
