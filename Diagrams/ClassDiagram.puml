@@ -1,0 +1,49 @@
+@startuml
+
+class Board {
+
+}
+
+class Player {
+
+}
+
+class Robot {
+
+}
+
+class PlayerMat {
+
+}
+
+class upgradeShop{
+
+}
+
+class energyBank{
+}
+
+class timer{}
+
+class damageCards{
+
+}
+
+class specialProgrammingCards{}
+
+class checkpointTokens{}
+
+class rebootTokens{}
+
+class priorityAntenna{}
+
+class checkpoint{}
+
+class programmingCards{}
+
+class playerEnergyReserve{}
+
+Board "1"--"2..6" Player
+Player "1"--"1" Robot
+
+@enduml

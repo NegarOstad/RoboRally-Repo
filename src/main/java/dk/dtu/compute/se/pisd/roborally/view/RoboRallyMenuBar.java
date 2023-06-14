@@ -22,9 +22,12 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+
+import java.io.IOException;
 
 /**
  * ...
@@ -38,9 +41,13 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private Menu controlMenu;
 
+    private Menu update;
+
     private MenuItem saveGame;
 
     private MenuItem newGame;
+
+    private MenuItem joinGame;
 
     private MenuItem loadGame;
 
@@ -48,14 +55,7 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem exitApp;
 
-    /**
-     * This class represnts the menubar "file" which contains the menu items.
-     * In other words, this is the menu bar that contains the actions that can be taken
-     * by the player, such as, new game , save game , load game , stop game  and exit.
-     * the update method is to ensure the visibility of the actions w.r.t the state of the app.
-     * @param appController
-     * the appController is one of the main controllers for the application
-     */
+
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
 
@@ -63,7 +63,13 @@ public class RoboRallyMenuBar extends MenuBar {
         this.getMenus().add(controlMenu);
 
         newGame = new MenuItem("New Game");
-        newGame.setOnAction( e -> this.appController.newGame());
+        newGame.setOnAction( e -> {
+            try {
+                this.appController.newGame();
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
         controlMenu.getItems().add(newGame);
 
         stopGame = new MenuItem("Stop Game");
@@ -74,22 +80,47 @@ public class RoboRallyMenuBar extends MenuBar {
         saveGame.setOnAction( e -> this.appController.saveGame());
         controlMenu.getItems().add(saveGame);
 
+        joinGame = new MenuItem("Join Game");
+        joinGame.setOnAction(e ->{
+            try {
+                this.appController.joinGame();
+            } catch (IOException ex) {
+                throw  new RuntimeException(ex);
+            } catch (InterruptedException ex){
+                throw new RuntimeException(ex);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
+        });
+        controlMenu.getItems().add(joinGame);
+
         loadGame = new MenuItem("Load Game");
-        loadGame.setOnAction( e -> this.appController.loadGame());
+        loadGame.setOnAction( e -> {
+            try {
+                this.appController.loadGame();
+            } catch (Exception ex) {
+
+                throw new RuntimeException(ex);
+            }
+        });
         controlMenu.getItems().add(loadGame);
 
         exitApp = new MenuItem("Exit");
-        exitApp.setOnAction( e -> this.appController.exit());
+        exitApp.setOnAction( e -> {
+            try {
+                this.appController.exit();
+            } catch (Exception ex) {
+                System.out.println("Current game file not found in server.");
+                throw new RuntimeException(ex);
+            }
+        });
         controlMenu.getItems().add(exitApp);
 
         controlMenu.setOnShowing(e -> update());
         controlMenu.setOnShown(e -> this.updateBounds());
         update();
     }
-    /**
-     * This is the update method, to specify the visibilty of the menu items
-     * according to if the game is running or not.
-     */
+
     public void update() {
         if (appController.isGameRunning()) {
             newGame.setVisible(false);

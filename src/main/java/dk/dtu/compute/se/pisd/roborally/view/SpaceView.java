@@ -22,16 +22,18 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
-import dk.dtu.compute.se.pisd.roborally.model.Heading;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.canvas.GraphicsContext;
+import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
-import javafx.scene.shape.StrokeLineCap;
+import dk.dtu.compute.se.pisd.roborally.model.SpaceAction;
+import dk.dtu.compute.se.pisd.roborally.model.Gear;
 import org.jetbrains.annotations.NotNull;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+
+import java.io.File;
+import java.util.*;
 
 /**
  * ...
@@ -41,17 +43,20 @@ import org.jetbrains.annotations.NotNull;
  */
 public class SpaceView extends StackPane implements ViewObserver {
 
-    final public static int SPACE_HEIGHT = 75; // 60; // 75;
-    final public static int SPACE_WIDTH = 75;  // 60; // 75;
+    final public static int SPACE_HEIGHT = 45; // 60; // 75;
+    final public static int SPACE_WIDTH = 45;  // 60; // 75;
 
     public final Space space;
 
-    /**
-     * This class is to visualise the space on the board.
-     * @param space
-     */
+
+    private List<ImageView> imageViews;
+
+
+    // private ImageHolder imageHolder = new ImageHolder();
+
     public SpaceView(@NotNull Space space) {
         this.space = space;
+        this.imageViews = new ArrayList<>();
 
         // XXX the following styling should better be done with styles
         this.setPrefWidth(SPACE_WIDTH);
@@ -60,29 +65,79 @@ public class SpaceView extends StackPane implements ViewObserver {
 
         this.setPrefHeight(SPACE_HEIGHT);
         this.setMinHeight(SPACE_HEIGHT);
-        this.setMaxHeight(SPACE_HEIGHT);
+
+        String path = System.getProperty("user.dir") + File.separator;
+        String fullPath = "file:" + path + "src" + File.separator + "main" + File.separator + "java" + File.separator + "dk" + File.separator + "dtu" + File.separator + "compute" + File.separator + "se" + File.separator + "pisd" + File.separator + "roborally" + File.separator + "view" + File.separator + "Images" + File.separator;
+
+        if (space.getType() == ElementType.ConveyorBelt) {
+            addImage(fullPath + "conveyorbelt_" + space.getHeading().name() + ".png", 0, 0, 0);
+        } else if (space.getType() == ElementType.Checkpoint) {
+            addImage(fullPath + "checkpoint_" + space.getCheckpointIndex() + ".png", 0, 0, 0);
+        } else if (space.getType() == ElementType.Gear) {
+            Gear gear = (Gear) space.getSpaceAction();
+            if (gear.isTurnLeft()) {
+                addImage(fullPath + "gear_LEFT.png", 0, 0, 0);
+            }
+            if (gear.isTurnRight()) {
+                addImage(fullPath + "gear_RIGHT.png", 0, 0, 0);
+            }
+        } else if (space.getType() == ElementType.Wall) {
+            Wall wall = (Wall) space.getSpaceAction();
+            addImage(fullPath + "wall_"+ wall.getHeading().name() + ".png", 0, 0, 0);
+        } else if (space.getType() == ElementType.PriorityAntenna) {
+            addImage(fullPath + "priorityantenna.png", 0, 0, 0);
+        }
 
         if ((space.x + space.y) % 2 == 0) {
+            this.setStyle("-fx-background-color: lightyellow;");
+        } else {
+            this.setStyle("-fx-background-color: lightpink;");
+        }
+
+
+/*
+
+        if (space.getType() == ElementType.ConveyorBelt) {
+            this.setStyle("-fx-background-color: pink;");
+        } else if (space.getType() == ElementType.Gear) {
+            this.setStyle("-fx-background-color: blue;");
+        } else if (space.getType() == ElementType.Checkpoint) {
+            this.setStyle("-fx-background-color: purple;");
+        } else if (space.getType() == ElementType.Wall) {
+            this.setStyle("-fx-background-color: green;");
+        } else if (space.getType() == ElementType.PriorityAntenna) {
+            this.setStyle("-fx-background-color: yellow;");
+        } else if ((space.x + space.y) % 2 == 0) {
             this.setStyle("-fx-background-color: white;");
         } else {
             this.setStyle("-fx-background-color: black;");
+        }*/
+
+
+/*
+        ImageView imageView = null;
+        if (space.x == 0 && space.y == 0) {
+            imageView = new ImageView(new Image("C:\\Users\\aljwa\\Desktop\\conveyorbelt_SOUTH.png"));
+            this.getChildren().add(imageView);
         }
+*/
 
         // updatePlayer();
 
         // This space view should listen to changes of the space
         space.attach(this);
         update(space);
+
+
     }
 
-    /**
-     * This method finds out if there is a player on the space, and if so,
-     * it will create a polygon with the specified color for the player, which will be
-     * displayed on the screen.
-     * and if the player has no valid color, it will automatically set it to medium purple
-     */
     private void updatePlayer() {
-        this.getChildren().clear();
+        //this.getChildren().clear();
+
+        for(int i = 0; i <this.getChildren().size(); i++){
+            if(this.getChildren().get(i).getClass().equals(Polygon.class))
+                this.getChildren().remove(i);
+        }
 
         Player player = space.getPlayer();
         if (player != null) {
@@ -99,12 +154,25 @@ public class SpaceView extends StackPane implements ViewObserver {
             this.getChildren().add(arrow);
         }
     }
-    /**
-     * here the updateView is an implementation of the interface ViewObserver.
-     * It is responsible for updating the view whenever the state of the Subject(space)
-     * is observing changes so it updates the view and the player.
-     * @param subject is space
-     */
+
+    public void addImage(String imagePath, double rotate, int x, int y) {
+        Image image = new Image(imagePath);
+        ImageView imageView = new ImageView(image);
+        imageView.setX(x);
+        imageView.setY(y);
+        this.setRotate(0);
+        this.imageViews.add(imageView);
+        this.getChildren().add(imageView);
+
+    }
+
+    /*
+   private void addImageToSpace(String imagePath, int x, int y, double rotation, double width, double height) {
+       imageHolder.addImage(imagePath, x, y, rotation, width, height);
+   }*/
+
+
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {

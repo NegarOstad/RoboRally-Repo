@@ -1,0 +1,43 @@
+@startuml
+title Domain model
+class RoboRallyBoard {
+
+}
+
+
+class Player {
+
+}
+
+class Robot {
+
+}
+
+class PlayerMat {
+
+}
+
+
+
+RoboRallyBoard "1" -up- "74" DamageCards
+RoboRallyBoard "1" -up- "40" UpgradeCards
+RoboRallyBoard "1" -up- "6" SpecialProgrammingCards
+RoboRallyBoard "1"-left-"2..6" Player
+Player "1"-down-"60" ProgrammingCards
+RoboRallyBoard "1"--"1" Checkpoint
+Checkpoint"1"--"36" CheckpointTokens
+Player "1"-left-"1" Robot
+Player "1"--"1" PlayerMat
+PlayerMat "1" -- "1" EnergyReserve
+RoboRallyBoard "1"--"1" PriorityAntenna
+RoboRallyBoard "1"--"6" RebootTokens
+RoboRallyBoard "1"--"1" EnergyBank
+EnergyBank "1" -- "48" EnergyCubes
+RoboRallyBoard "1" -right- "1" Timer
+
+
+
+
+
+
+@enduml

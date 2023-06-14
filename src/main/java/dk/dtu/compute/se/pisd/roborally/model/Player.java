@@ -37,7 +37,7 @@ public class Player extends Subject {
     final public static int NO_REGISTERS = 5;
     final public static int NO_CARDS = 8;
 
-    final public Board board;
+    //final public Board board;
 
     private String name;
     private String color;
@@ -48,8 +48,23 @@ public class Player extends Subject {
     private CommandCardField[] program;
     private CommandCardField[] cards;
 
-    public Player(@NotNull Board board, String color, @NotNull String name) {
-        this.board = board;
+    private int tokenCount = 0;
+
+    private boolean registerIsEmpty = false;
+
+    private boolean isLocal;
+
+    public CommandCardField[] getCards() {
+        return cards;
+    }
+
+    public void setCards(CommandCard[] commandCards) {
+        for (int i = 0; i < cards.length; i++) {
+            cards[i].setCard(commandCards[i]);
+        }
+    }
+
+    public Player(String color, @NotNull String name) {
         this.name = name;
         this.color = color;
 
@@ -65,6 +80,15 @@ public class Player extends Subject {
             cards[i] = new CommandCardField(this);
         }
     }
+
+    public boolean isLocal() {
+        return isLocal;
+    }
+
+    public void setLocal(boolean local) {
+        isLocal = local;
+    }
+
 
     public String getName() {
         return name;
@@ -96,20 +120,93 @@ public class Player extends Subject {
         return space;
     }
 
-    public void setSpace(Space space) {
-        Space oldSpace = this.space;
-        if (space != oldSpace &&
-                (space == null || space.board == this.board)) {
-            this.space = space;
-            if (oldSpace != null) {
-                oldSpace.setPlayer(null);
+
+
+    public void setSpace(Space space, Board board) {
+        boolean moveIsValid = false;
+        Space oldSpace = this.space; //holds player's space before move
+        if (space != oldSpace) {
+            if(space.getPlayer() == null) {
+                moveIsValid = true;
+
+            } else {
+                if(pushRobot(space.getPlayer(), board))
+                    moveIsValid = true;
             }
-            if (space != null) {
-                space.setPlayer(this);
+
+            if(moveIsValid) {
+                if (oldSpace != null) {
+                    oldSpace.setPlayer(null , board); // sets the Player for the player's space before move to null so that the robot disappears
+                }
+                if (space != null) {
+                    space.setPlayer(this , board);
+                }
+
+                this.space = space; // makes player's space the space passed as argument
+                notifyChange();
+
+            } else {
+                System.out.println("Invalid move.");
             }
-            notifyChange();
         }
     }
+
+    public void updateSpace(Space space, Board board) {
+        Space oldSpace = this.space; //holds player's space before move
+        if (space.x != oldSpace.x || space.y != oldSpace.y) { // meaning player hasn't move since last update
+            oldSpace.setPlayer(null, board);
+
+            Space[][] spaces = board.getSpaces();
+            this.space = spaces[space.x][space.y];
+
+            this.space.setPlayer(this, board);
+            //this.space = space; // makes player's space the space passed as argument
+            notifyChange();
+            this.space.playerChanged();
+
+            System.out.println(this.space.getPlayer());
+            System.out.println("Player's updated space : " + this.space.x + "," + this.space.y);
+
+
+        }
+    }
+
+    private boolean pushRobot(Player opponent, Board board){
+        boolean canBePushed = false;
+        int x = opponent.getSpace().x;
+        int y = opponent.getSpace().y;
+        Space newSpace = opponent.getSpace();
+        switch(heading) {
+            case NORTH:
+                if (y - 1 >= 0) {
+                    newSpace = board.getSpace(x, y - 1);
+                    canBePushed = true;
+                }
+                break;
+            case SOUTH:
+                if(y + 1 < board.height) {
+                    newSpace = board.getSpace(x, y + 1);
+                    canBePushed = true;
+                }
+                break;
+            case EAST:
+                if(x + 1 < board.width) {
+                    newSpace = board.getSpace(x + 1, y);
+                    canBePushed = true;
+                }
+                break;
+            case WEST:
+                if(x - 1 >= 0) {
+                    newSpace = board.getSpace(x - 1, y);
+                    canBePushed = true;
+                }
+                break;
+        }
+        if(canBePushed)
+            opponent.setSpace(newSpace, board);
+        return canBePushed;
+    }
+
 
     public Heading getHeading() {
         return heading;
@@ -132,5 +229,58 @@ public class Player extends Subject {
     public CommandCardField getCardField(int i) {
         return cards[i];
     }
+
+    public void addToken() {
+        tokenCount++;
+    }
+
+    public void setTokenCount(int tokenCount){
+        this.tokenCount = tokenCount;
+    }
+
+    public int getTokenCount() {
+        return tokenCount;
+    }
+
+    public void setTestRegister(int ver, Board board) {
+        if (ver == 1) {
+            program[0].setCard(new CommandCard(Command.FORWARD));
+            program[1].setCard(new CommandCard(Command.FAST_FORWARD));
+
+        } else if (ver == 2){
+            program[0].setCard(new CommandCard(Command.LEFT));
+            program[1].setCard(new CommandCard(Command.LEFT));
+
+        } else if (ver == 3) {
+            program[0].setCard(new CommandCard(Command.FAST_FORWARD));
+            program[1].setCard(new CommandCard(Command.LEFT));
+            program[2].setCard(new CommandCard(Command.LEFT));
+            program[3].setCard(new CommandCard(Command.FAST_FORWARD));
+
+        } else if (ver == 4){
+            program[0].setCard(new CommandCard((Command.FORWARD)));
+        } else if (ver == 5){
+            program[0].setCard(new CommandCard((Command.LEFT)));
+
+        } else {
+            program[0].setCard(new CommandCard(Command.FAST_FORWARD));
+            program[1].setCard(new CommandCard(Command.FORWARD));
+            program[2].setCard(new CommandCard(Command.LEFT));
+            program[3].setCard(new CommandCard(Command.FAST_FORWARD));
+            program[4].setCard(new CommandCard(Command.FORWARD));
+
+        }
+        board.setPhase(Phase.ACTIVATION);
+
+    }
+
+    public void setEndOfRegister(boolean registerIsEmpty){
+        this.registerIsEmpty = registerIsEmpty;
+    }
+
+    public boolean getRegisterStatus() {
+        return registerIsEmpty;
+    }
+
 
 }

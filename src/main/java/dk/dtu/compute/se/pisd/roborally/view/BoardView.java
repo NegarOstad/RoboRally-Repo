@@ -23,16 +23,18 @@ package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
-import dk.dtu.compute.se.pisd.roborally.model.Board;
-import dk.dtu.compute.se.pisd.roborally.model.Phase;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
-import dk.dtu.compute.se.pisd.roborally.model.Space;
+import dk.dtu.compute.se.pisd.roborally.model.*;
+import javafx.scene.image.Image;
 import javafx.event.EventHandler;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import org.jetbrains.annotations.NotNull;
+import javafx.scene.image.ImageView;
+import java.awt.*;
+import java.io.IOException;
+import java.util.List;
 
 /**
  * ...
@@ -48,12 +50,17 @@ public class BoardView extends VBox implements ViewObserver {
     private SpaceView[][] spaces;
 
     private PlayersView playersView;
-
     private Label statusLabel;
+   // private SpaceEventHandler spaceEventHandler;
+/*
 
-    private SpaceEventHandler spaceEventHandler;
+    private ImageHolder imageHolder = new ImageHolder();
+    List<ImageView> imageList = imageHolder.getImageViewList();
 
-    public BoardView(@NotNull GameController gameController) {
+
+ */
+
+    public BoardView(@NotNull GameController gameController)  {
         board = gameController.board;
 
         mainBoardPane = new GridPane();
@@ -66,7 +73,7 @@ public class BoardView extends VBox implements ViewObserver {
 
         spaces = new SpaceView[board.width][board.height];
 
-        spaceEventHandler = new SpaceEventHandler(gameController);
+       // spaceEventHandler = new SpaceEventHandler(gameController);
 
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
@@ -74,13 +81,15 @@ public class BoardView extends VBox implements ViewObserver {
                 SpaceView spaceView = new SpaceView(space);
                 spaces[x][y] = spaceView;
                 mainBoardPane.add(spaceView, x, y);
-                spaceView.setOnMouseClicked(spaceEventHandler);
+                //spaceView.setOnMouseClicked(spaceEventHandler);
+                ImageView imageView = null;
             }
         }
 
         board.attach(this);
         update(board);
     }
+
 
     @Override
     public void updateView(Subject subject) {
@@ -92,7 +101,7 @@ public class BoardView extends VBox implements ViewObserver {
 
     // XXX this handler and its uses should eventually be deleted! This is just to help test the
     //     behaviour of the game by being able to explicitly move the players on the board!
-    private class SpaceEventHandler implements EventHandler<MouseEvent> {
+    /*  private class SpaceEventHandler implements EventHandler<MouseEvent> {
 
         final public GameController gameController;
 
@@ -100,13 +109,13 @@ public class BoardView extends VBox implements ViewObserver {
             this.gameController = gameController;
         }
 
-        @Override
+      @Override
         public void handle(MouseEvent event) {
             Object source = event.getSource();
             if (source instanceof SpaceView) {
                 SpaceView spaceView = (SpaceView) source;
                 Space space = spaceView.space;
-                Board board = space.board;
+                Board board = gameController.board;
 
                 if (board == gameController.board) {
                     gameController.moveCurrentPlayerToSpace(space);
@@ -115,6 +124,5 @@ public class BoardView extends VBox implements ViewObserver {
             }
         }
 
-    }
-
+    }*/
 }

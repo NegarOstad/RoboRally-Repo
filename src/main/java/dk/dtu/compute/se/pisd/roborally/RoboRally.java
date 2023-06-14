@@ -25,16 +25,26 @@ import dk.dtu.compute.se.pisd.roborally.controller.AppController;
 import dk.dtu.compute.se.pisd.roborally.controller.GameController;
 import dk.dtu.compute.se.pisd.roborally.view.BoardView;
 import dk.dtu.compute.se.pisd.roborally.view.RoboRallyMenuBar;
+import dk.dtu.compute.se.pisd.roborally.view.RoboRallyUpdate;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.io.IOException;
+
 /**
  * ...
  *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author
+ * @author
+ * Melissa Woo, s224311@dtu.dk
+ * Bayan Al Dowairi, s224329@dtu.dk
+ * Amira Omar, s205821@dtu.dk
+ * Besma Al Jwadi, s224325@dtu.dk
+ * Negar Ostad, s224283@dtu.dk
+ *
  *
  */
 public class RoboRally extends Application {
@@ -43,6 +53,7 @@ public class RoboRally extends Application {
 
     private Stage stage;
     private BorderPane boardRoot;
+    RoboRallyUpdate updateButton;
     // private RoboRallyMenuBar menuBar;
 
     // private AppController appController;
@@ -62,8 +73,10 @@ public class RoboRally extends Application {
         // the board view (which initially is empty); it will be filled
         // when the user creates a new game or loads a game
         RoboRallyMenuBar menuBar = new RoboRallyMenuBar(appController);
+        updateButton = new RoboRallyUpdate(appController);
+        updateButton.setDisable(true);
         boardRoot = new BorderPane();
-        VBox vbox = new VBox(menuBar, boardRoot);
+        VBox vbox = new VBox(menuBar, updateButton, boardRoot);
         vbox.setMinWidth(MIN_APP_WIDTH);
         Scene primaryScene = new Scene(vbox);
 
@@ -72,13 +85,21 @@ public class RoboRally extends Application {
         stage.setOnCloseRequest(
                 e -> {
                     e.consume();
-                    appController.exit();} );
-        stage.setResizable(false);
+
+                    try {
+                        appController.exit();
+                    } catch (Exception ex) {
+                        System.out.println("Current game file not found.");
+                        throw new RuntimeException(ex);
+                    }
+                } );
+        stage.setResizable(true);
         stage.sizeToScene();
         stage.show();
     }
 
-    public void createBoardView(GameController gameController) {
+
+    public void createBoardView(GameController gameController)  {
         // if present, remove old BoardView
         boardRoot.getChildren().clear();
 
@@ -86,6 +107,7 @@ public class RoboRally extends Application {
             // create and add view for new board
             BoardView boardView = new BoardView(gameController);
             boardRoot.setCenter(boardView);
+            updateButton.setDisable(false);
         }
 
         stage.sizeToScene();
