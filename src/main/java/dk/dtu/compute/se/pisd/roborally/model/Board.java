@@ -82,6 +82,12 @@ public class  Board extends Subject {
         step = 0;
     }
 
+    /**
+     * Constructs a board with the specified width, height, and space templates.
+     * @param width width of the board in spaces
+     * @param height height of the board in spaces
+     * @param spaceTemplates board template to get data for new board from
+     */
     public Board(int width, int height, SpaceTemplate[][] spaceTemplates) {
         // this.boardName = boardName;
         this.width = width;
@@ -91,6 +97,10 @@ public class  Board extends Subject {
 
     }
 
+    /***
+     * Sets the type of a space based on the given space template.
+     * @param spaceTemplates space template where the data for the new space comes from
+     */
     private void setSpaces(SpaceTemplate[][] spaceTemplates) {
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
