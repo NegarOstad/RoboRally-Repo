@@ -1,6 +1,10 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
-
+/**
+ *
+ * Represents the gear space action in the game.
+ * Gears rotate the player 90 degrees left or right
+ */
 public class Gear extends SpaceAction {
     private boolean turnLeft;
     private boolean turnRight;
