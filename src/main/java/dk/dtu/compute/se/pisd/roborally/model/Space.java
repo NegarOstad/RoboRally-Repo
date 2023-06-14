@@ -24,9 +24,15 @@ package dk.dtu.compute.se.pisd.roborally.model;
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
 
 /**
- * ...
+ * The Space class represents a space on the game board in the Robo Rally game.
+ * It extends the Subject class, allowing it to notify observers of any changes.
  *
- * @author Ekkart Kindler, ekki@dtu.dk
+ * @author
+ * Melissa Woo, s224311@dtu.dk
+ * Bayan Al Dowairi, s224329@dtu.dk
+ * Amira Omar, s205821@dtu.dk
+ * Besma Al Jwadi, s224325@dtu.dk
+ * Negar Ostad, s224283@dtu.dk
  *
  */
 public class Space extends Subject {
@@ -61,6 +67,12 @@ public class Space extends Subject {
 
     }
 
+    /**
+     * Retrieves the index of the checkpoint associated with the space.
+     *
+     * @return The index of the checkpoint.
+     * @throws IllegalStateException If no checkpoint is set in this space.
+     */
     public int getCheckpointIndex() {
         if (type == ElementType.Checkpoint && spaceAction instanceof Checkpoint) {
             return ((Checkpoint) spaceAction).getIndex();
@@ -77,7 +89,17 @@ public class Space extends Subject {
     }
 
 
-
+    /**
+     * Fills the space with a conveyor belt and sets the corresponding space action.
+     * Recursively fills the spaces along the conveyor belt's path.
+     *
+     * @param endX The x coordinate of the destination space.
+     * @param endY The y coordinate of the destination space.
+     * @param x The current x coordinate during recursion.
+     * @param y The current y coordinate during recursion.
+     * @param board The game board.
+     * @param heading The heading of the conveyor belt.
+     */
     public void fillConveyorBelt(int endX, int endY, int x, int y , Board board, Heading heading){
         type = ElementType.ConveyorBelt;
         spaceAction = new ConveyorBelt(endX, endY);
@@ -130,6 +152,12 @@ public class Space extends Subject {
         spaceAction = new Gear(heading);
     }*/
 
+    /**
+     * Sets the type of the space to a gear and assigns the corresponding space action.
+     *
+     * @param turnLeft Indicates if the gear turns the player left.
+     * @param turnRight Indicates if the gear turns the player right.
+     */
 
         public void setTypeGear(boolean turnLeft, boolean turnRight) {
             type = ElementType.Gear;

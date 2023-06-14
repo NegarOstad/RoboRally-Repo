@@ -52,8 +52,8 @@ public class SpaceView extends StackPane implements ViewObserver {
     private List<ImageView> imageViews;
 
 
-    // private ImageHolder imageHolder = new ImageHolder();
 
+// constructor that lets us view the spaces on the board, containing all the board elements via if statements
     public SpaceView(@NotNull Space space) {
         this.space = space;
         this.imageViews = new ArrayList<>();
@@ -114,14 +114,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         }*/
 
 
-/*
-        ImageView imageView = null;
-        if (space.x == 0 && space.y == 0) {
-            imageView = new ImageView(new Image("C:\\Users\\aljwa\\Desktop\\conveyorbelt_SOUTH.png"));
-            this.getChildren().add(imageView);
-        }
-*/
-
         // updatePlayer();
 
         // This space view should listen to changes of the space
@@ -155,6 +147,15 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+
+    /**
+     * Adds an image to the SpaceView.
+     *
+     * @param imagePath The path to the file "Images".
+     * @param rotate    The rotation angle of the image (not used).
+     * @param x         The x-coordinate of the image from javaFX .
+     * @param y         The y-coordinate of the image from javaFX.
+     */
     public void addImage(String imagePath, double rotate, int x, int y) {
         Image image = new Image(imagePath);
         ImageView imageView = new ImageView(image);
@@ -165,11 +166,6 @@ public class SpaceView extends StackPane implements ViewObserver {
         this.getChildren().add(imageView);
 
     }
-
-    /*
-   private void addImageToSpace(String imagePath, int x, int y, double rotation, double width, double height) {
-       imageHolder.addImage(imagePath, x, y, rotation, width, height);
-   }*/
 
 
 

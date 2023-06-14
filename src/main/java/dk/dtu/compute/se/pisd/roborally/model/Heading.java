@@ -22,19 +22,19 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 /**
- * ...
- *
- * @author Ekkart Kindler, ekki@dtu.dk
- *
+ * The heading represents the 4 directions that the game can face.
  */
+
 public enum Heading {
 
     SOUTH, WEST, NORTH, EAST;
 
+    // Returns the next heading in clockwise order.
     public Heading next() {
         return values()[(this.ordinal() + 1) % values().length];
     }
 
+    // Returns the previous heading in counterclockwise order.
     public Heading prev() {
         return values()[(this.ordinal() + values().length - 1) % values().length];
     }
