@@ -20,20 +20,16 @@
  *
  */
 package dk.dtu.compute.se.pisd.roborally.controller;
-import dk.dtu.compute.se.pisd.roborally.fileaccess.api.Repository;
-import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * ...
- *
+ * Dummy class which does not include server calls or priority in executing steps
  * @author
  * Melissa Woo, s224311@dtu.dk
  * Bayan Al Dowairi, s224329@dtu.dk
@@ -43,9 +39,10 @@ import java.util.Optional;
  *
  *
  */
-public class GameController {
+public class GameController_stub {
+boolean testing = false;
 
-    Repository api = Repository.getInstance();
+
      final public Board board;
     int x = 0;
     int y = 0;
@@ -54,7 +51,7 @@ public class GameController {
     List<Player> priorityList;
 
 
-    public GameController(@NotNull Board board) {
+    public GameController_stub(@NotNull Board board) {
         this.board = board;
     }
 
@@ -106,7 +103,6 @@ public class GameController {
     public void finishProgrammingPhase() throws Exception {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
-       api.setReady(board.getGameId());
 
         board.setPhase(Phase.ACTIVATION);
         //board.setCurrentPlayer(board.getPlayer(0));
@@ -143,16 +139,8 @@ public class GameController {
      * users turn to execute and if so, goes to execute all cards in register
      */
     public void executePrograms() {
-        System.out.println(api.areAllReady(board.getGameId()));
-        if(api.areAllReady(board.getGameId())){
-            int turn = api.getTurn(board.getGameId());
-            if (priorityList.get(turn).isLocal()) {
-                System.out.println("TURN" + turn);
                 board.setStepMode(false);
                 continuePrograms();
-            }
-
-        }
 
     }
 
@@ -170,7 +158,6 @@ public class GameController {
     private void continuePrograms() {
         do {
             executeNextStep();
-            api.saveBoard(board, String.valueOf(board.getGameId()));
 
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
@@ -183,9 +170,8 @@ public class GameController {
      * performs the action, if the space landed on contains a board element
      */
     private void executeNextStep() {
-        System.out.println("Counter : " + counter + ", Current step: " + board.getStep() + ", Current priority player: " + priorityList.get(counter).getName());
-        Player currentPlayer = priorityList.get(counter);
-        board.setCurrentPlayer(currentPlayer);
+       // System.out.println("Counter : " + counter + ", Current step: " + board.getStep() + ", Current priority player: " + priorityList.get(counter).getName());
+        Player currentPlayer = board.getCurrentPlayer();
 
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -203,7 +189,7 @@ public class GameController {
                     if (currentPlayer.getSpace().getBoardElement() != null)
                         currentPlayer.getSpace().getBoardElement().doAction(currentPlayer, board);
 
-                    if(board.getWinnerStatus()) {
+                    if(board.getWinnerStatus() && !testing) {
                         displayWinnerMessage(currentPlayer.getName());
                         board.setPhase(Phase.END); // disables all buttons
                         return;
@@ -218,14 +204,12 @@ public class GameController {
                 } else {   // ELSE DOES THIS IF ALL PLAYERS HAVE ACTIVATED THEIR CARD IN REGISTER CORRESPONDING TO GIVEN STEP
                     step++;
                     counter = 0;
-                    priorityList = board.getPriorityAntenna().calcClosestPlayers(board.getPlayerList());
 
                     if (step < Player.NO_REGISTERS) { // DOES THIS IF NOT ALL REGISTERS HAVE BEEN STEPPED TO
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
 
                     } else { // OR ELSE GOES BACK TO PROGRAMMING PHASE
-                        api.setExecuted(board.getGameId());
                         startProgrammingPhase();
                     }
                 }
@@ -439,6 +423,10 @@ public class GameController {
         } else {
             return false;
         }
+    }
+
+    public void setTesting(boolean testing){
+        this.testing = testing;
     }
 
     public void addToPriorityList(Player player){

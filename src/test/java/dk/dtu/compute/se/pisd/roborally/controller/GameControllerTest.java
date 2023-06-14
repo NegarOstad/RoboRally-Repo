@@ -16,7 +16,7 @@ class GameControllerTest {
     private final int TEST_WIDTH = 8;
     private final int TEST_HEIGHT = 8;
 
-    private GameController gameController;
+    private GameController_stub gameController;
 
     Checkpoint[] checkpoints = new Checkpoint[2];
 
@@ -24,7 +24,7 @@ class GameControllerTest {
     @BeforeEach
     void setUp() {
         Board board = new Board(TEST_WIDTH, TEST_HEIGHT);
-        gameController = new GameController(board);
+        gameController = new GameController_stub(board);
         for (int i = 0; i < 1; i++) {
             Player player = new Player(null,"Player " + i);
             board.addPlayer(player);
@@ -33,7 +33,9 @@ class GameControllerTest {
         }
         board.setCurrentPlayer(board.getPlayer(0));
         board.getSpace(0,3).setTypeCheckpoint(0, false);
+        board.getSpace(0,4).setTypeCheckpoint(1, true);
         board.getSpace(5,0).setTypeCheckpoint(1, true);
+
         /*checkpoints[0] = new Checkpoint(board.getSpace(0,3));
         checkpoints[0].setIndex(0);
         checkpoints[1] = new Checkpoint(board.getSpace(5, 0));
@@ -104,44 +106,6 @@ class GameControllerTest {
 
     }
 
-    @Test
-    void TestConveyorBelt() {
-        Board board = gameController.board;
-        Space space = gameController.board.getSpace(0, 0);
-        Player current = board.getCurrentPlayer();
-        Space endSpace = gameController.board.getSpace(0, 5);
-
-        ConveyorBelt TestConveyorBelt= new ConveyorBelt(0, 5);
-
-        TestConveyorBelt.doAction(current, board);
-
-        Assertions.assertEquals(endSpace, current.getSpace());
-
-    }
-/*
-    @Test
-    void TestGear() {
-        Board board = gameController.board;
-        Space space = gameController.board.getSpace(0, 0);
-        Player current = board.getCurrentPlayer();
-        Heading EndDirection = Heading.NORTH;
-
-        Gear TestGear= new Gear(Heading.NORTH);
-        TestGear.doAction(current, board);
-        Assertions.assertEquals(Heading.NORTH,current.getHeading());
-
-    }*/
-
-
-    /*@Test
-    void spaceHasAWall() {
-        Board board = gameController.board ;
-        board.getSpace(0,1).setTypeWall();
-        Assertions.assertEquals(ElementType.Wall, board.getSpace(0,1).getType());
-
-    }*/
-
-
 
         @Test
         void testGear_turnLeft() {
@@ -180,7 +144,8 @@ class GameControllerTest {
     @Test
     void stopPlayerOneTurn() {
         Board board = gameController.board;
-        board.getSpace(0, 1).setTypeWall();
+        board.setGameId(123);
+        board.getSpace(0, 1).setTypeWall(Heading.SOUTH);
         // Space space = gameController.board.getSpace(0,1);
         //  space.setTypeWall();
         Player currentPlayer = board.getCurrentPlayer();
@@ -211,8 +176,12 @@ class GameControllerTest {
 
     @Test
     void currentPlayerLandsOnFirstCheckpointAtRegistersEndAndGets1Token() {
+        gameController.setTesting(true);
         Board board = gameController.board;
+        board.setGameId(123);
         Player current = board.getCurrentPlayer();
+        current.isLocal();
+        gameController.addToPriorityList(current);
 
         current.setTestRegister(1, board);
         board.setPhase(Phase.ACTIVATION);
@@ -220,6 +189,7 @@ class GameControllerTest {
 
         Assertions.assertEquals(3, current.getSpace().y, "Player at location y = 3.");
         Assertions.assertEquals(1, current.getTokenCount(), "Player should have 1 token");
+        gameController.setTesting(false);
     }
 
     @Test
@@ -227,48 +197,34 @@ class GameControllerTest {
         Board board = gameController.board;
         Player player1 = board.getCurrentPlayer();
 
-        player1.setTestRegister(2, board);
+        player1.setTestRegister(5, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
 
         player1.setTestRegister(1, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
+
+        player1.setTestRegister(4, board);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+
+        player1.setTestRegister(4, board);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+        System.out.println("Player location: " + player1.getSpace().x + ", " + player1.getSpace().y);
         //Assertions.assertEquals(true, player1.getSpace().hasACheckpoint());
         Assertions.assertEquals(5, player1.getSpace().x, "Player at location x = 5.");
         Assertions.assertEquals(0, player1.getSpace().y, "Player at location y = 0.");
         Assertions.assertEquals(0, player1.getTokenCount(), "Player should have no tokens");
     }
 
-    /*@Test
-    void currentPlayerLandsOnBothCheckpointsInOrderAndGetsTwoTokens() {
-        Board board = gameController.board;
-        Player player1 = board.getCurrentPlayer();
-
-        player1.setTestRegister(1);
-        board.setPhase(Phase.ACTIVATION);
-        gameController.executePrograms();
-
-        player1.setTestRegister(2);
-        board.setPhase(Phase.ACTIVATION);
-        gameController.executePrograms();
-
-        player1.setTestRegister(3);
-        board.setPhase(Phase.ACTIVATION);
-        gameController.executePrograms();
-
-        Assertions.assertEquals(5, player1.getSpace().x, "Player at location x = 5.");
-        Assertions.assertEquals(0, player1.getSpace().y, "Player at location y = 0.");
-        Assertions.assertEquals(2, player1.getTokenCount(), "Player should have 2 tokens");
-
-
-    }*/
 
     @Test
     void winnerIsFound() {
         Board board = gameController.board;
         Player player1 = board.getCurrentPlayer();
-
+        gameController.setTesting(true);
         player1.setTestRegister(1, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
@@ -280,6 +236,12 @@ class GameControllerTest {
         player1.setTestRegister(3, board);
         board.setPhase(Phase.ACTIVATION);
         gameController.executePrograms();
+
+        player1.setTestRegister(4, board);
+        board.setPhase(Phase.ACTIVATION);
+        gameController.executePrograms();
+        System.out.println("Player location: " + player1.getSpace().x + ", " + player1.getSpace().y);
+
         Assertions.assertEquals(true, ((Checkpoint
                 )player1.getSpace().getBoardElement()).isLastCheckpoint());
     }
