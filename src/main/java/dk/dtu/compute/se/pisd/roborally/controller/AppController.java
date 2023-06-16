@@ -221,7 +221,8 @@ public class AppController implements Observer {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
             if(loadExisting){
-                Board board = repository.loadGameState(existingBoardName);
+                System.out.println("Existing board name in waitingForPlayers: " + existingBoardName);
+                Board board = repository.loadGameState(gameId);
                 board.setGameId(gameId);
                 for(int i = 0 ; i < board.getPlayers().size() ; i++) {
                     if (localPlayerNum == i + 1) {
@@ -286,7 +287,7 @@ public class AppController implements Observer {
     public void updateGameState() throws Exception {
             Board updatedBoard;
         try {
-            updatedBoard = repository.loadGameState(String.valueOf(gameController.board.getGameId()));
+            updatedBoard = repository.loadGameState(gameController.board.getGameId());
             //gameController.board.setPhase(updatedBoard.getPhase());
             gameController.board.setStep(updatedBoard.getStep());
             gameController.board.setCurrentPlayer(updatedBoard.getCurrentPlayer());
@@ -322,7 +323,8 @@ public class AppController implements Observer {
                 System.out.println(existingBoardName);
                 try {
                     loadExisting = true;
-                    gameId = repository.newGameId(3, existingBoardName, true);
+                    gameId = repository.newGameId(2, existingBoardName, true);
+                    localPlayerNum = 1;
                     goToWaitingRoom();
                    // board = repository.loadGameState(result);
 

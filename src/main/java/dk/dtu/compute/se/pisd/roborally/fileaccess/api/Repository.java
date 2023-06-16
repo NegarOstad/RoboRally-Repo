@@ -77,18 +77,18 @@ public class Repository {
     /**
      * Loads a board from the server with the specified board name.
      *
-     * @param boardName  to be loaded.
+     * @param gameId game id of the game to be loaded.
      * @return The loaded  board.
      * @throws Exception If an error happens during the request.
      */
-    public Board loadGameState(String boardName) throws Exception {
-            Board board = reestablishBoard(boardName);
+    public Board loadGameState(int gameId) throws Exception {
+            Board board = reestablishBoard(gameId);
             return board;
 
     }
-        private Board reestablishBoard(String boardName) throws Exception {
-            System.out.println("existingBoard/" + boardName);
-            HttpResponse<String> boardString = client.makeGetRequest("existingBoard/" + boardName);
+        private Board reestablishBoard(int gameId) throws Exception {
+            System.out.println("existingBoard/" + gameId);
+            HttpResponse<String> boardString = client.makeGetRequest("existingBoard/" + gameId);
             BoardTemplate template = returnBoardTemplate(boardString);
             Board board = new Board(template.width, template.height, template.spaceTemplates);
             setExistingPlayers(template, board);
