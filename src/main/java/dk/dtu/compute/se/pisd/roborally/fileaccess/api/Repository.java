@@ -73,6 +73,7 @@ public class Repository {
         return arrayOfOptions;
     }
 
+
     /**
      * Loads a board from the server with the specified board name.
      *
@@ -80,12 +81,13 @@ public class Repository {
      * @return The loaded  board.
      * @throws Exception If an error happens during the request.
      */
-    public Board loadGame(String boardName) throws Exception {
+    public Board loadGameState(String boardName) throws Exception {
             Board board = reestablishBoard(boardName);
             return board;
 
     }
         private Board reestablishBoard(String boardName) throws Exception {
+            System.out.println("existingBoard/" + boardName);
             HttpResponse<String> boardString = client.makeGetRequest("existingBoard/" + boardName);
             BoardTemplate template = returnBoardTemplate(boardString);
             Board board = new Board(template.width, template.height, template.spaceTemplates);
@@ -95,7 +97,7 @@ public class Repository {
 
         }
 
-        private void setExistingPlayers(BoardTemplate template, Board board){
+        public void setExistingPlayers(BoardTemplate template, Board board){
             for(PlayerTemplate p : template.playerTemplates){
                 Player newPlayer = new Player(p.color, p.name);
                 Space newPlayerSpace = board.getSpace(p.spaceTemplate.x, p.spaceTemplate.y);
@@ -135,8 +137,8 @@ public class Repository {
      * @return The ID of the new game.
      * @throws Exception If an error occurs while the request.
      */
-    public int newGameId(int playerCount, String boardName) throws Exception {
-        HttpResponse<String> response = client.makeGetRequest("createGame/" + playerCount + "/" + boardName);
+    public int newGameId(int playerCount, String boardName, boolean loadExisting) throws Exception {
+        HttpResponse<String> response = client.makeGetRequest("createGame/" + playerCount + "/" + boardName + "/" + loadExisting);
         System.out.println("New get request:" + response.body());
         System.out.println("new/" + playerCount + "/" + boardName);
         return valueOf(response.body());
@@ -185,6 +187,15 @@ public class Repository {
         return board;
 
     }
+
+    /*public Board getExistingBoard(String gameId) throws Exception {
+        HttpResponse<String> boardString = client.makeGetRequest("existingBoard/" + gameId);
+        BoardTemplate template = returnBoardTemplate(boardString);
+        Board board = new Board(template.width, template.height, template.spaceTemplates);
+        setExistingBoardState(board, template);
+        setExistingPlayers(template, board);
+        return board;
+    }*/
     /**
      * Checks if the game with given id is ready
      * @param gameId To check.
@@ -298,5 +309,13 @@ public class Repository {
     public void deleteGame(int gameId) throws Exception {
         client.makeDeleteRequest("deleteGame/" + String.valueOf(gameId));
 
+    }
+
+    public boolean getLoadExisting(String chosenGameId) throws Exception {
+        HttpResponse<String> loadExisting = client.makeGetRequest("getLoadExisting/" + chosenGameId);
+        if(loadExisting.body().equals("true"))
+            return true;
+        else
+            return false;
     }
 }

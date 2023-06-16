@@ -81,6 +81,10 @@ public class AppController implements Observer {
     int localPlayerNum;
 
     int numberOfPlayersJoined;
+
+    String existingBoardName;
+
+    boolean loadExisting;
     public AppController(@NotNull RoboRally roboRally) {
         this.roboRally = roboRally;
     }
@@ -96,12 +100,14 @@ public class AppController implements Observer {
 
             // SET UP GAME AND FIRST PLAYER NUMBER
             if (!(boardName.isEmpty())) {
-                gameId = repository.newGameId(playerCount, boardName);
+                loadExisting = false;
+                gameId = repository.newGameId(playerCount, boardName, loadExisting);
                 localPlayerNum = 1;
                 numberOfPlayersJoined = 1;
                 String gameIdString = "Your game ID is: " + gameId;
                 createAlert(AlertType.INFORMATION, gameIdString);
                 System.out.println("GameID: " + gameId);
+
                 goToWaitingRoom();
             }
         }
@@ -138,7 +144,7 @@ public class AppController implements Observer {
 
         if (gameController == null) {
            String chosenGameId = getUserChoiceJoinGame();
-
+            loadExisting = repository.getLoadExisting(chosenGameId);
             System.out.println("Chosen game is: " + chosenGameId);
             if (!(chosenGameId.isEmpty())){
                 int userChoiceInt = parseInt(chosenGameId);
@@ -214,10 +220,21 @@ public class AppController implements Observer {
     private boolean waitingForPlayers() throws Exception {
         System.out.println("Update performed!");
         if(repository.gameIsReady(gameId)){
-            Board board = repository.getNewBoard(String.valueOf(gameId));
-            board.setGameId(gameId);
-            setUpPlayers(playerCount, board);
-            startGame(board, "new");
+            if(loadExisting){
+                Board board = repository.loadGameState(existingBoardName);
+                board.setGameId(gameId);
+                for(int i = 0 ; i < board.getPlayers().size() ; i++) {
+                    if (localPlayerNum == i + 1) {
+                        board.getPlayer(i).setLocal(true);
+                    }
+                }
+                startGame(board, "load");
+            } else {
+                Board board = repository.getNewBoard(String.valueOf(gameId));
+                board.setGameId(gameId);
+                setUpPlayers(playerCount, board);
+                startGame(board, "new");
+            }
             return false;
         } else {
             //show the count of player that are already joined
@@ -269,7 +286,7 @@ public class AppController implements Observer {
     public void updateGameState() throws Exception {
             Board updatedBoard;
         try {
-            updatedBoard = repository.loadGame(String.valueOf(gameController.board.getGameId()));
+            updatedBoard = repository.loadGameState(String.valueOf(gameController.board.getGameId()));
             //gameController.board.setPhase(updatedBoard.getPhase());
             gameController.board.setStep(updatedBoard.getStep());
             gameController.board.setCurrentPlayer(updatedBoard.getCurrentPlayer());
@@ -298,27 +315,29 @@ public class AppController implements Observer {
      * @throws Exception if cannot load chosen board
      */
     public void loadGame() throws Exception {
-        Board board = null;
-        if (gameController == null) {
-            String result = getUserBoardChoice();
 
-                System.out.println(result);
+        if (gameController == null) {
+            existingBoardName = getUserBoardChoice();
+
+                System.out.println(existingBoardName);
                 try {
-                    gameId = repository.newGameId(playerCount, result);
-                    board = repository.loadGame(result);
+                    loadExisting = true;
+                    gameId = repository.newGameId(3, existingBoardName, true);
+                    goToWaitingRoom();
+                   // board = repository.loadGameState(result);
 
                 } catch (Exception e) {
                     throw new RuntimeException(e);
                 }
 
             }
-
-            if(board != null) {
+            // choosing specific player
+           /* if(board != null) {
                 int chosenPlayer = getUserPlayerChoice(board);
                 setLocalPlayer(board, chosenPlayer - 1);
                 startGame(board, "load");
 
-            }
+            } */
     }
 
         private String getUserBoardChoice() throws Exception {
@@ -370,7 +389,7 @@ public class AppController implements Observer {
         private void startGame(Board board, String startType){
             gameController = new GameController(board);
             if(startType.equals("load"))
-                gameController.reinitializeBoard(board.getPhase(), board.getCurrentPlayer(), board.getStep());
+                System.out.println("loading existing game");
             else if (startType.equals("new"))
                 gameController.startProgrammingPhase();
             else
