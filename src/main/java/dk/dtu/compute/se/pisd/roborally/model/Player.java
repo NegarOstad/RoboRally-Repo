@@ -165,17 +165,14 @@ public class Player extends Subject {
 
             Space[][] spaces = board.getSpaces();
             this.space = spaces[space.x][space.y];
-
-            this.space.setPlayer(this, board);
-            //this.space = space; // makes player's space the space passed as argument
-            notifyChange();
-            this.space.playerChanged();
-
-            System.out.println(this.space.getPlayer());
-            System.out.println("Player's updated space : " + this.space.x + "," + this.space.y);
-
-
         }
+        this.space.setPlayer(this, board);
+        //this.space = space; // makes player's space the space passed as argument
+        notifyChange();
+        this.space.playerChanged();
+
+        System.out.println(this.space.getPlayer());
+        System.out.println("Player's updated space : " + this.space.x + "," + this.space.y);
     }
 
     /**

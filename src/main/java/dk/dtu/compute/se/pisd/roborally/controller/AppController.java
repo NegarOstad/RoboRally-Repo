@@ -324,8 +324,9 @@ public class AppController implements Observer {
                 System.out.println(existingBoardName);
                 try {
                     loadExisting = true;
-                    gameId = repository.newGameId(3, existingBoardName, true);
+                    gameId = repository.newGameId(2, existingBoardName, true);
                     localPlayerNum = 1;
+                    numberOfPlayersJoined  = repository.getPlayerCount(gameId);
                     goToWaitingRoom();
                    // board = repository.loadGameState(result);
 
