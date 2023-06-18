@@ -160,11 +160,14 @@ public class Player extends Subject {
      */
     public void updateSpace(Space space, Board board) {
         Space oldSpace = this.space; //holds player's space before move
-        if (space.x != oldSpace.x || space.y != oldSpace.y) { // meaning player hasn't move since last update
-            oldSpace.setPlayer(null, board);
+        if (space.x != oldSpace.x || space.y != oldSpace.y) {// meaning player hasn't move since last update
+            if(oldSpace.getPlayer().equals(this)) {
+                oldSpace.setPlayer(null, board);
+            }
 
-            Space[][] spaces = board.getSpaces();
-            this.space = spaces[space.x][space.y];
+                Space[][] spaces = board.getSpaces();
+                this.space = spaces[space.x][space.y];
+
         }
         this.space.setPlayer(this, board);
         //this.space = space; // makes player's space the space passed as argument
