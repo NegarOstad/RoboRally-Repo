@@ -60,10 +60,10 @@ public class Adapter<E> implements JsonSerializer<E>, JsonDeserializer<E>{
         JsonObject retValue = new JsonObject();
         String className = src.getClass().getName();
         retValue.addProperty(CLASSNAME, className);
-        System.out.println(className);
+        //System.out.println(className);
         JsonElement elem = context.serialize(src); 
         retValue.add(INSTANCE, elem);
-        System.out.println(elem);
+        //System.out.println(elem);
         return retValue;
     }
 

@@ -269,7 +269,7 @@ public class AppController implements Observer {
         textInputDialog.setContentText("Enter a name for your game:");
         textInputDialog.showAndWait();
         String result = textInputDialog.getResult();
-        System.out.println(result);
+        //System.out.println(result);
 
         if(result != null ){
             repository.saveBoard(gameController.board, result);
@@ -325,6 +325,7 @@ public class AppController implements Observer {
                 try {
                     loadExisting = true;
                     gameId = repository.newGameId(2, existingBoardName, true);
+                    System.out.println("Your loaded game id is : " + gameId);
                     localPlayerNum = 1;
                     numberOfPlayersJoined  = repository.getPlayerCount(gameId);
                     goToWaitingRoom();
